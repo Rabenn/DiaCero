@@ -33,159 +33,261 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- INDICADOR DE COLOR -->
-            <View
-                android:id="@+id/colorIndicator"
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:background="#2196F3"
-                android:layout_marginBottom="16dp" />
-
-            <!-- TÍTULO -->
-            <TextView
-                android:id="@+id/tvTitulo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="#212121"
-                tools:text="Reunión con tutor del TFG" />
-
-            <!-- CHIP DE PRIORIDAD -->
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipPrioritario"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⭐ Prioritario"
-                android:layout_marginTop="8dp"
-                app:chipBackgroundColor="#FFEB3B"
-                android:visibility="gone"
-                tools:visibility="visible" />
-
-            <!-- FECHA -->
+            <!-- MODO VISUALIZACIÓN -->
             <LinearLayout
+                android:id="@+id/layoutVisualizacion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="24dp">
+                android:orientation="vertical"
+                android:visibility="visible">
 
+                <!-- INDICADOR DE COLOR -->
+                <View
+                    android:id="@+id/colorIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:background="#2196F3"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- TÍTULO -->
                 <TextView
+                    android:id="@+id/tvTitulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurface"
+                    tools:text="Reunión con tutor del TFG" />
+
+                <!-- CHIP DE PRIORIDAD -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPrioritario"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="📅"
-                    android:textSize="24sp"
-                    android:layout_marginEnd="12dp" />
+                    android:text="⭐ Prioritario"
+                    android:layout_marginTop="8dp"
+                    app:chipBackgroundColor="#FFEB3B"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
+                <!-- FECHA -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="24dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📅" android:textSize="24sp" android:layout_marginEnd="12dp" />
+                    <TextView android:id="@+id/tvFecha" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="?attr/colorOnSurface" tools:text="Lunes, 6 de enero de 2025" />
+                </LinearLayout>
+
+                <!-- HORA -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⏰" android:textSize="24sp" android:layout_marginEnd="12dp" />
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical">
+                        <TextView android:id="@+id/tvHora" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="?attr/colorOnSurface" tools:text="10:00 - 11:30" />
+                        <TextView android:id="@+id/tvDuracion" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="14sp" android:textColor="?attr/colorOnSurfaceVariant" android:layout_marginTop="4dp" tools:text="Duración: 1 h 30 min" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- UBICACIÓN -->
+                <LinearLayout
+                    android:id="@+id/layoutUbicacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📍" android:textSize="24sp" android:layout_marginEnd="12dp" />
+                    <TextView android:id="@+id/tvUbicacion" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="?attr/colorOnSurface" tools:text="Aula 204 - Edificio B" />
+                </LinearLayout>
+
+                <!-- DESCRIPCIÓN -->
                 <TextView
-                    android:id="@+id/tvFecha"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvDescripcion"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
-                    android:textColor="#212121"
-                    tools:text="Lunes, 6 de enero de 2025" />
-            </LinearLayout>
-
-            <!-- HORA -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:lineSpacingExtra="4dp"
+                    android:layout_marginTop="24dp"
+                    tools:text="Revisión del avance del proyecto final. Llevar documentación actualizada." />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="⏰"
-                    android:textSize="24sp"
-                    android:layout_marginEnd="12dp" />
+                    android:text="Archivos adjuntos"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="?attr/colorOnSurface"
+                    android:layout_marginTop="24dp" />
+
+                <ImageView
+                    android:id="@+id/ivFotoPreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="8dp"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:src="@android:drawable/ic_menu_gallery" />
+
+                <Button android:id="@+id/btnVerFoto" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="📷 Ver foto" android:layout_marginTop="8dp" android:visibility="gone" />
+                <Button android:id="@+id/btnReproducirAudio" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="🎤 Reproducir nota de voz" android:layout_marginTop="8dp" android:visibility="gone" />
+
+            </LinearLayout>
+
+            <!-- MODO EDICIÓN -->
+            <LinearLayout
+                android:id="@+id/layoutEdicion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Título">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etTitulo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvHora"
-                        android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#212121"
-                        tools:text="10:00 - 11:30" />
-
-                    <TextView
-                        android:id="@+id/tvDuracion"
-                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:hint="Hora Inicio">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etHoraInicio"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:clickable="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:textColor="#757575"
-                        android:layout_marginTop="4dp"
-                        tools:text="Duración: 1 h 30 min" />
+                        android:layout_weight="1"
+                        android:hint="Hora Fin">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etHoraFin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:clickable="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
-            </LinearLayout>
 
-            <!-- UBICACIÓN -->
-            <LinearLayout
-                android:id="@+id/layoutUbicacion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp"
-                android:visibility="gone"
-                tools:visibility="visible">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Descripción">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDescripcion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Ubicación">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etUbicacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <CheckBox
+                    android:id="@+id/cbPrioritario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Prioritario" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="📍"
-                    android:textSize="24sp"
-                    android:layout_marginEnd="12dp" />
+                    android:text="Multimedia"
+                    android:textStyle="bold"
+                    android:layout_marginTop="16dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+                    <Button
+                        android:id="@+id/btnAdjuntarFoto"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="📷 Foto"
+                        android:layout_marginEnd="8dp"
+                        style="@style/Widget.Material3.Button.OutlinedButton" />
+                    <Button
+                        android:id="@+id/btnAdjuntarAudio"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="📁 Audio"
+                        style="@style/Widget.Material3.Button.OutlinedButton" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnGrabarAudio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🎤 Grabar nota de voz"
+                    android:layout_marginTop="8dp"
+                    style="@style/Widget.Material3.Button.TonalButton" />
 
                 <TextView
-                    android:id="@+id/tvUbicacion"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvEstadoGrabacion"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="#212121"
-                    tools:text="Aula 204 - Edificio B" />
+                    android:text="Grabando..."
+                    android:textColor="#F44336"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:layout_marginTop="4dp" />
+
+                <TextView
+                    android:id="@+id/tvRutaFoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#757575"
+                    android:layout_marginTop="4dp"
+                    tools:text="Foto: /ruta/al/archivo.jpg"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvRutaAudio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#757575"
+                    android:layout_marginTop="2dp"
+                    tools:text="Audio: /ruta/al/archivo.mp3"
+                    android:visibility="gone" />
+
             </LinearLayout>
-
-            <!-- DESCRIPCIÓN -->
-            <TextView
-                android:id="@+id/tvDescripcion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#424242"
-                android:lineSpacingExtra="4dp"
-                android:layout_marginTop="24dp"
-                tools:text="Revisión del avance del proyecto final. Llevar documentación actualizada." />
-
-            <!-- MULTIMEDIA -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Archivos adjuntos"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginTop="24dp" />
-
-            <Button
-                android:id="@+id/btnVerFoto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="📷 Ver foto"
-                android:layout_marginTop="8dp"
-                android:visibility="gone"
-                tools:visibility="visible" />
-
-            <Button
-                android:id="@+id/btnReproducirAudio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="🎤 Reproducir nota de voz"
-                android:layout_marginTop="8dp"
-                android:visibility="gone"
-                tools:visibility="visible" />
 
             <!-- BOTONES DE ACCIÓN -->
             <LinearLayout
@@ -203,6 +305,15 @@
                     android:text="Editar"
                     android:layout_marginEnd="8dp"
                     style="@style/Widget.Material3.Button.OutlinedButton" />
+
+                <Button
+                    android:id="@+id/btnGuardar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Guardar"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnEliminar"

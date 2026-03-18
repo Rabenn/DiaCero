@@ -1,7 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.DiaCero" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- Colores principales para Modo Oscuro -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">#03DAC6</item>
+        <item name="colorOnSecondary">#000000</item>
+        
+        <!-- Fondo y Superficies en Oscuro -->
+        <item name="android:windowBackground">@color/dark_background</item>
+        <item name="colorSurface">@color/dark_surface</item>
+        
+        <!-- Texto forzado a ser MUY claro en modo oscuro -->
+        <item name="colorOnSurface">#FFFFFF</item>
+        <item name="colorOnSurfaceVariant">#BDBDBD</item>
     </style>
 </resources>

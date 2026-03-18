@@ -1,9 +1,11 @@
 package com.unaiIgorRuben.diacero.ui.calendario.adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
 import com.unaiIgorRuben.diacero.databinding.ItemEventoBinding
 import java.text.SimpleDateFormat
@@ -54,6 +56,16 @@ class CalendarioAdapter(
             }
 
             binding.iconPriority.visibility = if (evento.esPrioritario) View.VISIBLE else View.GONE
+
+            // Preview de la imagen a la derecha
+            if (evento.fotoRuta != null) {
+                binding.ivPreview.visibility = View.VISIBLE
+                Glide.with(binding.root.context)
+                    .load(Uri.parse(evento.fotoRuta))
+                    .into(binding.ivPreview)
+            } else {
+                binding.ivPreview.visibility = View.GONE
+            }
 
             val tieneMultimedia = evento.fotoRuta != null || evento.audioRuta != null
             if (tieneMultimedia) {

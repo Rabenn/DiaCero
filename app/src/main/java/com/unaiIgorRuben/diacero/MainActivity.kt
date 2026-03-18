@@ -1,19 +1,17 @@
 package com.unaiIgorRuben.diacero
 
+import android.content.res.ColorStateList
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.commit
 import com.unaiIgorRuben.diacero.databinding.ActivityMainBinding
 import com.unaiIgorRuben.diacero.ui.calendario.CalendarioFragment
 
 /**
  * ACTIVIDAD PRINCIPAL
- *
- * Contiene el calendario como pantalla inicial.
- * Aquí puedes añadir:
- * - BottomNavigationView para navegar entre secciones
- * - Toolbar con menú
- * - Navigation Drawer (cajón lateral)
  */
 class MainActivity : AppCompatActivity() {
 
@@ -22,19 +20,45 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Inicializar ViewBinding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Cargar el CalendarioFragment al iniciar
         if (savedInstanceState == null) {
             cargarCalendario()
         }
+
+        setupThemeToggle()
     }
 
-    /**
-     * Carga el fragment del calendario
-     */
+    private fun setupThemeToggle() {
+        updateThemeIcon()
+
+        binding.fabThemeToggle.setOnClickListener {
+            val isDarkMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+            
+            if (isDarkMode) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+        }
+    }
+
+    private fun updateThemeIcon() {
+        val isDarkMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+        if (isDarkMode) {
+            // Estamos en modo oscuro: el botón debe sugerir cambiar a CLARO (Sol)
+            binding.fabThemeToggle.setImageResource(R.drawable.ic_sun)
+            binding.fabThemeToggle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFD600")) // Amarillo sol
+            binding.fabThemeToggle.imageTintList = ColorStateList.valueOf(Color.BLACK)
+        } else {
+            // Estamos en modo claro: el botón debe sugerir cambiar a OSCURO (Luna)
+            binding.fabThemeToggle.setImageResource(R.drawable.ic_moon)
+            binding.fabThemeToggle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#311B92")) // Morado oscuro
+            binding.fabThemeToggle.imageTintList = ColorStateList.valueOf(Color.WHITE)
+        }
+    }
+
     private fun cargarCalendario() {
         supportFragmentManager.commit {
             replace(R.id.fragmentContainer, CalendarioFragment())

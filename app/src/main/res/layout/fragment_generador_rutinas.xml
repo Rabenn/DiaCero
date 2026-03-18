@@ -107,11 +107,68 @@
                     android:text="4" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Multimedia"
+                android:textStyle="bold"
+                android:layout_marginTop="24dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <Button
+                    android:id="@+id/btnAdjuntarFoto"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="📷 Foto"
+                    android:layout_marginEnd="8dp"
+                    style="@style/Widget.Material3.Button.OutlinedButton" />
+                <Button
+                    android:id="@+id/btnAdjuntarAudio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="📁 Audio"
+                    style="@style/Widget.Material3.Button.OutlinedButton" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnGrabarAudio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🎤 Grabar nota de voz"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.Material3.Button.TonalButton" />
+
+            <TextView
+                android:id="@+id/tvEstadoGrabacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Grabando..."
+                android:textColor="#F44336"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="4dp" />
+
+            <TextView
+                android:id="@+id/tvRutaMultimedia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="#757575"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                tools:text="Archivos adjuntos: Foto y Audio listos" />
+
             <Button
                 android:id="@+id/btnGenerar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:text="Generar Rutina" />
 
         </LinearLayout>

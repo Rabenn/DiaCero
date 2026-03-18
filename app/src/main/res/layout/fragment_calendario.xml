@@ -21,9 +21,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="Selecciona un día para ver los eventos." />
+            android:textStyle="bold"
+            android:text="Eventos del día" />
 
-        <!-- Aquí irá el RecyclerView para mostrar los eventos -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvEventos"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_evento" />
 
     </LinearLayout>
 

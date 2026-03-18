@@ -2,4 +2,18 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Palette Clara Mejorada (Letras más suaves) -->
+    <color name="primary">#2196F3</color>
+    <color name="primary_variant">#1976D2</color>
+    <color name="background">#F5F5F5</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="text_primary">#455A64</color> <!-- Gris azulado más suave que el negro puro -->
+    <color name="text_secondary">#78909C</color>
+    <color name="divider">#CFD8DC</color>
+
+    <!-- Palette Oscura -->
+    <color name="dark_background">#121212</color>
+    <color name="dark_surface">#1E1E1E</color>
+    <color name="dark_text_primary">#E1E1E1</color>
 </resources>
