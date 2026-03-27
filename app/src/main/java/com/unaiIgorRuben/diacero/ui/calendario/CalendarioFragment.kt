@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.unaiIgorRuben.diacero.R
 import com.unaiIgorRuben.diacero.data.local.database.AppDatabase
 import com.unaiIgorRuben.diacero.data.repository.EventoRepository
@@ -21,8 +22,10 @@ import com.unaiIgorRuben.diacero.databinding.FragmentCalendarioBinding
 import com.unaiIgorRuben.diacero.ui.calendario.adapter.CalendarioAdapter
 import com.unaiIgorRuben.diacero.ui.evento.DetalleEventoActivity
 import com.unaiIgorRuben.diacero.ui.rutinas.GeneradorRutinasFragment
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 class CalendarioFragment : Fragment() {
 
@@ -30,6 +33,7 @@ class CalendarioFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter: CalendarioAdapter
+    private var fechaSeleccionada: Date = Date()
 
     private val viewModel: CalendarioViewModel by viewModels { 
         val database = AppDatabase.getDatabase(requireContext()) 
@@ -64,24 +68,56 @@ class CalendarioFragment : Fragment() {
             val primerEventoTimestamp = bundle.getLong("primer_evento_timestamp")
             if (primerEventoTimestamp > 0) {
                 binding.calendarView.date = primerEventoTimestamp
+                fechaSeleccionada = Date(primerEventoTimestamp)
+                actualizarFechaSeleccionada(fechaSeleccionada)
             }
         }
 
         binding.fabAgregarEvento.setOnClickListener {
-            parentFragmentManager.commit {
-                replace(R.id.fragmentContainer, GeneradorRutinasFragment())
-                addToBackStack(null) 
-            }
+            mostrarDialogoTipoCreacion()
         }
 
         binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val calendar = Calendar.getInstance().apply {
                 set(year, month, dayOfMonth)
             }
-            observeEventos(calendar.time)
+            fechaSeleccionada = calendar.time
+            actualizarFechaSeleccionada(fechaSeleccionada)
+            observeEventos(fechaSeleccionada)
         }
 
-        observeEventos(Date())
+        fechaSeleccionada = Date()
+        actualizarFechaSeleccionada(fechaSeleccionada)
+        observeEventos(fechaSeleccionada)
+    }
+
+    private fun mostrarDialogoTipoCreacion() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Que deseas crear")
+            .setMessage("Elige si quieres crear un evento unico o una rutina recurrente.")
+            .setNegativeButton("Rutina") { _, _ ->
+                parentFragmentManager.commit {
+                    replace(R.id.fragmentContainer, GeneradorRutinasFragment())
+                    addToBackStack(null)
+                }
+            }
+            .setPositiveButton("Evento") { _, _ ->
+                val intent = Intent(requireContext(), DetalleEventoActivity::class.java).apply {
+                    putExtra("SELECTED_DATE_MILLIS", fechaSeleccionada.time)
+                }
+                startActivity(intent)
+            }
+            .show()
+    }
+
+    private fun actualizarFechaSeleccionada(date: Date) {
+        val formato = SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy", Locale("es", "ES"))
+        binding.tvFechaSeleccionada.text = formato.format(date).replaceFirstChar { it.uppercase() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        observeEventos(fechaSeleccionada)
     }
 
     private fun checkNotificationPermission() {

@@ -29,6 +29,8 @@ class DetalleEventoActivity : AppCompatActivity() {
     private var eventoId: Int = -1
     private var eventoActual: Evento? = null
     private var estaEnModoEdicion = false
+    private var esModoCreacion = false
+    private var fechaSeleccionada: Date = Date()
 
     private var horaInicioEditada: Date? = null
     private var horaFinEditada: Date? = null
@@ -81,13 +83,15 @@ class DetalleEventoActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         eventoId = intent.getIntExtra("EVENTO_ID", -1)
-        if (eventoId == -1) {
-            finish()
-            return
-        }
+        esModoCreacion = eventoId == -1
+        fechaSeleccionada = Date(intent.getLongExtra("SELECTED_DATE_MILLIS", System.currentTimeMillis()))
 
         setupToolbar()
-        observeEvento()
+        if (esModoCreacion) {
+            prepararModoCreacion()
+        } else {
+            observeEvento()
+        }
         setupListeners()
     }
 
@@ -96,9 +100,35 @@ class DetalleEventoActivity : AppCompatActivity() {
             if (estaEnModoEdicion) {
                 alternarModoEdicion(false)
             } else {
-                onBackPressed()
+                onBackPressedDispatcher.onBackPressed()
             }
         }
+    }
+
+    private fun prepararModoCreacion() {
+        binding.toolbar.title = "Nuevo Evento"
+        binding.layoutVisualizacion.visibility = View.GONE
+        binding.layoutEdicion.visibility = View.VISIBLE
+        binding.btnEditar.visibility = View.GONE
+        binding.btnEliminar.visibility = View.GONE
+        binding.btnGuardar.visibility = View.VISIBLE
+        estaEnModoEdicion = true
+
+        val inicio = Calendar.getInstance().apply {
+            time = fechaSeleccionada
+            set(Calendar.HOUR_OF_DAY, 9)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        val fin = inicio.clone() as Calendar
+        fin.add(Calendar.HOUR_OF_DAY, 1)
+
+        horaInicioEditada = inicio.time
+        horaFinEditada = fin.time
+        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        binding.etHoraInicio.setText(sdf.format(horaInicioEditada!!))
+        binding.etHoraFin.setText(sdf.format(horaFinEditada!!))
     }
 
     private fun observeEvento() {
@@ -320,6 +350,11 @@ class DetalleEventoActivity : AppCompatActivity() {
             return
         }
 
+        if (esModoCreacion) {
+            crearEvento(nuevoTitulo)
+            return
+        }
+
         eventoActual?.let { evento ->
             val eventoEditado = evento.copy(
                 titulo = nuevoTitulo,
@@ -335,6 +370,52 @@ class DetalleEventoActivity : AppCompatActivity() {
             Toast.makeText(this, "Evento actualizado", Toast.LENGTH_SHORT).show()
             alternarModoEdicion(false)
         }
+    }
+
+    private fun crearEvento(titulo: String) {
+        val inicio = horaInicioEditada ?: return
+        val fin = horaFinEditada ?: return
+        if (!fin.after(inicio)) {
+            Toast.makeText(this, "La hora de fin debe ser posterior al inicio", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val colorEvento = if (binding.cbPrioritario.isChecked) "#00A884" else "#0F6CBD"
+        val eventoNuevo = Evento(
+            titulo = titulo,
+            fecha = normalizarFecha(fechaSeleccionada),
+            horaInicio = combinarFechaYHora(fechaSeleccionada, inicio),
+            horaFin = combinarFechaYHora(fechaSeleccionada, fin),
+            descripcion = binding.etDescripcion.text.toString().ifBlank { null },
+            ubicacion = binding.etUbicacion.text.toString().ifBlank { null },
+            esPrioritario = binding.cbPrioritario.isChecked,
+            color = colorEvento,
+            fotoRuta = fotoRutaSeleccionada,
+            audioRuta = audioRutaSeleccionada
+        )
+        viewModel.actualizarEvento(eventoNuevo)
+        Toast.makeText(this, "Evento creado", Toast.LENGTH_SHORT).show()
+        finish()
+    }
+
+    private fun normalizarFecha(base: Date): Date {
+        return Calendar.getInstance().apply {
+            time = base
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.time
+    }
+
+    private fun combinarFechaYHora(baseFecha: Date, hora: Date): Date {
+        val fechaCal = Calendar.getInstance().apply { time = baseFecha }
+        val horaCal = Calendar.getInstance().apply { time = hora }
+        fechaCal.set(Calendar.HOUR_OF_DAY, horaCal.get(Calendar.HOUR_OF_DAY))
+        fechaCal.set(Calendar.MINUTE, horaCal.get(Calendar.MINUTE))
+        fechaCal.set(Calendar.SECOND, 0)
+        fechaCal.set(Calendar.MILLISECOND, 0)
+        return fechaCal.time
     }
 
     private fun mostrarDetalles(evento: Evento) {

@@ -47,14 +47,12 @@ class MainActivity : AppCompatActivity() {
     private fun updateThemeIcon() {
         val isDarkMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
         if (isDarkMode) {
-            // Estamos en modo oscuro: el botón debe sugerir cambiar a CLARO (Sol)
             binding.fabThemeToggle.setImageResource(R.drawable.ic_sun)
-            binding.fabThemeToggle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFD600")) // Amarillo sol
-            binding.fabThemeToggle.imageTintList = ColorStateList.valueOf(Color.BLACK)
+            binding.fabThemeToggle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#4ED9BC"))
+            binding.fabThemeToggle.imageTintList = ColorStateList.valueOf(Color.parseColor("#08131C"))
         } else {
-            // Estamos en modo claro: el botón debe sugerir cambiar a OSCURO (Luna)
             binding.fabThemeToggle.setImageResource(R.drawable.ic_moon)
-            binding.fabThemeToggle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#311B92")) // Morado oscuro
+            binding.fabThemeToggle.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#0F6CBD"))
             binding.fabThemeToggle.imageTintList = ColorStateList.valueOf(Color.WHITE)
         }
     }

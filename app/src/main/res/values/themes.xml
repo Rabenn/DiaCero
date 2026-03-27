@@ -4,12 +4,13 @@
         <!-- Colores principales -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">#03DAC6</item>
-        <item name="colorOnSecondary">#000000</item>
-        
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/white</item>
+
         <!-- Fondo y Superficies -->
         <item name="android:windowBackground">@color/background</item>
         <item name="colorSurface">@color/surface</item>
+        <item name="colorSurfaceVariant">@color/surface_variant</item>
         <item name="colorOnSurface">@color/text_primary</item>
         <item name="colorOnSurfaceVariant">@color/text_secondary</item>
     </style>
