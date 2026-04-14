@@ -15,8 +15,10 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.unaiIgorRuben.diacero.R
 import com.unaiIgorRuben.diacero.data.local.database.AppDatabase
+import com.unaiIgorRuben.diacero.data.local.entities.Evento
 import com.unaiIgorRuben.diacero.data.repository.EventoRepository
 import com.unaiIgorRuben.diacero.databinding.FragmentCalendarioBinding
 import com.unaiIgorRuben.diacero.ui.calendario.adapter.CalendarioAdapter
@@ -34,6 +36,7 @@ class CalendarioFragment : Fragment() {
 
     private lateinit var adapter: CalendarioAdapter
     private var fechaSeleccionada: Date = Date()
+    private var eventosDelDiaActual: List<Evento> = emptyList()
 
     private val viewModel: CalendarioViewModel by viewModels { 
         val database = AppDatabase.getDatabase(requireContext()) 
@@ -67,8 +70,8 @@ class CalendarioFragment : Fragment() {
         parentFragmentManager.setFragmentResultListener("rutina_creada", this) { _, bundle ->
             val primerEventoTimestamp = bundle.getLong("primer_evento_timestamp")
             if (primerEventoTimestamp > 0) {
-                binding.calendarView.date = primerEventoTimestamp
                 fechaSeleccionada = Date(primerEventoTimestamp)
+                binding.calendarView.selectedDate = calendarDayFromDate(fechaSeleccionada)
                 actualizarFechaSeleccionada(fechaSeleccionada)
             }
         }
@@ -77,17 +80,16 @@ class CalendarioFragment : Fragment() {
             mostrarDialogoTipoCreacion()
         }
 
-        binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val calendar = Calendar.getInstance().apply {
-                set(year, month, dayOfMonth)
-            }
-            fechaSeleccionada = calendar.time
+        binding.calendarView.setOnDateChangedListener { _, date, _ ->
+            fechaSeleccionada = convertirCalendarDayADate(date)
             actualizarFechaSeleccionada(fechaSeleccionada)
             observeEventos(fechaSeleccionada)
         }
 
         fechaSeleccionada = Date()
+        binding.calendarView.selectedDate = calendarDayFromDate(fechaSeleccionada)
         actualizarFechaSeleccionada(fechaSeleccionada)
+        observarEventosParaMarcadores()
         observeEventos(fechaSeleccionada)
     }
 
@@ -118,6 +120,64 @@ class CalendarioFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         observeEventos(fechaSeleccionada)
+    }
+
+    private fun observarEventosParaMarcadores() {
+        viewModel.obtenerTodosLosEventos().observe(viewLifecycleOwner) { eventos ->
+            aplicarDecoradoresEventos(eventos)
+            actualizarResumenEventosDelDia(eventosDelDiaActual)
+        }
+    }
+
+    private fun aplicarDecoradoresEventos(eventos: List<Evento>) {
+        val diasConEventos = mutableSetOf<CalendarDay>()
+        val diasConPrioritarios = mutableSetOf<CalendarDay>()
+
+        eventos.forEach { evento ->
+            val calendarDay = calendarDayFromDate(evento.fecha)
+            diasConEventos.add(calendarDay)
+            if (evento.esPrioritario) {
+                diasConPrioritarios.add(calendarDay)
+            }
+        }
+
+        binding.calendarView.removeDecorators()
+        if (diasConEventos.isNotEmpty()) {
+            binding.calendarView.addDecorator(
+                EventDayDecorator(
+                    days = diasConEventos,
+                    dotColor = EventDayDecorator.DEFAULT_DOT_COLOR
+                )
+            )
+        }
+        if (diasConPrioritarios.isNotEmpty()) {
+            binding.calendarView.addDecorator(
+                EventDayDecorator(
+                    days = diasConPrioritarios,
+                    dotColor = EventDayDecorator.PRIORITY_DOT_COLOR,
+                    textColor = EventDayDecorator.PRIORITY_TEXT_COLOR
+                )
+            )
+        }
+    }
+
+    private fun convertirCalendarDayADate(day: CalendarDay): Date {
+        return Calendar.getInstance().apply {
+            set(day.year, day.month - 1, day.day)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.time
+    }
+
+    private fun calendarDayFromDate(date: Date): CalendarDay {
+        val calendar = Calendar.getInstance().apply { time = date }
+        return CalendarDay.from(
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH) + 1,
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
     }
 
     private fun checkNotificationPermission() {
@@ -160,15 +220,24 @@ class CalendarioFragment : Fragment() {
         val endOfDay = cal.time
 
         viewModel.obtenerEventosPorRango(startOfDay, endOfDay).observe(viewLifecycleOwner) { eventos ->
+            eventosDelDiaActual = eventos
             if (eventos.isEmpty()) {
-                binding.tvEventosDelDia.visibility = View.VISIBLE
-                binding.tvEventosDelDia.text = "No hay eventos para este día."
                 adapter.actualizarEventos(emptyList())
             } else {
-                binding.tvEventosDelDia.visibility = View.GONE
                 adapter.actualizarEventos(eventos)
             }
+            actualizarResumenEventosDelDia(eventos)
         }
+    }
+
+    private fun actualizarResumenEventosDelDia(eventos: List<Evento>) {
+        if (eventos.isEmpty()) {
+            binding.tvEventosDelDia.text = "No hay eventos para este dia."
+            return
+        }
+        val titulos = eventos.take(2).joinToString(" | ") { it.titulo }
+        val sufijo = if (eventos.size > 2) " +${eventos.size - 2} mas" else ""
+        binding.tvEventosDelDia.text = "${eventos.size} evento(s): $titulos$sufijo"
     }
 
     override fun onDestroyView() {

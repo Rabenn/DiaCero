@@ -44,7 +44,7 @@
                     android:textSize="14sp"
                     tools:text="Viernes, 27 de marzo de 2026" />
 
-                <CalendarView
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                     android:id="@+id/calendarView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -24,6 +24,10 @@ class EventoRepository(private val eventoDao: EventoDao) {
         return eventoDao.obtenerEventoPorId(id)
     }
 
+    fun obtenerTodosLosEventos(): LiveData<List<Evento>> {
+        return eventoDao.obtenerTodosLosEventos()
+    }
+
     /**
      * Inserta o actualiza un evento en un hilo secundario.
      */
