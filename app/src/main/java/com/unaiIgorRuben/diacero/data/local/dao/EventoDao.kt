@@ -61,4 +61,9 @@ interface EventoDao {
     @Query("SELECT * FROM eventos WHERE titulo LIKE '%' || :query || '%' ORDER BY fecha, horaInicio ASC")
     fun buscarEventosPorNombre(query: String): LiveData<List<Evento>>
 
+    /**
+     * Elimina todos los eventos de la base de datos.
+     */
+    @Query("DELETE FROM eventos")
+    suspend fun eliminarTodosLosEventos()
 }

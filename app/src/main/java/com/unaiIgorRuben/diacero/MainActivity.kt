@@ -1,27 +1,42 @@
 package com.unaiIgorRuben.diacero
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.commit
 import com.unaiIgorRuben.diacero.databinding.ActivityMainBinding
+import com.unaiIgorRuben.diacero.ui.BaseActivity
+import com.unaiIgorRuben.diacero.ui.ajustes.AjustesActivity
 import com.unaiIgorRuben.diacero.ui.calendario.CalendarioFragment
+import com.unaiIgorRuben.diacero.util.FontResizer
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private var currentFontSize: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        currentFontSize = FontResizer.getSavedSize(this)
+        
         actualizarIconoTema()
         setupMenuActions(savedInstanceState)
         setupSettingsButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Si el tamaño de letra ha cambiado mientras estábamos en otra pantalla, recreamos la actividad
+        val newSize = FontResizer.getSavedSize(this)
+        if (currentFontSize != null && currentFontSize != newSize) {
+            recreate()
+        }
     }
 
     private fun setupSettingsButton() {
@@ -58,6 +73,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnHabitos.setOnClickListener {
             Toast.makeText(this, "Próximamente: Módulo de Hábitos", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.btnAjustes.setOnClickListener {
+            startActivity(Intent(this, AjustesActivity::class.java))
         }
     }
 

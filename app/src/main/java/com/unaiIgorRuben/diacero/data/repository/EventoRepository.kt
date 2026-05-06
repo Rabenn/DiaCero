@@ -56,4 +56,11 @@ class EventoRepository(private val eventoDao: EventoDao) {
     suspend fun eliminarPorId(id: Int) {
         eventoDao.eliminarPorId(id)
     }
+
+    /**
+     * Elimina todos los eventos de la base de datos.
+     */
+    suspend fun eliminarTodosLosEventos() {
+        eventoDao.eliminarTodosLosEventos()
+    }
 }
