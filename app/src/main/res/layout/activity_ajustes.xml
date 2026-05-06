@@ -113,6 +113,20 @@
                             android:textSize="14sp"
                             android:alpha="0.7" />
                     </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorOutlineVariant"
+                        android:layout_marginHorizontal="16dp" />
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switchEventosPasados"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="Eventos pasados en negro oscuro"
+                        android:checked="false" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

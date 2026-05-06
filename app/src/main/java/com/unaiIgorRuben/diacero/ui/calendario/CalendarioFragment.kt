@@ -1,6 +1,7 @@
 package com.unaiIgorRuben.diacero.ui.calendario
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -163,9 +164,16 @@ class CalendarioFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        cargarPreferencias()
         if (binding.searchViewEventos.query.isEmpty()) {
             observeEventos(fechaSeleccionada)
         }
+    }
+
+    private fun cargarPreferencias() {
+        val prefs = requireContext().getSharedPreferences("ajustes_prefs", Context.MODE_PRIVATE)
+        val mostrarEnNegro = prefs.getBoolean("eventos_pasados_negro", false)
+        adapter.setMostrarPasadosEnNegro(mostrarEnNegro)
     }
 
     private fun observarEventosParaMarcadores() {

@@ -18,6 +18,7 @@ class AjustesActivity : BaseActivity() {
     private val PREFS_NAME = "ajustes_prefs"
     private val KEY_FONT_SIZE = "font_size"
     private val KEY_NOTIFICACIONES = "notificaciones_enabled"
+    private val KEY_EVENTOS_PASADOS_NEGRO = "eventos_pasados_negro"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +57,10 @@ class AjustesActivity : BaseActivity() {
             val mensaje = if (isChecked) "Notificaciones activadas" else "Notificaciones desactivadas"
             Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
         }
+
+        binding.switchEventosPasados.setOnCheckedChangeListener { _, isChecked ->
+            guardarPreferenciaEventosPasados(isChecked)
+        }
     }
 
     private fun cargarPreferencias() {
@@ -68,6 +73,10 @@ class AjustesActivity : BaseActivity() {
         // Cargar estado de notificaciones
         val notificacionesEnabled = prefs.getBoolean(KEY_NOTIFICACIONES, true)
         binding.switchNotificaciones.isChecked = notificacionesEnabled
+
+        // Cargar estado de eventos pasados
+        val eventosPasadosNegro = prefs.getBoolean(KEY_EVENTOS_PASADOS_NEGRO, false)
+        binding.switchEventosPasados.isChecked = eventosPasadosNegro
     }
 
     private fun mostrarDialogoTamanoLetra() {
@@ -96,6 +105,11 @@ class AjustesActivity : BaseActivity() {
     private fun guardarPreferenciaNotificaciones(enabled: Boolean) {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putBoolean(KEY_NOTIFICACIONES, enabled).apply()
+    }
+
+    private fun guardarPreferenciaEventosPasados(enabled: Boolean) {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(KEY_EVENTOS_PASADOS_NEGRO, enabled).apply()
     }
 
     private fun mostrarConfirmacionEliminar() {

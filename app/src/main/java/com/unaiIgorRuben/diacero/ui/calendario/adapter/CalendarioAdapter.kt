@@ -13,6 +13,7 @@ import java.util.*
 
 class CalendarioAdapter(
     private var eventos: List<Evento>,
+    private var mostrarPasadosEnNegro: Boolean = false,
     private val onItemClick: (Evento) -> Unit,
     private val onItemLongClick: (Evento) -> Unit
 ) : RecyclerView.Adapter<CalendarioAdapter.EventoViewHolder>() {
@@ -33,6 +34,11 @@ class CalendarioAdapter(
         notifyDataSetChanged()
     }
 
+    fun setMostrarPasadosEnNegro(enabled: Boolean) {
+        this.mostrarPasadosEnNegro = enabled
+        notifyDataSetChanged()
+    }
+
     inner class EventoViewHolder(private val binding: ItemEventoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(evento: Evento) {
             binding.tvTitulo.text = evento.titulo
@@ -49,8 +55,22 @@ class CalendarioAdapter(
                 binding.tvUbicacion.visibility = View.GONE
             }
 
-            if (evento.color.isNotEmpty()) {
-                binding.colorIndicator.setBackgroundColor(android.graphics.Color.parseColor(evento.color))
+            // Lógica para color negro oscuro en eventos pasados
+            val hoy = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }.time
+
+            val colorFinal = if (mostrarPasadosEnNegro && evento.fecha.before(hoy)) {
+                "#000000"
+            } else {
+                evento.color
+            }
+
+            if (colorFinal.isNotEmpty()) {
+                binding.colorIndicator.setBackgroundColor(android.graphics.Color.parseColor(colorFinal))
             } else {
                 binding.colorIndicator.setBackgroundColor(android.graphics.Color.TRANSPARENT)
             }
