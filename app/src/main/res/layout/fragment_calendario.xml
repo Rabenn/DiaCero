@@ -13,11 +13,12 @@
         android:paddingHorizontal="12dp"
         android:paddingTop="8dp">
 
-        <!-- Buscador de Eventos -->
+        <!-- Buscador de Eventos con margen para el botón de ajustes -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="48dp"
             app:cardCornerRadius="24dp"
             app:cardElevation="2dp"
             app:strokeColor="@color/divider"
@@ -28,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:iconifiedByDefault="false"
-                app:queryHint="Buscar eventos por nombre..."
+                app:queryHint="Buscar eventos..."
                 app:queryBackground="@android:color/transparent" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -111,7 +112,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="Añadir evento"
-        android:backgroundTint="?attr/colorPrimary"
         android:src="@android:drawable/ic_input_add"
         app:tint="@android:color/white" />
 
