@@ -11,7 +11,6 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:title="Generar Rutina"
         app:title="@string/generar_rutina"
         app:navigationIcon="@drawable/ic_arrow_back" />
 
@@ -28,7 +27,6 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Título de la rutina">
                 android:hint="@string/t_tulo_de_la_rutina">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etTitulo"
@@ -40,7 +38,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Días de la semana" />
                 android:text="@string/d_as_de_la_semana" />
 
             <GridLayout
@@ -79,7 +76,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Descripción (opcional)">
                 android:hint="@string/descripci_n_opcional">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etDescripcion"
@@ -93,11 +89,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Ubicación (opcional)"
                 android:hint="@string/ubicaci_n_opcional"
                 app:endIconMode="custom"
                 app:endIconDrawable="@android:drawable/ic_menu_mylocation"
-                app:endIconContentDescription="Obtener ubicación actual">
                 app:endIconContentDescription="@string/obtener_ubicaci_n_actual">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etUbicacion"
@@ -109,7 +103,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Número de semanas">
                 android:hint="@string/n_mero_de_semanas">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etSemanas"
@@ -124,13 +117,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Configurar Alarma en el sistema" />
                 android:text="@string/configurar_alarma_en_el_sistema" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Multimedia"
                 android:text="@string/multimedia"
                 android:textStyle="bold"
                 android:layout_marginTop="24dp" />
@@ -145,7 +136,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="📷 Foto"
                     android:text="@string/foto"
                     android:layout_marginEnd="8dp"
                     style="@style/Widget.Material3.Button.OutlinedButton" />
@@ -154,7 +144,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="📁 Audio"
                     android:text="@string/audio"
                     style="@style/Widget.Material3.Button.OutlinedButton" />
             </LinearLayout>
@@ -163,7 +152,6 @@
                 android:id="@+id/btnGrabarAudio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="🎤 Grabar nota de voz"
                 android:text="@string/grabar_nota_de_voz"
                 android:layout_marginTop="8dp"
                 style="@style/Widget.Material3.Button.TonalButton" />
@@ -172,7 +160,6 @@
                 android:id="@+id/tvEstadoGrabacion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Grabando..."
                 android:text="@string/grabando"
                 android:textColor="#F44336"
                 android:gravity="center"
@@ -187,7 +174,6 @@
                 android:textColor="#757575"
                 android:layout_marginTop="8dp"
                 android:visibility="gone"
-                tools:text="Archivos adjuntos: Foto y Audio listos" />
                 tools:text="@string/archivos_adjuntos_foto_y_audio_lists" />
 
             <Button
@@ -195,7 +181,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Generar Rutina" />
                 android:text="@string/generar_rutina" />
 
         </LinearLayout>

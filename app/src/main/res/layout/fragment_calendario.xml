@@ -29,7 +29,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:iconifiedByDefault="false"
-                app:queryHint="Buscar eventos..."
                 app:queryHint="@string/buscar_eventos"
                 app:queryBackground="@android:color/transparent" />
         </com.google.android.material.card.MaterialCardView>
@@ -52,7 +51,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Calendario"
                     android:text="@string/calendario"
                     android:textColor="?attr/colorOnSurface"
                     android:textSize="20sp"
@@ -89,7 +87,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="14dp"
-                android:text="Eventos del dia"
                 android:text="@string/eventos_del_dia"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold" />
@@ -125,7 +122,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:contentDescription="Añadir evento"
         android:contentDescription="@string/a_adir_evento"
         android:src="@android:drawable/ic_input_add"
         app:tint="@android:color/white" />
