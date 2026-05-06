@@ -107,6 +107,13 @@
                     android:text="4" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                android:id="@+id/cbAlarma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Configurar Alarma en el sistema" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

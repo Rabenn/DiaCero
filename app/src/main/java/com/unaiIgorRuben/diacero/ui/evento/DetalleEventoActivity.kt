@@ -8,6 +8,7 @@ import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Bundle
+import android.provider.AlarmClock
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -326,6 +327,7 @@ class DetalleEventoActivity : AppCompatActivity() {
             binding.etDescripcion.setText(it.descripcion ?: "")
             binding.etUbicacion.setText(it.ubicacion ?: "")
             binding.cbPrioritario.isChecked = it.esPrioritario
+            binding.cbAlarma.isChecked = it.tieneAlarma
             
             val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
             horaInicioEditada = it.horaInicio
@@ -356,17 +358,24 @@ class DetalleEventoActivity : AppCompatActivity() {
         }
 
         eventoActual?.let { evento ->
+            val tieneAlarmaAhora = binding.cbAlarma.isChecked
             val eventoEditado = evento.copy(
                 titulo = nuevoTitulo,
                 descripcion = binding.etDescripcion.text.toString().ifBlank { null },
                 ubicacion = binding.etUbicacion.text.toString().ifBlank { null },
                 esPrioritario = binding.cbPrioritario.isChecked,
+                tieneAlarma = tieneAlarmaAhora,
                 horaInicio = horaInicioEditada ?: evento.horaInicio,
                 horaFin = horaFinEditada ?: evento.horaFin,
                 fotoRuta = fotoRutaSeleccionada,
                 audioRuta = audioRutaSeleccionada
             )
             viewModel.actualizarEvento(eventoEditado)
+            
+            if (tieneAlarmaAhora) {
+                programarAlarmaSistema(eventoEditado)
+            }
+            
             Toast.makeText(this, "Evento actualizado", Toast.LENGTH_SHORT).show()
             alternarModoEdicion(false)
         }
@@ -380,6 +389,7 @@ class DetalleEventoActivity : AppCompatActivity() {
             return
         }
 
+        val tieneAlarma = binding.cbAlarma.isChecked
         val colorEvento = if (binding.cbPrioritario.isChecked) "#00A884" else "#0F6CBD"
         val eventoNuevo = Evento(
             titulo = titulo,
@@ -389,13 +399,33 @@ class DetalleEventoActivity : AppCompatActivity() {
             descripcion = binding.etDescripcion.text.toString().ifBlank { null },
             ubicacion = binding.etUbicacion.text.toString().ifBlank { null },
             esPrioritario = binding.cbPrioritario.isChecked,
+            tieneAlarma = tieneAlarma,
             color = colorEvento,
             fotoRuta = fotoRutaSeleccionada,
             audioRuta = audioRutaSeleccionada
         )
         viewModel.actualizarEvento(eventoNuevo)
+        
+        if (tieneAlarma) {
+            programarAlarmaSistema(eventoNuevo)
+        }
+        
         Toast.makeText(this, "Evento creado", Toast.LENGTH_SHORT).show()
         finish()
+    }
+
+    private fun programarAlarmaSistema(evento: Evento) {
+        val cal = Calendar.getInstance().apply { time = evento.horaInicio }
+        val intent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
+            putExtra(AlarmClock.EXTRA_MESSAGE, "DiaCero: ${evento.titulo}")
+            putExtra(AlarmClock.EXTRA_HOUR, cal.get(Calendar.HOUR_OF_DAY))
+            putExtra(AlarmClock.EXTRA_MINUTES, cal.get(Calendar.MINUTE))
+        }
+        try {
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(this, "No se pudo abrir la app de alarmas predeterminada", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun normalizarFecha(base: Date): Date {
@@ -451,6 +481,7 @@ class DetalleEventoActivity : AppCompatActivity() {
         }
 
         binding.chipPrioritario.visibility = if (evento.esPrioritario) View.VISIBLE else View.GONE
+        binding.chipAlarma.visibility = if (evento.tieneAlarma) View.VISIBLE else View.GONE
         
         // Mostrar multimedia
         if (evento.fotoRuta != null) {

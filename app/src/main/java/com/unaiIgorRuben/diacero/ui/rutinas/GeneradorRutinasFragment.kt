@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Bundle
+import android.provider.AlarmClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -165,14 +166,20 @@ class GeneradorRutinasFragment : Fragment() {
         val semanas = binding.etSemanas.text.toString().toIntOrNull() ?: 1
         val descripcion = binding.etDescripcion.text.toString()
         val ubicacion = binding.etUbicacion.text.toString()
+        val tieneAlarma = binding.cbAlarma.isChecked
 
         lifecycleScope.launch {
             val eventos = generarEventosRecurrentes(
-                titulo, descripcion, ubicacion, horaInicio, minutoInicio, horaFin, minutoFin, diasSeleccionados, semanas
+                titulo, descripcion, ubicacion, horaInicio, minutoInicio, horaFin, minutoFin, diasSeleccionados, semanas, tieneAlarma
             )
 
             if (eventos.isNotEmpty()) {
                 viewModel.insertarVarios(eventos)
+                
+                if (tieneAlarma) {
+                    programarAlarmaSistemaParaRutina(titulo, horaInicio, minutoInicio, diasSeleccionados)
+                }
+
                 parentFragmentManager.setFragmentResult("rutina_creada", bundleOf("primer_evento_timestamp" to eventos.first().fecha.time))
                 Toast.makeText(context, "✅ Se crearon ${eventos.size} eventos", Toast.LENGTH_LONG).show()
                 parentFragmentManager.popBackStack()
@@ -180,10 +187,30 @@ class GeneradorRutinasFragment : Fragment() {
         }
     }
 
+    private fun programarAlarmaSistemaParaRutina(titulo: String, hora: Int, minuto: Int, dias: Set<Int>) {
+        val intent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
+            putExtra(AlarmClock.EXTRA_MESSAGE, "DiaCero (Rutina): $titulo")
+            putExtra(AlarmClock.EXTRA_HOUR, hora)
+            putExtra(AlarmClock.EXTRA_MINUTES, minuto)
+            
+            val daysList = ArrayList<Int>()
+            dias.forEach { day ->
+                daysList.add(day)
+            }
+            putExtra(AlarmClock.EXTRA_DAYS, daysList)
+        }
+        
+        try {
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "No se pudo abrir la app de alarmas", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun generarEventosRecurrentes(
         titulo: String, descripcion: String?, ubicacion: String?,
         horaInicio: Int, minutoInicio: Int, horaFin: Int, minutoFin: Int,
-        diasSemana: Set<Int>, cantidadSemanas: Int
+        diasSemana: Set<Int>, cantidadSemanas: Int, tieneAlarma: Boolean
     ): List<Evento> {
         val eventos = mutableListOf<Evento>()
         val calendario = Calendar.getInstance()
@@ -200,7 +227,8 @@ class GeneradorRutinasFragment : Fragment() {
                 eventos.add(Evento(
                     titulo = titulo, fecha = fechaNormalizada, horaInicio = dateInicio, horaFin = dateFin,
                     descripcion = descripcion?.ifBlank { null }, ubicacion = ubicacion?.ifBlank { null },
-                    color = "#4CAF50", fotoRuta = fotoRutaSeleccionada, audioRuta = audioRutaSeleccionada
+                    color = "#4CAF50", tieneAlarma = tieneAlarma,
+                    fotoRuta = fotoRutaSeleccionada, audioRuta = audioRutaSeleccionada
                 ))
             }
             calendario.add(Calendar.DAY_OF_YEAR, 1)

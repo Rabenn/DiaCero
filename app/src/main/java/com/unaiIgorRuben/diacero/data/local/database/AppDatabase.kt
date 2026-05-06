@@ -10,8 +10,8 @@ import com.unaiIgorRuben.diacero.data.local.entities.Evento
 
 @Database(
     entities = [Evento::class],
-    version = 1,
-    exportSchema = false // No exportar el esquema para este proyecto
+    version = 2,
+    exportSchema = false
 )
 @TypeConverters(com.unaiIgorRuben.diacero.util.DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -19,19 +19,18 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun eventoDao(): EventoDao
 
     companion object {
-        // La anotación @Volatile asegura que la variable INSTANCE sea siempre
-        // visible para todos los hilos y sus cambios sean inmediatos.
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
         fun getDatabase(context: Context): AppDatabase {
-            // Si la instancia no es nula, la devolvemos. Si es nula, creamos la BD.
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "diacero_database" // Nombre del archivo de la BD
-                ).build()
+                    "diacero_database"
+                )
+                .fallbackToDestructiveMigration() // Permite recrear la base de datos si el esquema cambia
+                .build()
                 INSTANCE = instance
                 instance
             }

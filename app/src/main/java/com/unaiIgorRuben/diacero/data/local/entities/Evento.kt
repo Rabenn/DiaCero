@@ -6,18 +6,6 @@ import java.util.Date
 
 /**
  * Representa un evento en la base de datos.
- *
- * @param id Identificador único autoincremental.
- * @param titulo El nombre del evento.
- * @param fecha La fecha en la que ocurre el evento.
- * @param horaInicio La hora de inicio del evento.
- * @param horaFin La hora de finalización del evento.
- * @param descripcion Detalles adicionales sobre el evento.
- * @param ubicacion Lugar donde se realiza el evento (opcional).
- * @param esPrioritario True si debe activar el "Modo Enfoque".
- * @param color Etiqueta de color para organización visual.
- * @param fotoRuta Path al archivo de imagen guardado en el dispositivo (opcional).
- * @param audioRuta Path al archivo de audio guardado en el dispositivo (opcional).
  */
 @Entity(tableName = "eventos")
 data class Evento(
@@ -30,7 +18,8 @@ data class Evento(
     val descripcion: String? = null,
     val ubicacion: String? = null,
     val esPrioritario: Boolean = false,
-    val color: String = "#2196F3", // Un color azul por defecto
+    val tieneAlarma: Boolean = false, // Nueva propiedad para la alarma
+    val color: String = "#2196F3",
     val fotoRuta: String? = null,
     val audioRuta: String? = null
 )

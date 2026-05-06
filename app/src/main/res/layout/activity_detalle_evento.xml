@@ -59,23 +59,37 @@
                     android:textColor="?attr/colorOnSurface"
                     tools:text="Reunión con tutor del TFG" />
 
-                <!-- CHIP DE PRIORIDAD -->
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipPrioritario"
+                <!-- CHIPS -->
+                <com.google.android.material.chip.ChipGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="⭐ Prioritario"
-                    android:layout_marginTop="8dp"
-                    app:chipBackgroundColor="#FFEB3B"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
+                    android:layout_marginTop="8dp">
+                    
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipPrioritario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="⭐ Prioritario"
+                        app:chipBackgroundColor="#FFEB3B"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipAlarma"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="⏰ Alarma activada"
+                        app:chipBackgroundColor="#E1F5FE"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+                </com.google.android.material.chip.ChipGroup>
 
                 <!-- FECHA -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="24dp">
+                    android:layout_marginTop="16dp">
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📅" android:textSize="24sp" android:layout_marginEnd="12dp" />
                     <TextView android:id="@+id/tvFecha" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="16sp" android:textColor="?attr/colorOnSurface" tools:text="Lunes, 6 de enero de 2025" />
                 </LinearLayout>
@@ -213,12 +227,23 @@
                         android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <CheckBox
-                    android:id="@+id/cbPrioritario"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Prioritario" />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+                    <CheckBox
+                        android:id="@+id/cbPrioritario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Prioritario" />
+                    <CheckBox
+                        android:id="@+id/cbAlarma"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Configurar Alarma" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
