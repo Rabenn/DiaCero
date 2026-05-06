@@ -55,4 +55,10 @@ interface EventoDao {
     @Query("DELETE FROM eventos WHERE id = :id")
     suspend fun eliminarPorId(id: Int)
 
+    /**
+     * Busca eventos por título.
+     */
+    @Query("SELECT * FROM eventos WHERE titulo LIKE '%' || :query || '%' ORDER BY fecha, horaInicio ASC")
+    fun buscarEventosPorNombre(query: String): LiveData<List<Evento>>
+
 }

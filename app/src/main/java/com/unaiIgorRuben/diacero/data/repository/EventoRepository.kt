@@ -28,6 +28,10 @@ class EventoRepository(private val eventoDao: EventoDao) {
         return eventoDao.obtenerTodosLosEventos()
     }
 
+    fun buscarEventosPorNombre(query: String): LiveData<List<Evento>> {
+        return eventoDao.buscarEventosPorNombre(query)
+    }
+
     /**
      * Inserta o actualiza un evento en un hilo secundario.
      */

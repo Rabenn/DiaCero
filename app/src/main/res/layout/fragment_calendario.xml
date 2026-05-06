@@ -13,7 +13,27 @@
         android:paddingHorizontal="12dp"
         android:paddingTop="8dp">
 
+        <!-- Buscador de Eventos -->
         <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/divider"
+            app:strokeWidth="1dp">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchViewEventos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:iconifiedByDefault="false"
+                app:queryHint="Buscar eventos por nombre..."
+                app:queryBackground="@android:color/transparent" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardCalendario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="18dp"
@@ -53,6 +73,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardTituloEventos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"

@@ -29,6 +29,10 @@ class CalendarioViewModel(
         return repository.obtenerTodosLosEventos()
     }
 
+    fun buscarEventosPorNombre(query: String): LiveData<List<Evento>> {
+        return repository.buscarEventosPorNombre(query)
+    }
+
     fun insertarEvento(evento: Evento) = viewModelScope.launch {
         repository.upsert(evento)
         programarNotificacion(evento)

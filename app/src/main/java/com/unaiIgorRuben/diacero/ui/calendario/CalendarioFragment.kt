@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -65,6 +66,7 @@ class CalendarioFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+        setupSearchView()
         checkNotificationPermission()
 
         parentFragmentManager.setFragmentResultListener("rutina_creada", this) { _, bundle ->
@@ -90,6 +92,47 @@ class CalendarioFragment : Fragment() {
         binding.calendarView.selectedDate = calendarDayFromDate(fechaSeleccionada)
         actualizarFechaSeleccionada(fechaSeleccionada)
         observarEventosParaMarcadores()
+        observeEventos(fechaSeleccionada)
+    }
+
+    private fun setupSearchView() {
+        binding.searchViewEventos.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                binding.searchViewEventos.clearFocus()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (!newText.isNullOrBlank()) {
+                    realizarBusqueda(newText)
+                } else {
+                    limpiarBusqueda()
+                }
+                return true
+            }
+        })
+
+        binding.searchViewEventos.setOnCloseListener {
+            limpiarBusqueda()
+            false
+        }
+    }
+
+    private fun realizarBusqueda(query: String) {
+        // Ocultamos el calendario para dar prioridad a los resultados de búsqueda
+        binding.cardCalendario.visibility = View.GONE
+        binding.cardTituloEventos.visibility = View.GONE
+        
+        viewModel.buscarEventosPorNombre(query).observe(viewLifecycleOwner) { eventos ->
+            if (binding.searchViewEventos.query.isNotEmpty()) {
+                adapter.actualizarEventos(eventos)
+            }
+        }
+    }
+
+    private fun limpiarBusqueda() {
+        binding.cardCalendario.visibility = View.VISIBLE
+        binding.cardTituloEventos.visibility = View.VISIBLE
         observeEventos(fechaSeleccionada)
     }
 
@@ -119,7 +162,9 @@ class CalendarioFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        observeEventos(fechaSeleccionada)
+        if (binding.searchViewEventos.query.isEmpty()) {
+            observeEventos(fechaSeleccionada)
+        }
     }
 
     private fun observarEventosParaMarcadores() {
@@ -221,12 +266,10 @@ class CalendarioFragment : Fragment() {
 
         viewModel.obtenerEventosPorRango(startOfDay, endOfDay).observe(viewLifecycleOwner) { eventos ->
             eventosDelDiaActual = eventos
-            if (eventos.isEmpty()) {
-                adapter.actualizarEventos(emptyList())
-            } else {
+            if (binding.searchViewEventos.query.isEmpty()) {
                 adapter.actualizarEventos(eventos)
+                actualizarResumenEventosDelDia(eventos)
             }
-            actualizarResumenEventosDelDia(eventos)
         }
     }
 
