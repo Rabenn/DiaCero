@@ -1,27 +1,25 @@
 package com.unaiIgorRuben.diacero.ui.evento
 
 import android.Manifest
-import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
+import android.location.Geocoder
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Bundle
 import android.provider.AlarmClock
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.bumptech.glide.Glide
+import com.google.android.gms.location.LocationServices
 import com.unaiIgorRuben.diacero.data.local.database.AppDatabase
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
-import com.unaiIgorRuben.diacero.data.local.entities.TipoEvento
 import com.unaiIgorRuben.diacero.data.repository.EventoRepository
 import com.unaiIgorRuben.diacero.databinding.ActivityDetalleEventoBinding
 import java.io.File
@@ -41,21 +39,26 @@ class DetalleEventoActivity : AppCompatActivity() {
     private var horaFinEditada: Date? = null
     private var fotoRutaSeleccionada: String? = null
     private var audioRutaSeleccionada: String? = null
-    private var tipoSeleccionado: TipoEvento = TipoEvento.OTROS
 
-    // Grabación de audio
     private var mediaRecorder: MediaRecorder? = null
     private var estaGrabando = false
     private var archivoGrabacion: File? = null
-
-    // Reproducción de audio
     private var mediaPlayer: MediaPlayer? = null
+
+    private val fusedLocationClient by lazy { LocationServices.getFusedLocationProviderClient(this) }
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
         if (isGranted) {
             iniciarOPararGrabacion()
+        }
+    }
+
+    private val locationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+        if (permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true || 
+            permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true) {
+            obtenerUbicacionActual()
         } else {
-            Toast.makeText(this, "Permiso de audio denegado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -93,32 +96,52 @@ class DetalleEventoActivity : AppCompatActivity() {
         fechaSeleccionada = Date(intent.getLongExtra("SELECTED_DATE_MILLIS", System.currentTimeMillis()))
 
         setupToolbar()
-        setupTipoEventoSpinner()
-        if (esModoCreacion) {
-            prepararModoCreacion()
-        } else {
-            observeEvento()
-        }
+        if (esModoCreacion) prepararModoCreacion() else observeEvento()
         setupListeners()
+        setupLocationButton()
+    }
+
+    private fun setupLocationButton() {
+        // En el XML he añadido un endIconDrawable al TextInputLayout de ubicación
+        binding.inputLayoutUbicacion.setEndIconOnClickListener {
+            checkLocationPermissions()
+        }
+    }
+
+    private fun checkLocationPermissions() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            locationPermissionLauncher.launch(arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ))
+        } else {
+            obtenerUbicacionActual()
+        }
+    }
+
+    private fun obtenerUbicacionActual() {
+        try {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                location?.let {
+                    val geocoder = Geocoder(this, Locale.getDefault())
+                    val addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                    if (!addresses.isNullOrEmpty()) {
+                        val address = addresses[0].getAddressLine(0)
+                        binding.etUbicacion.setText(address)
+                        Toast.makeText(this, "Ubicación obtenida", Toast.LENGTH_SHORT).show()
+                    }
+                } ?: run {
+                    Toast.makeText(this, "No se pudo obtener la ubicación. Activa el GPS.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } catch (e: SecurityException) {
+            e.printStackTrace()
+        }
     }
 
     private fun setupToolbar() {
         binding.toolbar.setNavigationOnClickListener { 
-            if (estaEnModoEdicion && !esModoCreacion) {
-                alternarModoEdicion(false)
-            } else {
-                onBackPressedDispatcher.onBackPressed()
-            }
-        }
-    }
-
-    private fun setupTipoEventoSpinner() {
-        val tipos = TipoEvento.values().map { it.nombre }
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, tipos)
-        binding.actvTipoEvento.setAdapter(adapter)
-        
-        binding.actvTipoEvento.setOnItemClickListener { _, _, position, _ ->
-            tipoSeleccionado = TipoEvento.values()[position]
+            if (estaEnModoEdicion) alternarModoEdicion(false) else onBackPressedDispatcher.onBackPressed()
         }
     }
 
@@ -131,19 +154,10 @@ class DetalleEventoActivity : AppCompatActivity() {
         binding.btnGuardar.visibility = View.VISIBLE
         estaEnModoEdicion = true
 
-        // Por defecto, tipo OTROS
-        tipoSeleccionado = TipoEvento.OTROS
-        binding.actvTipoEvento.setText(tipoSeleccionado.nombre, false)
-
-        val sdfFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        binding.etFecha.setText(sdfFecha.format(fechaSeleccionada))
-
         val inicio = Calendar.getInstance().apply {
             time = fechaSeleccionada
             set(Calendar.HOUR_OF_DAY, 9)
             set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
         }
         val fin = inicio.clone() as Calendar
         fin.add(Calendar.HOUR_OF_DAY, 1)
@@ -159,39 +173,19 @@ class DetalleEventoActivity : AppCompatActivity() {
         viewModel.obtenerEvento(eventoId).observe(this) { evento ->
             evento?.let { 
                 eventoActual = it
-                if (!estaEnModoEdicion) {
-                    mostrarDetalles(it)
-                }
+                if (!estaEnModoEdicion) mostrarDetalles(it)
             }
         }
     }
 
     private fun setupListeners() {
-        binding.btnEliminar.setOnClickListener {
-            viewModel.eliminarEvento(eventoId)
-            finish()
-        }
-
-        binding.btnEditar.setOnClickListener {
-            alternarModoEdicion(true)
-        }
-
-        binding.btnGuardar.setOnClickListener {
-            guardarCambios()
-        }
-
-        binding.etFecha.setOnClickListener { mostrarDatePicker() }
+        binding.btnEliminar.setOnClickListener { viewModel.eliminarEvento(eventoId); finish() }
+        binding.btnEditar.setOnClickListener { alternarModoEdicion(true) }
+        binding.btnGuardar.setOnClickListener { guardarCambios() }
         binding.etHoraInicio.setOnClickListener { mostrarTimePicker(true) }
         binding.etHoraFin.setOnClickListener { mostrarTimePicker(false) }
-
-        binding.btnAdjuntarFoto.setOnClickListener {
-            selectImageLauncher.launch(arrayOf("image/*"))
-        }
-
-        binding.btnAdjuntarAudio.setOnClickListener {
-            selectAudioLauncher.launch(arrayOf("audio/*", "application/ogg"))
-        }
-
+        binding.btnAdjuntarFoto.setOnClickListener { selectImageLauncher.launch(arrayOf("image/*")) }
+        binding.btnAdjuntarAudio.setOnClickListener { selectAudioLauncher.launch(arrayOf("audio/*", "application/ogg")) }
         binding.btnGrabarAudio.setOnClickListener {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
                 iniciarOPararGrabacion()
@@ -199,30 +193,8 @@ class DetalleEventoActivity : AppCompatActivity() {
                 requestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
             }
         }
-
-        binding.btnReproducirAudio.setOnClickListener {
-            reproducirAudio()
-        }
-
-        binding.btnVerFoto.setOnClickListener {
-            verFotoPantallaCompleta()
-        }
-    }
-
-    private fun mostrarDatePicker() {
-        val calendar = Calendar.getInstance().apply { time = fechaSeleccionada }
-        DatePickerDialog(
-            this,
-            { _, year, month, dayOfMonth ->
-                calendar.set(year, month, dayOfMonth)
-                fechaSeleccionada = calendar.time
-                val sdfFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                binding.etFecha.setText(sdfFecha.format(fechaSeleccionada))
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        ).show()
+        binding.btnReproducirAudio.setOnClickListener { reproducirAudio() }
+        binding.btnVerFoto.setOnClickListener { verFotoPantallaCompleta() }
     }
 
     private fun verFotoPantallaCompleta() {
@@ -241,106 +213,73 @@ class DetalleEventoActivity : AppCompatActivity() {
     }
 
     private fun reproducirAudio() {
-        val rutaAudio = eventoActual?.audioRuta ?: audioRutaSeleccionada
-        if (rutaAudio == null) {
-            Toast.makeText(this, "No hay audio para reproducir", Toast.LENGTH_SHORT).show()
-            return
-        }
-
+        val rutaAudio = eventoActual?.audioRuta ?: audioRutaSeleccionada ?: return
         try {
             if (mediaPlayer?.isPlaying == true) {
-                mediaPlayer?.stop()
-                mediaPlayer?.release()
-                mediaPlayer = null
+                mediaPlayer?.stop(); mediaPlayer?.release(); mediaPlayer = null
                 binding.btnReproducirAudio.text = "🎤 Reproducir nota de voz"
                 return
             }
-
             mediaPlayer = MediaPlayer().apply {
                 setDataSource(this@DetalleEventoActivity, Uri.parse(rutaAudio))
-                prepare()
-                start()
+                prepare(); start()
                 setOnCompletionListener {
                     binding.btnReproducirAudio.text = "🎤 Reproducir nota de voz"
-                    release()
-                    mediaPlayer = null
+                    release(); mediaPlayer = null
                 }
             }
             binding.btnReproducirAudio.text = "⏹ Detener reproducción"
         } catch (e: Exception) {
-            e.printStackTrace()
             Toast.makeText(this, "Error al reproducir el audio", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun iniciarOPararGrabacion() {
-        if (!estaGrabando) {
-            iniciarGrabacion()
-        } else {
-            detenerGrabacion()
-        }
-    }
+    private fun iniciarOPararGrabacion() { if (!estaGrabando) iniciarGrabacion() else detenerGrabacion() }
 
     private fun iniciarGrabacion() {
         archivoGrabacion = File(externalCacheDir, "grabacion_${System.currentTimeMillis()}.mp3")
-        
         mediaRecorder = MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
             setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
             setOutputFile(archivoGrabacion?.absolutePath)
-            prepare()
-            start()
+            prepare(); start()
         }
-        
         estaGrabando = true
         binding.btnGrabarAudio.text = "⏹ Detener Grabación"
         binding.tvEstadoGrabacion.visibility = View.VISIBLE
     }
 
     private fun detenerGrabacion() {
-        try {
-            mediaRecorder?.apply {
-                stop()
-                release()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        mediaRecorder = null
-        estaGrabando = false
-        
+        try { mediaRecorder?.apply { stop(); release() } } catch (e: Exception) {}
+        mediaRecorder = null; estaGrabando = false
         binding.btnGrabarAudio.text = "🎤 Grabar nota de voz"
         binding.tvEstadoGrabacion.visibility = View.GONE
-        
         archivoGrabacion?.let {
             audioRutaSeleccionada = Uri.fromFile(it).toString()
             binding.tvRutaAudio.text = "Grabación lista"
             binding.tvRutaAudio.visibility = View.VISIBLE
-            Toast.makeText(this, "Grabación finalizada", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun mostrarTimePicker(esInicio: Boolean) {
-        val currentDateTime = if (esInicio) horaInicioEditada else horaFinEditada
         val calendar = Calendar.getInstance()
-        if (currentDateTime != null) calendar.time = currentDateTime
+        val current = if (esInicio) horaInicioEditada else horaFinEditada
+        if (current != null) calendar.time = current
 
-        TimePickerDialog(this, { _, hourOfDay, minute ->
-            val newCalendar = Calendar.getInstance()
-            if (currentDateTime != null) newCalendar.time = currentDateTime
-            newCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-            newCalendar.set(Calendar.MINUTE, minute)
-            
-            val newDate = newCalendar.time
+        TimePickerDialog(this, { _, hour, minute ->
+            val newCal = Calendar.getInstance().apply {
+                if (current != null) time = current
+                set(Calendar.HOUR_OF_DAY, hour)
+                set(Calendar.MINUTE, minute)
+            }
             val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-            
             if (esInicio) {
-                horaInicioEditada = newDate
-                binding.etHoraInicio.setText(sdf.format(newDate))
+                horaInicioEditada = newCal.time
+                binding.etHoraInicio.setText(sdf.format(newCal.time))
             } else {
-                horaFinEditada = newDate
-                binding.etHoraFin.setText(sdf.format(newDate))
+                horaFinEditada = newCal.time
+                binding.etHoraFin.setText(sdf.format(newCal.time))
             }
         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
     }
@@ -368,68 +307,35 @@ class DetalleEventoActivity : AppCompatActivity() {
             binding.etUbicacion.setText(it.ubicacion ?: "")
             binding.cbPrioritario.isChecked = it.esPrioritario
             binding.cbAlarma.isChecked = it.tieneAlarma
-            
-            fechaSeleccionada = it.fecha
-            val sdfFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            binding.etFecha.setText(sdfFecha.format(it.fecha))
-
-            val sdfHora = SimpleDateFormat("HH:mm", Locale.getDefault())
-            horaInicioEditada = it.horaInicio
-            horaFinEditada = it.horaFin
-            binding.etHoraInicio.setText(sdfHora.format(it.horaInicio))
-            binding.etHoraFin.setText(sdfHora.format(it.horaFin))
-
-            tipoSeleccionado = it.tipo
-            binding.actvTipoEvento.setText(it.tipo.nombre, false)
-
-            fotoRutaSeleccionada = it.fotoRuta
-            audioRutaSeleccionada = it.audioRuta
-            
+            val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+            horaInicioEditada = it.horaInicio; horaFinEditada = it.horaFin
+            binding.etHoraInicio.setText(sdf.format(it.horaInicio))
+            binding.etHoraFin.setText(sdf.format(it.horaFin))
+            fotoRutaSeleccionada = it.fotoRuta; audioRutaSeleccionada = it.audioRuta
             binding.tvRutaFoto.visibility = if (it.fotoRuta != null) View.VISIBLE else View.GONE
-            binding.tvRutaFoto.text = if (it.fotoRuta != null) "Foto adjunta" else ""
             binding.tvRutaAudio.visibility = if (it.audioRuta != null) View.VISIBLE else View.GONE
-            binding.tvRutaAudio.text = if (it.audioRuta != null) "Audio adjunto" else ""
         }
     }
 
     private fun guardarCambios() {
         val nuevoTitulo = binding.etTitulo.text.toString()
-        if (nuevoTitulo.isBlank()) {
-            Toast.makeText(this, "El título no puede estar vacío", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        if (esModoCreacion) {
-            crearEvento(nuevoTitulo)
-            return
-        }
+        if (nuevoTitulo.isBlank()) return
+        if (esModoCreacion) { crearEvento(nuevoTitulo); return }
 
         eventoActual?.let { evento ->
-            val tieneAlarmaAhora = binding.cbAlarma.isChecked
-            val inicio = horaInicioEditada ?: evento.horaInicio
-            val fin = horaFinEditada ?: evento.horaFin
-            
             val eventoEditado = evento.copy(
                 titulo = nuevoTitulo,
-                fecha = normalizarFecha(fechaSeleccionada),
                 descripcion = binding.etDescripcion.text.toString().ifBlank { null },
                 ubicacion = binding.etUbicacion.text.toString().ifBlank { null },
                 esPrioritario = binding.cbPrioritario.isChecked,
-                tieneAlarma = tieneAlarmaAhora,
-                horaInicio = combinarFechaYHora(fechaSeleccionada, inicio),
-                horaFin = combinarFechaYHora(fechaSeleccionada, fin),
-                tipo = tipoSeleccionado,
-                color = tipoSeleccionado.color,
+                tieneAlarma = binding.cbAlarma.isChecked,
+                horaInicio = horaInicioEditada ?: evento.horaInicio,
+                horaFin = horaFinEditada ?: evento.horaFin,
                 fotoRuta = fotoRutaSeleccionada,
                 audioRuta = audioRutaSeleccionada
             )
             viewModel.actualizarEvento(eventoEditado)
-            
-            if (tieneAlarmaAhora) {
-                programarAlarmaSistema(eventoEditado)
-            }
-            
-            Toast.makeText(this, "Evento actualizado", Toast.LENGTH_SHORT).show()
+            if (eventoEditado.tieneAlarma) programarAlarmaSistema(eventoEditado)
             alternarModoEdicion(false)
         }
     }
@@ -437,12 +343,6 @@ class DetalleEventoActivity : AppCompatActivity() {
     private fun crearEvento(titulo: String) {
         val inicio = horaInicioEditada ?: return
         val fin = horaFinEditada ?: return
-        if (!fin.after(inicio)) {
-            Toast.makeText(this, "La hora de fin debe ser posterior al inicio", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val tieneAlarma = binding.cbAlarma.isChecked
         val eventoNuevo = Evento(
             titulo = titulo,
             fecha = normalizarFecha(fechaSeleccionada),
@@ -451,19 +351,12 @@ class DetalleEventoActivity : AppCompatActivity() {
             descripcion = binding.etDescripcion.text.toString().ifBlank { null },
             ubicacion = binding.etUbicacion.text.toString().ifBlank { null },
             esPrioritario = binding.cbPrioritario.isChecked,
-            tieneAlarma = tieneAlarma,
-            tipo = tipoSeleccionado,
-            color = tipoSeleccionado.color,
+            tieneAlarma = binding.cbAlarma.isChecked,
             fotoRuta = fotoRutaSeleccionada,
             audioRuta = audioRutaSeleccionada
         )
         viewModel.actualizarEvento(eventoNuevo)
-        
-        if (tieneAlarma) {
-            programarAlarmaSistema(eventoNuevo)
-        }
-        
-        Toast.makeText(this, "Evento creado", Toast.LENGTH_SHORT).show()
+        if (eventoNuevo.tieneAlarma) programarAlarmaSistema(eventoNuevo)
         finish()
     }
 
@@ -474,20 +367,12 @@ class DetalleEventoActivity : AppCompatActivity() {
             putExtra(AlarmClock.EXTRA_HOUR, cal.get(Calendar.HOUR_OF_DAY))
             putExtra(AlarmClock.EXTRA_MINUTES, cal.get(Calendar.MINUTE))
         }
-        try {
-            startActivity(intent)
-        } catch (e: Exception) {
-            Toast.makeText(this, "No se pudo abrir la app de alarmas predeterminada", Toast.LENGTH_SHORT).show()
-        }
+        try { startActivity(intent) } catch (e: Exception) {}
     }
 
     private fun normalizarFecha(base: Date): Date {
         return Calendar.getInstance().apply {
-            time = base
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
+            time = base; set(Calendar.HOUR_OF_DAY, 0); set(Calendar.MINUTE, 0); set(Calendar.SECOND, 0); set(Calendar.MILLISECOND, 0)
         }.time
     }
 
@@ -496,72 +381,36 @@ class DetalleEventoActivity : AppCompatActivity() {
         val horaCal = Calendar.getInstance().apply { time = hora }
         fechaCal.set(Calendar.HOUR_OF_DAY, horaCal.get(Calendar.HOUR_OF_DAY))
         fechaCal.set(Calendar.MINUTE, horaCal.get(Calendar.MINUTE))
-        fechaCal.set(Calendar.SECOND, 0)
-        fechaCal.set(Calendar.MILLISECOND, 0)
         return fechaCal.time
     }
 
     private fun mostrarDetalles(evento: Evento) {
         binding.tvTitulo.text = evento.titulo
-
-        if (evento.descripcion?.isNotEmpty() == true) {
-            binding.tvDescripcion.text = evento.descripcion
-            binding.tvDescripcion.visibility = View.VISIBLE
-        } else {
-            binding.tvDescripcion.visibility = View.GONE
-        }
-
+        binding.tvDescripcion.text = evento.descripcion ?: ""
+        binding.tvDescripcion.visibility = if (evento.descripcion.isNullOrEmpty()) View.GONE else View.VISIBLE
         val sdfFecha = SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy", Locale.getDefault())
         val sdfHora = SimpleDateFormat("HH:mm", Locale.getDefault())
         binding.tvFecha.text = sdfFecha.format(evento.fecha)
         binding.tvHora.text = "${sdfHora.format(evento.horaInicio)} - ${sdfHora.format(evento.horaFin)}"
-
-        val duracionMs = evento.horaFin.time - evento.horaInicio.time
-        val duracionMinutos = duracionMs / 60000
-        binding.tvDuracion.text = "Duración: $duracionMinutos min"
-
-        if (evento.ubicacion?.isNotEmpty() == true) {
-            binding.tvUbicacion.text = evento.ubicacion
-            binding.layoutUbicacion.visibility = View.VISIBLE
+        if (!evento.ubicacion.isNullOrEmpty()) {
+            binding.tvUbicacion.text = evento.ubicacion; binding.layoutUbicacion.visibility = View.VISIBLE
         } else {
             binding.layoutUbicacion.visibility = View.GONE
         }
-
-        // Tipo de evento y color
-        binding.chipTipoEvento.text = evento.tipo.nombre
-        binding.chipTipoEvento.setChipBackgroundColorResource(android.R.color.transparent)
-        binding.chipTipoEvento.chipBackgroundColor = android.content.res.ColorStateList.valueOf(Color.parseColor(evento.tipo.color))
-        
-        binding.colorIndicator.setBackgroundColor(Color.parseColor(evento.tipo.color))
-
         binding.chipPrioritario.visibility = if (evento.esPrioritario) View.VISIBLE else View.GONE
         binding.chipAlarma.visibility = if (evento.tieneAlarma) View.VISIBLE else View.GONE
-        
-        // Mostrar multimedia
         if (evento.fotoRuta != null) {
             binding.ivFotoPreview.visibility = View.VISIBLE
             Glide.with(this).load(Uri.parse(evento.fotoRuta)).into(binding.ivFotoPreview)
             binding.btnVerFoto.visibility = View.VISIBLE
         } else {
-            binding.ivFotoPreview.visibility = View.GONE
-            binding.btnVerFoto.visibility = View.GONE
+            binding.ivFotoPreview.visibility = View.GONE; binding.btnVerFoto.visibility = View.GONE
         }
-
         binding.btnReproducirAudio.visibility = if (evento.audioRuta != null) View.VISIBLE else View.GONE
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (estaGrabando) {
-            detenerGrabacion()
-        }
-        mediaPlayer?.release()
-        mediaPlayer = null
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer?.release()
-        mediaPlayer = null
     }
 }

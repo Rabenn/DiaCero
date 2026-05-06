@@ -3,6 +3,7 @@ package com.unaiIgorRuben.diacero.ui.rutinas
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Bundle
@@ -17,6 +18,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.location.LocationServices
 import com.unaiIgorRuben.diacero.data.local.database.AppDatabase
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
 import com.unaiIgorRuben.diacero.data.repository.EventoRepository
@@ -38,6 +40,7 @@ class GeneradorRutinasFragment : Fragment() {
         CalendarioViewModelFactory(requireActivity().application, repository)
     }
 
+    private val fusedLocationClient by lazy { LocationServices.getFusedLocationProviderClient(requireContext()) }
     private val diasSeleccionados = mutableSetOf<Int>()
     
     // Multimedia
@@ -67,6 +70,15 @@ class GeneradorRutinasFragment : Fragment() {
         if (isGranted) iniciarOPararGrabacion()
     }
 
+    private val locationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+        if (permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true || 
+            permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true) {
+            obtenerUbicacionActual()
+        } else {
+            Toast.makeText(requireContext(), "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -86,6 +98,44 @@ class GeneradorRutinasFragment : Fragment() {
         configurarCheckboxDias()
         configurarBotonGenerar()
         setupMultimediaListeners()
+        setupLocationButton()
+    }
+
+    private fun setupLocationButton() {
+        binding.inputLayoutUbicacion.setEndIconOnClickListener {
+            checkLocationPermissions()
+        }
+    }
+
+    private fun checkLocationPermissions() {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            locationPermissionLauncher.launch(arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ))
+        } else {
+            obtenerUbicacionActual()
+        }
+    }
+
+    private fun obtenerUbicacionActual() {
+        try {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                location?.let {
+                    val geocoder = Geocoder(requireContext(), Locale.getDefault())
+                    val addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                    if (!addresses.isNullOrEmpty()) {
+                        val address = addresses[0].getAddressLine(0)
+                        binding.etUbicacion.setText(address)
+                        Toast.makeText(requireContext(), "Ubicación obtenida", Toast.LENGTH_SHORT).show()
+                    }
+                } ?: run {
+                    Toast.makeText(requireContext(), "No se pudo obtener la ubicación. Activa el GPS.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } catch (e: SecurityException) {
+            e.printStackTrace()
+        }
     }
 
     private fun setupMultimediaListeners() {

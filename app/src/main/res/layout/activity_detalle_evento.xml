@@ -59,22 +59,11 @@
                     android:textColor="?attr/colorOnSurface"
                     tools:text="Reunión con tutor del TFG" />
 
-                <!-- TIPO DE EVENTO (VISUALIZACIÓN) -->
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipTipoEvento"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:chipIconVisible="true"
-                    app:chipIcon="@drawable/ic_label"
-                    tools:text="Trabajo"
-                    tools:chipBackgroundColor="#4CAF50" />
-
                 <!-- CHIPS -->
                 <com.google.android.material.chip.ChipGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp">
+                    android:layout_marginTop="8dp">
                     
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipPrioritario"
@@ -184,37 +173,6 @@
                         android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- SELECCIÓN DE TIPO DE EVENTO -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilTipoEvento"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="Tipo de Evento">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/actvTipoEvento"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- SELECCIÓN DE FECHA -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="Fecha del Evento">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etFecha"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:clickable="true" />
-                </com.google.android.material.textfield.TextInputLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -258,11 +216,16 @@
                         android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- CAMPO UBICACIÓN CON BOTÓN GPS -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayoutUbicacion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:hint="Ubicación">
+                    android:hint="Ubicación"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@android:drawable/ic_menu_mylocation"
+                    app:endIconContentDescription="Obtener ubicación actual">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etUbicacion"
                         android:layout_width="match_parent"

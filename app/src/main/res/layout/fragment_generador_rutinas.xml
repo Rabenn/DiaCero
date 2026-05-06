@@ -83,11 +83,16 @@
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- CAMPO UBICACIÓN CON BOTÓN GPS -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayoutUbicacion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Ubicación (opcional)">
+                android:hint="Ubicación (opcional)"
+                app:endIconMode="custom"
+                app:endIconDrawable="@android:drawable/ic_menu_mylocation"
+                app:endIconContentDescription="Obtener ubicación actual">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etUbicacion"
                     android:layout_width="match_parent"
