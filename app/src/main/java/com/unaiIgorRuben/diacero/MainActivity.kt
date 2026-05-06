@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        actualizarIconoTema()
         setupMenuActions(savedInstanceState)
         setupSettingsButton()
     }
@@ -34,8 +35,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun actualizarIconoTema() {
+        val isDarkMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+        if (isDarkMode) {
+            binding.fabSettings.setImageResource(R.drawable.ic_sun)
+        } else {
+            binding.fabSettings.setImageResource(R.drawable.ic_moon)
+        }
+    }
+
     private fun setupMenuActions(savedInstanceState: Bundle?) {
-        // Si venimos de una recreación (ej. giro de pantalla), mantenemos el estado
         if (savedInstanceState != null) {
             if (supportFragmentManager.findFragmentById(R.id.fragmentContainer) != null) {
                 binding.menuContainer.visibility = View.GONE
@@ -59,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.commit {
             replace(R.id.fragmentContainer, CalendarioFragment())
             setReorderingAllowed(true)
-            addToBackStack(null) // Permite volver al menú con el botón atrás
+            addToBackStack(null)
         }
     }
 

@@ -5,28 +5,29 @@ import android.text.style.ForegroundColorSpan
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
-import com.prolificinteractive.materialcalendarview.spans.DotSpan
 
+/**
+ * Decorador para un día específico en el calendario.
+ * Permite dibujar múltiples puntos y opcionalmente cambiar el color del texto.
+ */
 class EventDayDecorator(
-    private val days: Set<CalendarDay>,
-    private val dotColor: Int = DEFAULT_DOT_COLOR,
-    private val textColor: Int? = null
+    private val day: CalendarDay,
+    private val colors: List<Int> = emptyList(),
+    private val extraCount: Int = 0,
+    private val isPriority: Boolean = false
 ) : DayViewDecorator {
 
-    companion object {
-        const val DEFAULT_DOT_COLOR = Color.GRAY
-        const val PRIORITY_DOT_COLOR = Color.RED
-        const val PRIORITY_TEXT_COLOR = Color.RED
-    }
-
     override fun shouldDecorate(day: CalendarDay): Boolean {
-        return days.contains(day)
+        return this.day == day
     }
 
     override fun decorate(view: DayViewFacade) {
-        view.addSpan(DotSpan(5f, dotColor))
-        textColor?.let {
-            view.addSpan(ForegroundColorSpan(it))
+        if (colors.isNotEmpty()) {
+            view.addSpan(MultiDotSpan(colors = colors, extraCount = extraCount))
+        }
+        
+        if (isPriority) {
+            view.addSpan(ForegroundColorSpan(Color.RED))
         }
     }
 }

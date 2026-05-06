@@ -3,6 +3,7 @@ package com.unaiIgorRuben.diacero.ui.calendario
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
@@ -49,7 +51,7 @@ class CalendarioFragment : Fragment() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (!isGranted) {
-            // Informar al usuario que no recibirá notificaciones
+            // Notificar al usuario que las alarmas podrían no sonar visualmente si no hay permisos
         }
     }
 
@@ -119,7 +121,6 @@ class CalendarioFragment : Fragment() {
     }
 
     private fun realizarBusqueda(query: String) {
-        // Ocultamos el calendario para dar prioridad a los resultados de búsqueda
         binding.cardCalendario.visibility = View.GONE
         binding.cardTituloEventos.visibility = View.GONE
         
@@ -175,32 +176,30 @@ class CalendarioFragment : Fragment() {
     }
 
     private fun aplicarDecoradoresEventos(eventos: List<Evento>) {
-        val diasConEventos = mutableSetOf<CalendarDay>()
-        val diasConPrioritarios = mutableSetOf<CalendarDay>()
-
-        eventos.forEach { evento ->
-            val calendarDay = calendarDayFromDate(evento.fecha)
-            diasConEventos.add(calendarDay)
-            if (evento.esPrioritario) {
-                diasConPrioritarios.add(calendarDay)
-            }
-        }
-
         binding.calendarView.removeDecorators()
-        if (diasConEventos.isNotEmpty()) {
+        
+        // Agrupamos eventos por día
+        val eventosPorDia = eventos.groupBy { calendarDayFromDate(it.fecha) }
+        
+        eventosPorDia.forEach { (dia, listaEventos) ->
+            // Cogemos los colores de los primeros 3 eventos basándonos en su tipo
+            val colores = listaEventos.take(3).map { 
+                it.tipo.color.toColorInt() 
+            }
+            
+            // Calculamos cuántos eventos sobran para mostrar el +N
+            val extraCount = if (listaEventos.size > 3) listaEventos.size - 3 else 0
+            
+            // Comprobamos si hay algún evento prioritario ese día para resaltar el texto
+            val esPrioritario = listaEventos.any { it.esPrioritario }
+            
+            // Creamos un decorador específico para este día
             binding.calendarView.addDecorator(
                 EventDayDecorator(
-                    days = diasConEventos,
-                    dotColor = EventDayDecorator.DEFAULT_DOT_COLOR
-                )
-            )
-        }
-        if (diasConPrioritarios.isNotEmpty()) {
-            binding.calendarView.addDecorator(
-                EventDayDecorator(
-                    days = diasConPrioritarios,
-                    dotColor = EventDayDecorator.PRIORITY_DOT_COLOR,
-                    textColor = EventDayDecorator.PRIORITY_TEXT_COLOR
+                    day = dia,
+                    colors = colores,
+                    extraCount = extraCount,
+                    isPriority = esPrioritario
                 )
             )
         }
@@ -275,11 +274,11 @@ class CalendarioFragment : Fragment() {
 
     private fun actualizarResumenEventosDelDia(eventos: List<Evento>) {
         if (eventos.isEmpty()) {
-            binding.tvEventosDelDia.text = "No hay eventos para este dia."
+            binding.tvEventosDelDia.text = "No hay eventos para este día."
             return
         }
         val titulos = eventos.take(2).joinToString(" | ") { it.titulo }
-        val sufijo = if (eventos.size > 2) " +${eventos.size - 2} mas" else ""
+        val sufijo = if (eventos.size > 2) " +${eventos.size - 2} más" else ""
         binding.tvEventosDelDia.text = "${eventos.size} evento(s): $titulos$sufijo"
     }
 
