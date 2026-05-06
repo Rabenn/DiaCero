@@ -1,6 +1,9 @@
 package com.unaiIgorRuben.diacero.ui.ajustes
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -19,6 +22,8 @@ class AjustesActivity : BaseActivity() {
     private val KEY_FONT_SIZE = "font_size"
     private val KEY_NOTIFICACIONES = "notificaciones_enabled"
     private val KEY_EVENTOS_PASADOS_NEGRO = "eventos_pasados_negro"
+    private val KEY_COLOR_CLARO = "color_claro"
+    private val KEY_COLOR_OSCURO = "color_oscuro"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +66,14 @@ class AjustesActivity : BaseActivity() {
         binding.switchEventosPasados.setOnCheckedChangeListener { _, isChecked ->
             guardarPreferenciaEventosPasados(isChecked)
         }
+
+        binding.btnColorClaro.setOnClickListener {
+            mostrarSelectorColor(true)
+        }
+
+        binding.btnColorOscuro.setOnClickListener {
+            mostrarSelectorColor(false)
+        }
     }
 
     private fun cargarPreferencias() {
@@ -77,6 +90,52 @@ class AjustesActivity : BaseActivity() {
         // Cargar estado de eventos pasados
         val eventosPasadosNegro = prefs.getBoolean(KEY_EVENTOS_PASADOS_NEGRO, false)
         binding.switchEventosPasados.isChecked = eventosPasadosNegro
+
+        // Cargar colores
+        val colorClaro = prefs.getInt(KEY_COLOR_CLARO, Color.parseColor("#0F6CBD"))
+        val colorOscuro = prefs.getInt(KEY_COLOR_OSCURO, Color.parseColor("#66B5FF"))
+        
+        binding.viewColorClaro.backgroundTintList = ColorStateList.valueOf(colorClaro)
+        binding.viewColorOscuro.backgroundTintList = ColorStateList.valueOf(colorOscuro)
+    }
+
+    private fun mostrarSelectorColor(esClaro: Boolean) {
+        val colores = arrayOf(
+            "#0F6CBD", "#00A884", "#D32F2F", "#7B1FA2", "#FBC02D", "#E64A19", "#388E3C", "#1976D2"
+        )
+        val nombres = arrayOf(
+            "Azul", "Verde", "Rojo", "Púrpura", "Amarillo", "Naranja", "Verde Oscuro", "Azul Intenso"
+        )
+
+        AlertDialog.Builder(this)
+            .setTitle("Seleccionar Color")
+            .setItems(nombres) { _, which ->
+                val colorHex = colores[which]
+                val colorInt = Color.parseColor(colorHex)
+                guardarColor(esClaro, colorInt)
+                
+                // Actualizar la vista previa
+                if (esClaro) {
+                    binding.viewColorClaro.backgroundTintList = ColorStateList.valueOf(colorInt)
+                } else {
+                    binding.viewColorOscuro.backgroundTintList = ColorStateList.valueOf(colorInt)
+                }
+
+                // Aplicar en tiempo real si el modo cambiado es el actual
+                val isNightMode = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+                if (esClaro != isNightMode) {
+                    recreate()
+                } else {
+                    Toast.makeText(this, "Color guardado para el otro modo", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .show()
+    }
+
+    private fun guardarColor(esClaro: Boolean, color: Int) {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val key = if (esClaro) KEY_COLOR_CLARO else KEY_COLOR_OSCURO
+        prefs.edit().putInt(key, color).apply()
     }
 
     private fun mostrarDialogoTamanoLetra() {
@@ -91,7 +150,7 @@ class AjustesActivity : BaseActivity() {
                 val seleccionado = opciones[which]
                 guardarTamanoLetra(seleccionado)
                 dialog.dismiss()
-                recreate() // Aplicar cambios en tiempo real recreando la actividad
+                recreate()
             }
             .setNegativeButton("Cancelar", null)
             .show()

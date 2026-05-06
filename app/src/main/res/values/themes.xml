@@ -16,4 +16,36 @@
     </style>
 
     <style name="Theme.DiaCero" parent="Base.Theme.DiaCero" />
+
+    <!-- Temas de Colores -->
+    <style name="Theme.DiaCero.Blue" parent="Theme.DiaCero" />
+    
+    <style name="Theme.DiaCero.Green" parent="Theme.DiaCero">
+        <item name="colorPrimary">#00A884</item>
+    </style>
+    
+    <style name="Theme.DiaCero.Red" parent="Theme.DiaCero">
+        <item name="colorPrimary">#D32F2F</item>
+    </style>
+    
+    <style name="Theme.DiaCero.Purple" parent="Theme.DiaCero">
+        <item name="colorPrimary">#7B1FA2</item>
+    </style>
+
+    <style name="Theme.DiaCero.Yellow" parent="Theme.DiaCero">
+        <item name="colorPrimary">#FBC02D</item>
+    </style>
+
+    <style name="Theme.DiaCero.Orange" parent="Theme.DiaCero">
+        <item name="colorPrimary">#E64A19</item>
+    </style>
+
+    <style name="Theme.DiaCero.DarkGreen" parent="Theme.DiaCero">
+        <item name="colorPrimary">#388E3C</item>
+    </style>
+
+    <style name="Theme.DiaCero.IntenseBlue" parent="Theme.DiaCero">
+        <item name="colorPrimary">#1976D2</item>
+    </style>
+
 </resources>
