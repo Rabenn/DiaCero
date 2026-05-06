@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     
     <!-- Permisos para Google Maps y Ubicación -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -63,6 +65,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.DiaCero"
             tools:ignore="LockedOrientationActivity" />
+
+        <receiver
+            android:name="com.unaiIgorRuben.diacero.util.EventoReceiver"
+            android:exported="false" />
 
     </application>
 

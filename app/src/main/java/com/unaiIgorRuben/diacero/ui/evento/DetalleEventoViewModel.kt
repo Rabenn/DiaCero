@@ -1,24 +1,26 @@
 package com.unaiIgorRuben.diacero.ui.evento
 
+import android.app.AlarmManager
 import android.app.Application
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
 import com.unaiIgorRuben.diacero.data.repository.EventoRepository
-import com.unaiIgorRuben.diacero.util.EventoWorker
+import com.unaiIgorRuben.diacero.util.EventoReceiver
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 
 class DetalleEventoViewModel(
     application: Application,
     private val repository: EventoRepository
 ) : AndroidViewModel(application) {
 
-    private val workManager = WorkManager.getInstance(application)
+    private val alarmManager = application.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
     fun obtenerEvento(id: Int): LiveData<Evento> {
         return repository.obtenerEventoPorId(id)
@@ -26,7 +28,7 @@ class DetalleEventoViewModel(
 
     fun eliminarEvento(id: Int) = viewModelScope.launch {
         repository.eliminarPorId(id)
-        workManager.cancelAllWorkByTag("evento_$id")
+        cancelarNotificacion(id)
     }
 
     fun actualizarEvento(evento: Evento) = viewModelScope.launch {
@@ -35,23 +37,56 @@ class DetalleEventoViewModel(
     }
 
     private fun programarNotificacion(evento: Evento) {
-        // Cancelar cualquier notificación previa programada para este evento
-        workManager.cancelAllWorkByTag("evento_${evento.id}")
+        val intent = Intent(getApplication(), EventoReceiver::class.java).apply {
+            putExtra("titulo", evento.titulo)
+            putExtra("id", evento.id)
+        }
 
-        val delay = evento.horaInicio.time - System.currentTimeMillis()
-        if (delay > 0) {
-            val data = Data.Builder()
-                .putString("titulo", evento.titulo)
-                .putInt("id", evento.id)
-                .build()
+        val pendingIntent = PendingIntent.getBroadcast(
+            getApplication(),
+            evento.id,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
-            val workRequest = OneTimeWorkRequestBuilder<EventoWorker>()
-                .setInitialDelay(delay, TimeUnit.MILLISECONDS)
-                .setInputData(data)
-                .addTag("evento_${evento.id}")
-                .build()
+        val triggerTime = evento.horaInicio.time
 
-            workManager.enqueue(workRequest)
+        if (triggerTime > System.currentTimeMillis()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (alarmManager.canScheduleExactAlarms()) {
+                    alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        triggerTime,
+                        pendingIntent
+                    )
+                } else {
+                    // Si no tiene permiso de alarmas exactas, usamos la normal (menos precisa pero funciona)
+                    alarmManager.setAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        triggerTime,
+                        pendingIntent
+                    )
+                }
+            } else {
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    triggerTime,
+                    pendingIntent
+                )
+            }
+        }
+    }
+
+    private fun cancelarNotificacion(eventoId: Int) {
+        val intent = Intent(getApplication(), EventoReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            getApplication(),
+            eventoId,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_NO_CREATE
+        )
+        if (pendingIntent != null) {
+            alarmManager.cancel(pendingIntent)
         }
     }
 }

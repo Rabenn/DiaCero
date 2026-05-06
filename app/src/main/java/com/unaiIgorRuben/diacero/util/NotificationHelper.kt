@@ -15,6 +15,8 @@ class NotificationHelper(private val context: Context) {
     companion object {
         const val CHANNEL_ID = "eventos_channel"
         const val CHANNEL_NAME = "Notificaciones de Eventos"
+        private const val PREFS_NAME = "ajustes_prefs"
+        private const val KEY_NOTIFICACIONES = "notificaciones_enabled"
     }
 
     private val notificationManager: NotificationManager by lazy {
@@ -39,6 +41,11 @@ class NotificationHelper(private val context: Context) {
     }
 
     fun mostrarNotificacionEvento(titulo: String, mensaje: String, eventoId: Int) {
+        // VERIFICACIÓN DE AJUSTES: Si el usuario las ha desactivado, no hacemos nada
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val enabled = prefs.getBoolean(KEY_NOTIFICACIONES, true)
+        if (!enabled) return
+
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -51,7 +58,7 @@ class NotificationHelper(private val context: Context) {
         )
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_sun) // Usamos el icono que ya tenemos
+            .setSmallIcon(R.drawable.ic_sun) 
             .setContentTitle(titulo)
             .setContentText(mensaje)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

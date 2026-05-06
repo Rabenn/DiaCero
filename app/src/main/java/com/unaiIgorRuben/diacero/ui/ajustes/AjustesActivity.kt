@@ -17,6 +17,7 @@ class AjustesActivity : BaseActivity() {
     private lateinit var repository: EventoRepository
     private val PREFS_NAME = "ajustes_prefs"
     private val KEY_FONT_SIZE = "font_size"
+    private val KEY_NOTIFICACIONES = "notificaciones_enabled"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +52,7 @@ class AjustesActivity : BaseActivity() {
         }
         
         binding.switchNotificaciones.setOnCheckedChangeListener { _, isChecked ->
+            guardarPreferenciaNotificaciones(isChecked)
             val mensaje = if (isChecked) "Notificaciones activadas" else "Notificaciones desactivadas"
             Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
         }
@@ -58,8 +60,14 @@ class AjustesActivity : BaseActivity() {
 
     private fun cargarPreferencias() {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        
+        // Cargar tamaño de letra
         val tamano = prefs.getString(KEY_FONT_SIZE, "Normal")
         binding.tvTamanoLetraActual.text = tamano
+        
+        // Cargar estado de notificaciones
+        val notificacionesEnabled = prefs.getBoolean(KEY_NOTIFICACIONES, true)
+        binding.switchNotificaciones.isChecked = notificacionesEnabled
     }
 
     private fun mostrarDialogoTamanoLetra() {
@@ -85,18 +93,23 @@ class AjustesActivity : BaseActivity() {
         prefs.edit().putString(KEY_FONT_SIZE, tamano).apply()
     }
 
+    private fun guardarPreferenciaNotificaciones(enabled: Boolean) {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(KEY_NOTIFICACIONES, enabled).apply()
+    }
+
     private fun mostrarConfirmacionEliminar() {
         AlertDialog.Builder(this)
             .setTitle("Eliminar todos los eventos")
             .setMessage("¿Estás seguro de que quieres borrar todos los eventos? Esta acción no se puede deshacer.")
             .setPositiveButton("Eliminar") { _, _ ->
-                eliminarTodosLosEventos()
+                eliminarTodosLos_eventos()
             }
             .setNegativeButton("Cancelar", null)
             .show()
     }
 
-    private fun eliminarTodosLosEventos() {
+    private fun eliminarTodosLos_eventos() {
         lifecycleScope.launch {
             try {
                 repository.eliminarTodosLosEventos()
