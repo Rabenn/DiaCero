@@ -18,8 +18,9 @@ data class Evento(
     val descripcion: String? = null,
     val ubicacion: String? = null,
     val esPrioritario: Boolean = false,
-    val tieneAlarma: Boolean = false, // Nueva propiedad para la alarma
+    val tieneAlarma: Boolean = false,
     val color: String = "#2196F3",
+    val tipo: TipoEvento = TipoEvento.OTROS, // Nuevo campo para el tipo de evento
     val fotoRuta: String? = null,
     val audioRuta: String? = null
 )

@@ -7,13 +7,15 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.unaiIgorRuben.diacero.data.local.dao.EventoDao
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
+import com.unaiIgorRuben.diacero.util.DateConverter
+import com.unaiIgorRuben.diacero.util.TipoEventoConverter
 
 @Database(
     entities = [Evento::class],
-    version = 2,
+    version = 3, // Incrementamos la versión por el cambio de esquema
     exportSchema = false
 )
-@TypeConverters(com.unaiIgorRuben.diacero.util.DateConverter::class)
+@TypeConverters(DateConverter::class, TipoEventoConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun eventoDao(): EventoDao
@@ -29,7 +31,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "diacero_database"
                 )
-                .fallbackToDestructiveMigration() // Permite recrear la base de datos si el esquema cambia
+                .fallbackToDestructiveMigration()
                 .build()
                 INSTANCE = instance
                 instance
