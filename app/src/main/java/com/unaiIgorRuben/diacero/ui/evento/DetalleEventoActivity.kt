@@ -24,6 +24,8 @@ import com.unaiIgorRuben.diacero.data.local.database.AppDatabase
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
 import com.unaiIgorRuben.diacero.data.local.entities.TipoEvento
 import com.unaiIgorRuben.diacero.data.repository.EventoRepository
+import com.unaiIgorRuben.diacero.MainActivity
+import com.unaiIgorRuben.diacero.R
 import com.unaiIgorRuben.diacero.databinding.ActivityDetalleEventoBinding
 import com.unaiIgorRuben.diacero.ui.BaseActivity
 import java.io.File
@@ -155,6 +157,19 @@ class DetalleEventoActivity : BaseActivity() {
     }
 
     private fun setupToolbar() {
+        binding.toolbar.menu.clear()
+        binding.toolbar.menu.add("Inicio").apply {
+            setIcon(R.drawable.ic_home)
+            setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS)
+        }
+        binding.toolbar.setOnMenuItemClickListener {
+            val intent = Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
+            finish()
+            true
+        }
         binding.toolbar.setNavigationOnClickListener { 
             if (estaEnModoEdicion && !esModoCreacion) alternarModoEdicion(false) else onBackPressedDispatcher.onBackPressed()
         }

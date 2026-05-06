@@ -19,6 +19,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.LocationServices
+import com.unaiIgorRuben.diacero.MainActivity
+import com.unaiIgorRuben.diacero.R
 import com.unaiIgorRuben.diacero.data.local.database.AppDatabase
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
 import com.unaiIgorRuben.diacero.data.repository.EventoRepository
@@ -91,6 +93,15 @@ class GeneradorRutinasFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.toolbar.menu.clear()
+        binding.toolbar.menu.add("Inicio").apply {
+            setIcon(R.drawable.ic_home)
+            setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS)
+        }
+        binding.toolbar.setOnMenuItemClickListener {
+            (activity as? MainActivity)?.volverAlMenuPrincipal()
+            true
+        }
         binding.toolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
         }

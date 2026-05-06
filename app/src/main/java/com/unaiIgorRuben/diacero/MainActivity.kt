@@ -91,12 +91,28 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    fun volverAlMenuPrincipal() {
+        supportFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        binding.menuContainer.visibility = View.VISIBLE
+        binding.fragmentContainer.visibility = View.GONE
+    }
+
+    private fun actualizarVisibilidadSegunBackStack() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            binding.menuContainer.visibility = View.GONE
+            binding.fragmentContainer.visibility = View.VISIBLE
+        } else {
+            binding.menuContainer.visibility = View.VISIBLE
+            binding.fragmentContainer.visibility = View.GONE
+        }
+    }
+
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
-            binding.menuContainer.visibility = View.VISIBLE
-            binding.fragmentContainer.visibility = View.GONE
+            supportFragmentManager.executePendingTransactions()
+            actualizarVisibilidadSegunBackStack()
         } else {
             super.onBackPressed()
         }
