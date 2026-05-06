@@ -56,6 +56,14 @@
             android:theme="@style/Theme.DiaCero"
             tools:ignore="LockedOrientationActivity" />
 
+        <activity
+            android:name="com.unaiIgorRuben.diacero.ui.ajustes.AjustesActivity"
+            android:exported="false"
+            android:label="Ajustes"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.DiaCero"
+            tools:ignore="LockedOrientationActivity" />
+
     </application>
 
 </manifest>

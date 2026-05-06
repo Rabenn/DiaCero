@@ -14,7 +14,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.LocationServices
@@ -22,11 +21,12 @@ import com.unaiIgorRuben.diacero.data.local.database.AppDatabase
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
 import com.unaiIgorRuben.diacero.data.repository.EventoRepository
 import com.unaiIgorRuben.diacero.databinding.ActivityDetalleEventoBinding
+import com.unaiIgorRuben.diacero.ui.BaseActivity
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DetalleEventoActivity : AppCompatActivity() {
+class DetalleEventoActivity : BaseActivity() {
 
     private lateinit var binding: ActivityDetalleEventoBinding
     private var eventoId: Int = -1
@@ -102,7 +102,6 @@ class DetalleEventoActivity : AppCompatActivity() {
     }
 
     private fun setupLocationButton() {
-        // En el XML he añadido un endIconDrawable al TextInputLayout de ubicación
         binding.inputLayoutUbicacion.setEndIconOnClickListener {
             checkLocationPermissions()
         }
