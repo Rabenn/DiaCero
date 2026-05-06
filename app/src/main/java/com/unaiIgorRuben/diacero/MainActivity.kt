@@ -4,13 +4,13 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.commit
 import com.unaiIgorRuben.diacero.databinding.ActivityMainBinding
 import com.unaiIgorRuben.diacero.ui.BaseActivity
 import com.unaiIgorRuben.diacero.ui.ajustes.AjustesActivity
 import com.unaiIgorRuben.diacero.ui.calendario.CalendarioFragment
+import com.unaiIgorRuben.diacero.ui.habitos.HabitosFragment
 import com.unaiIgorRuben.diacero.util.FontResizer
 
 class MainActivity : BaseActivity() {
@@ -28,11 +28,24 @@ class MainActivity : BaseActivity() {
         actualizarIconoTema()
         setupMenuActions(savedInstanceState)
         setupSettingsButton()
+        
+        checkIntentExtras(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        checkIntentExtras(intent)
+    }
+
+    private fun checkIntentExtras(intent: Intent?) {
+        if (intent?.getBooleanExtra("GO_HOME", false) == true) {
+            volverAlMenuPrincipal()
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        // Si el tamaño de letra ha cambiado mientras estábamos en otra pantalla, recreamos la actividad
         val newSize = FontResizer.getSavedSize(this)
         if (currentFontSize != null && currentFontSize != newSize) {
             recreate()
@@ -72,7 +85,7 @@ class MainActivity : BaseActivity() {
         }
 
         binding.btnHabitos.setOnClickListener {
-            Toast.makeText(this, "Próximamente: Módulo de Hábitos", Toast.LENGTH_SHORT).show()
+            cargarHabitos()
         }
 
         binding.btnAjustes.setOnClickListener {
@@ -91,8 +104,31 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    private fun cargarHabitos() {
+        binding.menuContainer.visibility = View.GONE
+        binding.fragmentContainer.visibility = View.VISIBLE
+
+        supportFragmentManager.commit {
+            replace(R.id.fragmentContainer, HabitosFragment())
+            setReorderingAllowed(true)
+            addToBackStack(null)
+        }
+    }
+
     fun volverAlMenuPrincipal() {
-        supportFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        // Limpiamos todo el backstack de fragmentos
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        }
+        
+        // Eliminamos fragmentos que puedan haber quedado sin estar en el backstack
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+        if (fragment != null) {
+            supportFragmentManager.commit {
+                remove(fragment)
+            }
+        }
+
         binding.menuContainer.visibility = View.VISIBLE
         binding.fragmentContainer.visibility = View.GONE
     }
@@ -111,8 +147,8 @@ class MainActivity : BaseActivity() {
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
-            supportFragmentManager.executePendingTransactions()
-            actualizarVisibilidadSegunBackStack()
+            // Pequeño delay o post para asegurar que la visibilidad se actualiza tras el pop
+            binding.root.post { actualizarVisibilidadSegunBackStack() }
         } else {
             super.onBackPressed()
         }

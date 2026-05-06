@@ -20,6 +20,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.unaiIgorRuben.diacero.MainActivity
 import com.unaiIgorRuben.diacero.R
 import com.unaiIgorRuben.diacero.data.local.database.AppDatabase
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
@@ -83,6 +84,9 @@ class CalendarioFragment : Fragment() {
 
         binding.fabAgregarEvento.setOnClickListener {
             mostrarDialogoTipoCreacion()
+        }
+        binding.fabIrCasa.setOnClickListener {
+            (activity as? MainActivity)?.volverAlMenuPrincipal()
         }
 
         binding.calendarView.setOnDateChangedListener { _, date, _ ->

@@ -6,19 +6,23 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.unaiIgorRuben.diacero.data.local.dao.EventoDao
+import com.unaiIgorRuben.diacero.data.local.dao.HabitDao
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
+import com.unaiIgorRuben.diacero.data.local.entities.Habit
 import com.unaiIgorRuben.diacero.util.DateConverter
+import com.unaiIgorRuben.diacero.util.LongListConverter
 import com.unaiIgorRuben.diacero.util.TipoEventoConverter
 
 @Database(
-    entities = [Evento::class],
-    version = 3, // Incrementamos la versión por el cambio de esquema
+    entities = [Evento::class, Habit::class],
+    version = 4,
     exportSchema = false
 )
-@TypeConverters(DateConverter::class, TipoEventoConverter::class)
+@TypeConverters(DateConverter::class, TipoEventoConverter::class, LongListConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun eventoDao(): EventoDao
+    abstract fun habitDao(): HabitDao
 
     companion object {
         @Volatile
