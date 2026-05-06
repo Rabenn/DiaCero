@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="ajustes">Ezarpenak</string>
+    <string name="preferencias">Hobespenak</string>
+    <string name="notificaciones_de_eventos">Gertaeren jakinarazpenak</string>
+    <string name="idioma_de_la_aplicaci_n">Aplikazioaren hizkuntza</string>
+    <string name="espa_ol_predeterminado">Euskara (Lehenetsia)</string>
+    <string name="tama_o_de_letra">Letra-tamaina</string>
+    <string name="normal">Normala</string>
+    <string name="datos_y_almacenamiento">Datuak eta biltegiratzea</string>
+    <string name="borrar_todos_los_eventos">Ezabatu gertaera guztiak</string>
+    <string name="acerca_de">Honi buruz</string>
+    <string name="dia_cero_v1_0">Dia Cero v1.0</string>
+    <string name="desarrollado_para_la_gesti_n_de_rutinas_y_eventos">Errutinak eta gertaerak kudeatzeko garatua.</string>
+    <string name="trabajo">Lana</string>
+    <string name="prioritario">⭐ Lehentasunezkoa</string>
+    <string name="alarma_activada">⏰ Alarma aktibatuta</string>
+    <string name="archivos_adjuntos">Erantsitako fitxategiak</string>
+    <string name="t_tulo">Izenburua</string>
+    <string name="tipo_de_evento">Gertaera mota</string>
+    <string name="fecha">Data</string>
+    <string name="hora_inicio">Hasiera-ordua</string>
+    <string name="hora_fin">Amaiera-ordua</string>
+    <string name="descripci_n">Deskribapena</string>
+    <string name="ubicaci_n">Kokapena</string>
+    <string name="configurar_alarma">Konfiguratu alarma</string>
+    <string name="multimedia">Multimedia</string>
+    <string name="foto">📷 Argazkia</string>
+    <string name="audio">📁 Audioa</string>
+    <string name="grabar_nota_de_voz">🎤 Grabatu ahots-oharra</string>
+    <string name="grabando">Grabatzen...</string>
+    <string name="foto_ruta_al_archivo_jpg">Argazkia: /fitxategiaren/bidea.jpg</string>
+    <string name="audio_ruta_al_archivo_mp3">Audioa: /fitxategiaren/bidea.mp3</string>
+    <string name="editar">Editatu</string>
+    <string name="guardar">Gorde</string>
+    <string name="eliminar">Ezabatu</string>
+    <string name="dia_cero">Dia Cero</string>
+    <string name="ver_calendario">Ikusi egutegia</string>
+    <string name="mis_h_bitos">Nire ohiturak</string>
+    <string name="cambiar_tema">Aldatu gaia</string>
+    <string name="buscar_eventos">Bilatu gertaerak...</string>
+    <string name="calendario">Egutegia</string>
+    <string name="eventos_del_dia">Eguneko gertaerak</string>
+    <string name="a_adir_evento">Gehitu gertaera</string>
+    <string name="generar_rutina">Sortu errutina</string>
+    <string name="t_tulo_de_la_rutina">Errutinaren izenburua</string>
+    <string name="d_as_de_la_semana">Asteko egunak</string>
+    <string name="descripci_n_opcional">Deskribapena (aukerakoa)</string>
+    <string name="ubicaci_n_opcional">Kokapena (aukerakoa)</string>
+    <string name="obtener_ubicaci_n_actual">Lortu uneko kokapena</string>
+    <string name="n_mero_de_semanas">Aste kopurua</string>
+    <string name="configurar_alarma_en_el_sistema">Ezarri alarma sisteman</string>
+    <string name="archivos_adjuntos_foto_y_audio_lists">Erantsitako fitxategiak: Argazki eta audio zerrendak</string>
+</resources>

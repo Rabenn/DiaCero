@@ -25,6 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dia Cero"
+                android:text="@string/dia_cero"
                 android:textColor="?attr/colorPrimary"
                 android:textSize="42sp"
                 android:textStyle="bold"
@@ -36,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:text="Ver Calendario"
+                android:text="@string/ver_calendario"
                 android:textSize="18sp"
                 app:cornerRadius="20dp"
                 app:icon="@android:drawable/ic_menu_my_calendar"
@@ -49,6 +51,7 @@
                 android:layout_height="64dp"
                 android:layout_marginTop="16dp"
                 android:text="Mis Hábitos"
+                android:text="@string/mis_h_bitos"
                 android:textSize="18sp"
                 app:cornerRadius="20dp"
                 app:icon="@android:drawable/ic_menu_agenda"
@@ -64,6 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Ajustes"
+            android:text="@string/ajustes"
             app:icon="@android:drawable/ic_menu_preferences" />
 
     </LinearLayout>

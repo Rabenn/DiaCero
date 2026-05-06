@@ -11,6 +11,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorSurface"
         app:title="Ajustes"
+        app:title="@string/ajustes"
         app:navigationIcon="@drawable/ic_arrow_back"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Preferencias"
+                android:text="@string/preferencias"
                 android:textColor="?attr/colorPrimary"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
@@ -53,6 +55,7 @@
                         android:layout_height="wrap_content"
                         android:padding="16dp"
                         android:text="Notificaciones de eventos"
+                        android:text="@string/notificaciones_de_eventos"
                         android:checked="true" />
 
                     <View
@@ -75,11 +78,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Idioma de la aplicación"
+                            android:text="@string/idioma_de_la_aplicaci_n"
                             android:textSize="16sp" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Español (Predeterminado)"
+                            android:text="@string/espa_ol_predeterminado"
                             android:textSize="14sp"
                             android:alpha="0.7" />
                     </LinearLayout>
@@ -104,12 +109,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Tamaño de letra"
+                            android:text="@string/tama_o_de_letra"
                             android:textSize="16sp" />
                         <TextView
                             android:id="@+id/tvTamanoLetraActual"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Normal"
+                            android:text="@string/normal"
                             android:textSize="14sp"
                             android:alpha="0.7" />
                     </LinearLayout>
@@ -208,6 +215,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Datos y Almacenamiento"
+                android:text="@string/datos_y_almacenamiento"
                 android:textColor="?attr/colorPrimary"
                 android:textStyle="bold"
                 android:layout_marginTop="24dp"
@@ -233,6 +241,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Borrar todos los eventos"
+                        android:text="@string/borrar_todos_los_eventos"
                         android:textColor="?attr/colorError"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -242,6 +251,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Acerca de"
+                android:text="@string/acerca_de"
                 android:textColor="?attr/colorPrimary"
                 android:textStyle="bold"
                 android:layout_marginTop="24dp"
@@ -264,11 +274,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Dia Cero v1.0"
+                        android:text="@string/dia_cero_v1_0"
                         android:textSize="16sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Desarrollado para la gestión de rutinas y eventos."
+                        android:text="@string/desarrollado_para_la_gesti_n_de_rutinas_y_eventos"
                         android:textSize="14sp"
                         android:alpha="0.7" />
                 </LinearLayout>

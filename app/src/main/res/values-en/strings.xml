@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="ajustes">Settings</string>
+    <string name="preferencias">Preferences</string>
+    <string name="notificaciones_de_eventos">Event notifications</string>
+    <string name="idioma_de_la_aplicaci_n">App language</string>
+    <string name="espa_ol_predeterminado">English (Default)</string>
+    <string name="tama_o_de_letra">Font size</string>
+    <string name="normal">Normal</string>
+    <string name="datos_y_almacenamiento">Data and Storage</string>
+    <string name="borrar_todos_los_eventos">Clear all events</string>
+    <string name="acerca_de">About</string>
+    <string name="dia_cero_v1_0">Dia Cero v1.0</string>
+    <string name="desarrollado_para_la_gesti_n_de_rutinas_y_eventos">Developed for managing routines and events.</string>
+    <string name="trabajo">Work</string>
+    <string name="prioritario">⭐ Priority</string>
+    <string name="alarma_activada">⏰ Alarm set</string>
+    <string name="archivos_adjuntos">Attachments</string>
+    <string name="t_tulo">Title</string>
+    <string name="tipo_de_evento">Event Type</string>
+    <string name="fecha">Date</string>
+    <string name="hora_inicio">Start Time</string>
+    <string name="hora_fin">End Time</string>
+    <string name="descripci_n">Description</string>
+    <string name="ubicaci_n">Location</string>
+    <string name="configurar_alarma">Set Alarm</string>
+    <string name="multimedia">Media</string>
+    <string name="foto">📷 Photo</string>
+    <string name="audio">📁 Audio</string>
+    <string name="grabar_nota_de_voz">🎤 Record voice note</string>
+    <string name="grabando">Recording...</string>
+    <string name="foto_ruta_al_archivo_jpg">Photo: /path/to/file.jpg</string>
+    <string name="audio_ruta_al_archivo_mp3">Audio: /path/to/file.mp3</string>
+    <string name="editar">Edit</string>
+    <string name="guardar">Save</string>
+    <string name="eliminar">Delete</string>
+    <string name="dia_cero">Dia Cero</string>
+    <string name="ver_calendario">View Calendar</string>
+    <string name="mis_h_bitos">My Habits</string>
+    <string name="cambiar_tema">Change theme</string>
+    <string name="buscar_eventos">Search events...</string>
+    <string name="calendario">Calendar</string>
+    <string name="eventos_del_dia">Today\'s events</string>
+    <string name="a_adir_evento">Add event</string>
+    <string name="generar_rutina">Generate Routine</string>
+    <string name="t_tulo_de_la_rutina">Routine title</string>
+    <string name="d_as_de_la_semana">Days of the week</string>
+    <string name="descripci_n_opcional">Description (optional)</string>
+    <string name="ubicaci_n_opcional">Location (optional)</string>
+    <string name="obtener_ubicaci_n_actual">Get current location</string>
+    <string name="n_mero_de_semanas">Number of weeks</string>
+    <string name="configurar_alarma_en_el_sistema">Set System Alarm</string>
+    <string name="archivos_adjuntos_foto_y_audio_lists">Attachments: Photo and Audio lists</string>
+</resources>

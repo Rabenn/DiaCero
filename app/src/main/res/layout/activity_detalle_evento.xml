@@ -68,6 +68,7 @@
                     app:chipIconVisible="true"
                     app:chipIcon="@android:drawable/ic_menu_agenda"
                     tools:text="Trabajo"
+                    tools:text="@string/trabajo"
                     tools:chipBackgroundColor="#4CAF50"
                     android:textColor="#FFFFFF"
                     app:chipIconTint="#FFFFFF"/>
@@ -83,6 +84,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="⭐ Prioritario"
+                        android:text="@string/prioritario"
                         app:chipBackgroundColor="#FFEB3B"
                         android:visibility="gone"
                         tools:visibility="visible" />
@@ -92,6 +94,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="⏰ Alarma activada"
+                        android:text="@string/alarma_activada"
                         app:chipBackgroundColor="#E1F5FE"
                         android:visibility="gone"
                         tools:visibility="visible" />
@@ -148,6 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Archivos adjuntos"
+                    android:text="@string/archivos_adjuntos"
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:textColor="?attr/colorOnSurface"
@@ -180,6 +184,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Título">
+                    android:hint="@string/t_tulo">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etTitulo"
                         android:layout_width="match_parent"
@@ -194,6 +199,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:hint="Tipo de Evento">
+                    android:hint="@string/tipo_de_evento">
                     <AutoCompleteTextView
                         android:id="@+id/autoCompleteTipo"
                         android:layout_width="match_parent"
@@ -207,6 +213,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:hint="Fecha">
+                    android:hint="@string/fecha">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etFecha"
                         android:layout_width="match_parent"
@@ -226,6 +233,7 @@
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
                         android:hint="Hora Inicio">
+                        android:hint="@string/hora_inicio">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etHoraInicio"
                             android:layout_width="match_parent"
@@ -238,6 +246,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="Hora Fin">
+                        android:hint="@string/hora_fin">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etHoraFin"
                             android:layout_width="match_parent"
@@ -252,6 +261,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:hint="Descripción">
+                    android:hint="@string/descripci_n">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etDescripcion"
                         android:layout_width="match_parent"
@@ -265,6 +275,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:hint="Ubicación"
+                    android:hint="@string/ubicaci_n"
                     app:endIconMode="custom"
                     app:endIconDrawable="@android:drawable/ic_menu_mylocation"
                     app:endIconContentDescription="Obtener ubicación actual">
@@ -284,18 +295,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Prioritario" />
+                        android:text="@string/prioritario" />
                     <CheckBox
                         android:id="@+id/cbAlarma"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="Configurar Alarma" />
+                        android:text="@string/configurar_alarma" />
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Multimedia"
+                    android:text="@string/multimedia"
                     android:textStyle="bold"
                     android:layout_marginTop="16dp" />
 
@@ -310,6 +324,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="📷 Foto"
+                        android:text="@string/foto"
                         android:layout_marginEnd="8dp"
                         style="@style/Widget.Material3.Button.OutlinedButton" />
                     <Button
@@ -318,6 +333,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="📁 Audio"
+                        android:text="@string/audio"
                         style="@style/Widget.Material3.Button.OutlinedButton" />
                 </LinearLayout>
 
@@ -326,6 +342,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="🎤 Grabar nota de voz"
+                    android:text="@string/grabar_nota_de_voz"
                     android:layout_marginTop="8dp"
                     style="@style/Widget.Material3.Button.TonalButton" />
 
@@ -334,6 +351,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Grabando..."
+                    android:text="@string/grabando"
                     android:textColor="#F44336"
                     android:gravity="center"
                     android:visibility="gone"
@@ -347,6 +365,7 @@
                     android:textColor="#757575"
                     android:layout_marginTop="4dp"
                     tools:text="Foto: /ruta/al/archivo.jpg"
+                    tools:text="@string/foto_ruta_al_archivo_jpg"
                     android:visibility="gone" />
 
                 <TextView
@@ -357,6 +376,7 @@
                     android:textColor="#757575"
                     android:layout_marginTop="2dp"
                     tools:text="Audio: /ruta/al/archivo.mp3"
+                    tools:text="@string/audio_ruta_al_archivo_mp3"
                     android:visibility="gone" />
 
             </LinearLayout>
@@ -375,6 +395,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Editar"
+                    android:text="@string/editar"
                     android:layout_marginEnd="8dp"
                     style="@style/Widget.Material3.Button.OutlinedButton" />
 
@@ -384,6 +405,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Guardar"
+                    android:text="@string/guardar"
                     android:layout_marginEnd="8dp"
                     android:visibility="gone" />
 
@@ -393,6 +415,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Eliminar"
+                    android:text="@string/eliminar"
                     android:backgroundTint="#F44336" />
             </LinearLayout>
 
