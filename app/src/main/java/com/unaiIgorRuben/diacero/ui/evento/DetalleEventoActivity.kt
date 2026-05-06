@@ -1,9 +1,11 @@
 package com.unaiIgorRuben.diacero.ui.evento
 
 import android.Manifest
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Geocoder
 import android.media.MediaPlayer
 import android.media.MediaRecorder
@@ -11,6 +13,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.AlarmClock
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -20,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.location.LocationServices
 import com.unaiIgorRuben.diacero.data.local.database.AppDatabase
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
+import com.unaiIgorRuben.diacero.data.local.entities.TipoEvento
 import com.unaiIgorRuben.diacero.data.repository.EventoRepository
 import com.unaiIgorRuben.diacero.databinding.ActivityDetalleEventoBinding
 import java.io.File
@@ -39,6 +43,7 @@ class DetalleEventoActivity : AppCompatActivity() {
     private var horaFinEditada: Date? = null
     private var fotoRutaSeleccionada: String? = null
     private var audioRutaSeleccionada: String? = null
+    private var tipoSeleccionado: TipoEvento = TipoEvento.OTROS
 
     private var mediaRecorder: MediaRecorder? = null
     private var estaGrabando = false
@@ -96,13 +101,23 @@ class DetalleEventoActivity : AppCompatActivity() {
         fechaSeleccionada = Date(intent.getLongExtra("SELECTED_DATE_MILLIS", System.currentTimeMillis()))
 
         setupToolbar()
+        setupTipoSpinner()
         if (esModoCreacion) prepararModoCreacion() else observeEvento()
         setupListeners()
         setupLocationButton()
     }
 
+    private fun setupTipoSpinner() {
+        val tipos = TipoEvento.values().map { it.nombre }
+        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, tipos)
+        binding.autoCompleteTipo.setAdapter(adapter)
+        
+        binding.autoCompleteTipo.setOnItemClickListener { _, _, position, _ ->
+            tipoSeleccionado = TipoEvento.values()[position]
+        }
+    }
+
     private fun setupLocationButton() {
-        // En el XML he añadido un endIconDrawable al TextInputLayout de ubicación
         binding.inputLayoutUbicacion.setEndIconOnClickListener {
             checkLocationPermissions()
         }
@@ -141,7 +156,7 @@ class DetalleEventoActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         binding.toolbar.setNavigationOnClickListener { 
-            if (estaEnModoEdicion) alternarModoEdicion(false) else onBackPressedDispatcher.onBackPressed()
+            if (estaEnModoEdicion && !esModoCreacion) alternarModoEdicion(false) else onBackPressedDispatcher.onBackPressed()
         }
     }
 
@@ -153,6 +168,12 @@ class DetalleEventoActivity : AppCompatActivity() {
         binding.btnEliminar.visibility = View.GONE
         binding.btnGuardar.visibility = View.VISIBLE
         estaEnModoEdicion = true
+
+        tipoSeleccionado = TipoEvento.OTROS
+        binding.autoCompleteTipo.setText(tipoSeleccionado.nombre, false)
+
+        val sdfFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        binding.etFecha.setText(sdfFecha.format(fechaSeleccionada))
 
         val inicio = Calendar.getInstance().apply {
             time = fechaSeleccionada
@@ -182,6 +203,7 @@ class DetalleEventoActivity : AppCompatActivity() {
         binding.btnEliminar.setOnClickListener { viewModel.eliminarEvento(eventoId); finish() }
         binding.btnEditar.setOnClickListener { alternarModoEdicion(true) }
         binding.btnGuardar.setOnClickListener { guardarCambios() }
+        binding.etFecha.setOnClickListener { mostrarDatePicker() }
         binding.etHoraInicio.setOnClickListener { mostrarTimePicker(true) }
         binding.etHoraFin.setOnClickListener { mostrarTimePicker(false) }
         binding.btnAdjuntarFoto.setOnClickListener { selectImageLauncher.launch(arrayOf("image/*")) }
@@ -262,6 +284,22 @@ class DetalleEventoActivity : AppCompatActivity() {
         }
     }
 
+    private fun mostrarDatePicker() {
+        val calendar = Calendar.getInstance()
+        calendar.time = fechaSeleccionada
+
+        DatePickerDialog(this, { _, year, month, dayOfMonth ->
+            val newCal = Calendar.getInstance().apply {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, month)
+                set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            }
+            fechaSeleccionada = newCal.time
+            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            binding.etFecha.setText(sdf.format(fechaSeleccionada))
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+    }
+
     private fun mostrarTimePicker(esInicio: Boolean) {
         val calendar = Calendar.getInstance()
         val current = if (esInicio) horaInicioEditada else horaFinEditada
@@ -307,13 +345,21 @@ class DetalleEventoActivity : AppCompatActivity() {
             binding.etUbicacion.setText(it.ubicacion ?: "")
             binding.cbPrioritario.isChecked = it.esPrioritario
             binding.cbAlarma.isChecked = it.tieneAlarma
-            val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+            
+            fechaSeleccionada = it.fecha
+            val sdfFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            binding.etFecha.setText(sdfFecha.format(it.fecha))
+
+            val sdfHora = SimpleDateFormat("HH:mm", Locale.getDefault())
             horaInicioEditada = it.horaInicio; horaFinEditada = it.horaFin
-            binding.etHoraInicio.setText(sdf.format(it.horaInicio))
-            binding.etHoraFin.setText(sdf.format(it.horaFin))
+            binding.etHoraInicio.setText(sdfHora.format(it.horaInicio))
+            binding.etHoraFin.setText(sdfHora.format(it.horaFin))
             fotoRutaSeleccionada = it.fotoRuta; audioRutaSeleccionada = it.audioRuta
             binding.tvRutaFoto.visibility = if (it.fotoRuta != null) View.VISIBLE else View.GONE
             binding.tvRutaAudio.visibility = if (it.audioRuta != null) View.VISIBLE else View.GONE
+            
+            tipoSeleccionado = it.tipo
+            binding.autoCompleteTipo.setText(it.tipo.nombre, false)
         }
     }
 
@@ -325,14 +371,17 @@ class DetalleEventoActivity : AppCompatActivity() {
         eventoActual?.let { evento ->
             val eventoEditado = evento.copy(
                 titulo = nuevoTitulo,
+                fecha = normalizarFecha(fechaSeleccionada),
                 descripcion = binding.etDescripcion.text.toString().ifBlank { null },
                 ubicacion = binding.etUbicacion.text.toString().ifBlank { null },
                 esPrioritario = binding.cbPrioritario.isChecked,
                 tieneAlarma = binding.cbAlarma.isChecked,
-                horaInicio = horaInicioEditada ?: evento.horaInicio,
-                horaFin = horaFinEditada ?: evento.horaFin,
+                horaInicio = combinarFechaYHora(fechaSeleccionada, horaInicioEditada ?: evento.horaInicio),
+                horaFin = combinarFechaYHora(fechaSeleccionada, horaFinEditada ?: evento.horaFin),
                 fotoRuta = fotoRutaSeleccionada,
-                audioRuta = audioRutaSeleccionada
+                audioRuta = audioRutaSeleccionada,
+                tipo = tipoSeleccionado,
+                color = tipoSeleccionado.color
             )
             viewModel.actualizarEvento(eventoEditado)
             if (eventoEditado.tieneAlarma) programarAlarmaSistema(eventoEditado)
@@ -353,7 +402,9 @@ class DetalleEventoActivity : AppCompatActivity() {
             esPrioritario = binding.cbPrioritario.isChecked,
             tieneAlarma = binding.cbAlarma.isChecked,
             fotoRuta = fotoRutaSeleccionada,
-            audioRuta = audioRutaSeleccionada
+            audioRuta = audioRutaSeleccionada,
+            tipo = tipoSeleccionado,
+            color = tipoSeleccionado.color
         )
         viewModel.actualizarEvento(eventoNuevo)
         if (eventoNuevo.tieneAlarma) programarAlarmaSistema(eventoNuevo)
@@ -399,6 +450,14 @@ class DetalleEventoActivity : AppCompatActivity() {
         }
         binding.chipPrioritario.visibility = if (evento.esPrioritario) View.VISIBLE else View.GONE
         binding.chipAlarma.visibility = if (evento.tieneAlarma) View.VISIBLE else View.GONE
+        
+        // Mostrar tipo y color
+        binding.chipTipo.text = evento.tipo.nombre
+        binding.chipTipo.setChipBackgroundColorResource(android.R.color.transparent)
+        binding.chipTipo.chipBackgroundColor = android.content.res.ColorStateList.valueOf(Color.parseColor(evento.tipo.color))
+        binding.colorIndicator.setBackgroundColor(Color.parseColor(evento.tipo.color))
+        binding.toolbar.setBackgroundColor(Color.parseColor(evento.tipo.color))
+
         if (evento.fotoRuta != null) {
             binding.ivFotoPreview.visibility = View.VISIBLE
             Glide.with(this).load(Uri.parse(evento.fotoRuta)).into(binding.ivFotoPreview)
