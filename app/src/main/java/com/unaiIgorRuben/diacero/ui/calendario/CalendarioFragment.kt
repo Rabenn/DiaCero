@@ -185,6 +185,13 @@ class CalendarioFragment : Fragment() {
 
     private fun aplicarDecoradoresEventos(eventos: List<Evento>) {
         binding.calendarView.removeDecorators()
+
+        val isDarkMode =
+            resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK ==
+                android.content.res.Configuration.UI_MODE_NIGHT_YES
+        if (isDarkMode) {
+            binding.calendarView.addDecorator(CalendarTextColorDecorator(Color.WHITE))
+        }
         
         // Agrupamos eventos por día
         val eventosPorDia = eventos.groupBy { calendarDayFromDate(it.fecha) }
