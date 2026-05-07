@@ -3,6 +3,7 @@ package com.unaiIgorRuben.diacero.data.local.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
+import com.unaiIgorRuben.diacero.data.local.entities.TipoEvento
 import java.util.Date
 
 /**
@@ -56,10 +57,10 @@ interface EventoDao {
     suspend fun eliminarPorId(id: Int)
 
     /**
-     * Busca eventos por título.
+     * Busca eventos por título y opcionalmente por tipo.
      */
-    @Query("SELECT * FROM eventos WHERE titulo LIKE '%' || :query || '%' ORDER BY fecha, horaInicio ASC")
-    fun buscarEventosPorNombre(query: String): LiveData<List<Evento>>
+    @Query("SELECT * FROM eventos WHERE titulo LIKE '%' || :query || '%' AND (:tipo IS NULL OR tipo = :tipo) ORDER BY fecha, horaInicio ASC")
+    fun buscarEventos(query: String, tipo: TipoEvento?): LiveData<List<Evento>>
 
     /**
      * Elimina todos los eventos de la base de datos.

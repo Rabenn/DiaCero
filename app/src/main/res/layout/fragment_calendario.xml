@@ -11,26 +11,43 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingHorizontal="12dp"
-        android:paddingTop="8dp">
+        android:paddingTop="48dp">
 
         <!-- Buscador de Eventos con margen para el botón de ajustes -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="48dp"
             app:cardCornerRadius="24dp"
             app:cardElevation="2dp"
             app:strokeColor="@color/divider"
             app:strokeWidth="1dp">
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchViewEventos"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:iconifiedByDefault="false"
-                app:queryHint="@string/buscar_eventos"
-                app:queryBackground="@android:color/transparent" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="12dp">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/searchViewEventos"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:iconifiedByDefault="false"
+                    app:queryBackground="@android:color/transparent"
+                    app:queryHint="@string/buscar_eventos" />
+
+                <Spinner
+                    android:id="@+id/spinnerTipoFiltro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:dropDownWidth="wrap_content"
+                    android:overlapAnchor="false"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView

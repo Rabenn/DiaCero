@@ -48,7 +48,7 @@ class HabitosFragment : Fragment() {
             setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS)
         }
         binding.toolbarHabitos.setNavigationOnClickListener {
-            parentFragmentManager.popBackStack()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
         binding.toolbarHabitos.setOnMenuItemClickListener {
             (activity as? MainActivity)?.volverAlMenuPrincipal()

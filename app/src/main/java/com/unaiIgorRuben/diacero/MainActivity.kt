@@ -16,19 +16,20 @@ import com.unaiIgorRuben.diacero.util.FontResizer
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var currentFontSize: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        currentFontSize = FontResizer.getSavedSize(this)
-        
         actualizarIconoTema()
         setupMenuActions(savedInstanceState)
         setupSettingsButton()
         
+        supportFragmentManager.addOnBackStackChangedListener {
+            actualizarVisibilidadSegunBackStack()
+        }
+
         checkIntentExtras(intent)
     }
 
@@ -46,10 +47,7 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        val newSize = FontResizer.getSavedSize(this)
-        if (currentFontSize != null && currentFontSize != newSize) {
-            recreate()
-        }
+        actualizarIconoTema()
     }
 
     private fun setupSettingsButton() {

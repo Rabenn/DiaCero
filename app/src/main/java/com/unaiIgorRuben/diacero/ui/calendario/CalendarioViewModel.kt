@@ -10,6 +10,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
+import com.unaiIgorRuben.diacero.data.local.entities.TipoEvento
 import com.unaiIgorRuben.diacero.data.repository.EventoRepository
 import com.unaiIgorRuben.diacero.util.EventoReceiver
 import kotlinx.coroutines.launch
@@ -30,8 +31,8 @@ class CalendarioViewModel(
         return repository.obtenerTodosLosEventos()
     }
 
-    fun buscarEventosPorNombre(query: String): LiveData<List<Evento>> {
-        return repository.buscarEventosPorNombre(query)
+    fun buscarEventos(query: String, tipo: TipoEvento? = null): LiveData<List<Evento>> {
+        return repository.buscarEventos(query, tipo)
     }
 
     fun insertarEvento(evento: Evento) = viewModelScope.launch {

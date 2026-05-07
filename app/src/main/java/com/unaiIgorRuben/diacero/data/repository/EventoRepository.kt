@@ -3,6 +3,7 @@ package com.unaiIgorRuben.diacero.data.repository
 import androidx.lifecycle.LiveData
 import com.unaiIgorRuben.diacero.data.local.dao.EventoDao
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
+import com.unaiIgorRuben.diacero.data.local.entities.TipoEvento
 import java.util.Date
 
 /**
@@ -28,8 +29,8 @@ class EventoRepository(private val eventoDao: EventoDao) {
         return eventoDao.obtenerTodosLosEventos()
     }
 
-    fun buscarEventosPorNombre(query: String): LiveData<List<Evento>> {
-        return eventoDao.buscarEventosPorNombre(query)
+    fun buscarEventos(query: String, tipo: TipoEvento? = null): LiveData<List<Evento>> {
+        return eventoDao.buscarEventos(query, tipo)
     }
 
     /**

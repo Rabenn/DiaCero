@@ -10,6 +10,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -24,6 +27,7 @@ import com.unaiIgorRuben.diacero.MainActivity
 import com.unaiIgorRuben.diacero.R
 import com.unaiIgorRuben.diacero.data.local.database.AppDatabase
 import com.unaiIgorRuben.diacero.data.local.entities.Evento
+import com.unaiIgorRuben.diacero.data.local.entities.TipoEvento
 import com.unaiIgorRuben.diacero.data.repository.EventoRepository
 import com.unaiIgorRuben.diacero.databinding.FragmentCalendarioBinding
 import com.unaiIgorRuben.diacero.ui.calendario.adapter.CalendarioAdapter
@@ -42,6 +46,7 @@ class CalendarioFragment : Fragment() {
     private lateinit var adapter: CalendarioAdapter
     private var fechaSeleccionada: Date = Date()
     private var eventosDelDiaActual: List<Evento> = emptyList()
+    private var tipoSeleccionado: TipoEvento? = null
 
     private val viewModel: CalendarioViewModel by viewModels { 
         val database = AppDatabase.getDatabase(requireContext()) 
@@ -71,6 +76,7 @@ class CalendarioFragment : Fragment() {
 
         setupRecyclerView()
         setupSearchView()
+        setupSpinnerFiltro()
         checkNotificationPermission()
 
         parentFragmentManager.setFragmentResultListener("rutina_creada", this) { _, bundle ->
@@ -110,8 +116,9 @@ class CalendarioFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (!newText.isNullOrBlank()) {
-                    realizarBusqueda(newText)
+                val query = newText.orEmpty()
+                if (query.isNotEmpty() || tipoSeleccionado != null) {
+                    realizarBusqueda(query)
                 } else {
                     limpiarBusqueda()
                 }
@@ -125,21 +132,57 @@ class CalendarioFragment : Fragment() {
         }
     }
 
+    private fun setupSpinnerFiltro() {
+        val opciones = listOf(
+            getString(R.string.todos),
+            getString(R.string.trabajo),
+            getString(R.string.tareas),
+            getString(R.string.social),
+            getString(R.string.fecha_importante),
+            getString(R.string.otros)
+        )
+
+        val adapterSpinner = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opciones)
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerTipoFiltro.adapter = adapterSpinner
+
+        binding.spinnerTipoFiltro.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                tipoSeleccionado = when (position) {
+                    1 -> TipoEvento.TRABAJO
+                    2 -> TipoEvento.TAREAS
+                    3 -> TipoEvento.SOCIAL
+                    4 -> TipoEvento.FECHA_IMPORTANTE
+                    5 -> TipoEvento.OTROS
+                    else -> null
+                }
+                
+                val query = binding.searchViewEventos.query.toString()
+                if (query.isNotEmpty() || tipoSeleccionado != null) {
+                    realizarBusqueda(query)
+                } else {
+                    limpiarBusqueda()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
+
     private fun realizarBusqueda(query: String) {
-        binding.cardCalendario.visibility = View.GONE
-        binding.cardTituloEventos.visibility = View.GONE
-        
-        viewModel.buscarEventosPorNombre(query).observe(viewLifecycleOwner) { eventos ->
-            if (binding.searchViewEventos.query.isNotEmpty()) {
+        viewModel.buscarEventos(query, tipoSeleccionado).observe(viewLifecycleOwner) { eventos ->
+            if (binding.searchViewEventos.query.isNotEmpty() || tipoSeleccionado != null) {
                 adapter.actualizarEventos(eventos)
+                binding.tvEventosDelDia.text = "Resultados de búsqueda (${eventos.size})"
             }
         }
     }
 
     private fun limpiarBusqueda() {
-        binding.cardCalendario.visibility = View.VISIBLE
-        binding.cardTituloEventos.visibility = View.VISIBLE
-        observeEventos(fechaSeleccionada)
+        if (binding.searchViewEventos.query.isEmpty() && tipoSeleccionado == null) {
+            binding.tvEventosDelDia.text = getString(R.string.eventos_del_dia)
+            observeEventos(fechaSeleccionada)
+        }
     }
 
     private fun mostrarDialogoTipoCreacion() {
@@ -169,8 +212,11 @@ class CalendarioFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         cargarPreferencias()
-        if (binding.searchViewEventos.query.isEmpty()) {
+        val query = binding.searchViewEventos.query.toString()
+        if (query.isEmpty() && tipoSeleccionado == null) {
             observeEventos(fechaSeleccionada)
+        } else {
+            realizarBusqueda(query)
         }
     }
 
@@ -284,7 +330,7 @@ class CalendarioFragment : Fragment() {
 
         viewModel.obtenerEventosPorRango(startOfDay, endOfDay).observe(viewLifecycleOwner) { eventos ->
             eventosDelDiaActual = eventos
-            if (binding.searchViewEventos.query.isEmpty()) {
+            if (binding.searchViewEventos.query.isEmpty() && tipoSeleccionado == null) {
                 adapter.actualizarEventos(eventos)
                 actualizarResumenEventosDelDia(eventos)
             }

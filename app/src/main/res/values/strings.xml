@@ -14,6 +14,11 @@
     <string name="dia_cero_v1_0">Dia Cero v1.0</string>
     <string name="desarrollado_para_la_gesti_n_de_rutinas_y_eventos">Desarrollado para la gestión de rutinas y eventos.</string>
     <string name="trabajo">Trabajo</string>
+    <string name="tareas">Tareas</string>
+    <string name="social">Social</string>
+    <string name="fecha_importante">Fecha Importante</string>
+    <string name="otros">Otros</string>
+    <string name="todos">Todos</string>
     <string name="prioritario">⭐ Prioritario</string>
     <string name="alarma_activada">⏰ Alarma activada</string>
     <string name="archivos_adjuntos">Archivos adjuntos</string>

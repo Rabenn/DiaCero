@@ -1,6 +1,7 @@
 package com.unaiIgorRuben.diacero.ui.rutinas
 
 import android.Manifest
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
@@ -29,6 +30,7 @@ import com.unaiIgorRuben.diacero.ui.calendario.CalendarioViewModel
 import com.unaiIgorRuben.diacero.ui.calendario.CalendarioViewModelFactory
 import kotlinx.coroutines.launch
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
 
 class GeneradorRutinasFragment : Fragment() {
@@ -45,6 +47,11 @@ class GeneradorRutinasFragment : Fragment() {
     private val fusedLocationClient by lazy { LocationServices.getFusedLocationProviderClient(requireContext()) }
     private val diasSeleccionados = mutableSetOf<Int>()
     
+    private var horaInicio: Int = 9
+    private var minutoInicio: Int = 0
+    private var horaFin: Int = 10
+    private var minutoFin: Int = 0
+
     // Multimedia
     private var fotoRutaSeleccionada: String? = null
     private var audioRutaSeleccionada: String? = null
@@ -103,13 +110,55 @@ class GeneradorRutinasFragment : Fragment() {
             true
         }
         binding.toolbar.setNavigationOnClickListener {
-            parentFragmentManager.popBackStack()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
         configurarCheckboxDias()
         configurarBotonGenerar()
         setupMultimediaListeners()
         setupLocationButton()
+        setupTimePickers()
+    }
+
+    private fun setupTimePickers() {
+        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        
+        val calInicio = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, horaInicio)
+            set(Calendar.MINUTE, minutoInicio)
+        }
+        binding.etHoraInicio.setText(sdf.format(calInicio.time))
+
+        val calFin = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, horaFin)
+            set(Calendar.MINUTE, minutoFin)
+        }
+        binding.etHoraFin.setText(sdf.format(calFin.time))
+
+        binding.etHoraInicio.setOnClickListener { mostrarTimePicker(true) }
+        binding.etHoraFin.setOnClickListener { mostrarTimePicker(false) }
+    }
+
+    private fun mostrarTimePicker(esInicio: Boolean) {
+        val hour = if (esInicio) horaInicio else horaFin
+        val minute = if (esInicio) minutoInicio else minutoFin
+
+        TimePickerDialog(requireContext(), { _, h, m ->
+            val cal = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, h)
+                set(Calendar.MINUTE, m)
+            }
+            val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+            if (esInicio) {
+                horaInicio = h
+                minutoInicio = m
+                binding.etHoraInicio.setText(sdf.format(cal.time))
+            } else {
+                horaFin = h
+                minutoFin = m
+                binding.etHoraFin.setText(sdf.format(cal.time))
+            }
+        }, hour, minute, true).show()
     }
 
     private fun setupLocationButton() {
@@ -220,10 +269,6 @@ class GeneradorRutinasFragment : Fragment() {
             return
         }
 
-        val horaInicio = binding.timePickerInicio.hour
-        val minutoInicio = binding.timePickerInicio.minute
-        val horaFin = binding.timePickerFin.hour
-        val minutoFin = binding.timePickerFin.minute
         val semanas = binding.etSemanas.text.toString().toIntOrNull() ?: 1
         val descripcion = binding.etDescripcion.text.toString()
         val ubicacion = binding.etUbicacion.text.toString()

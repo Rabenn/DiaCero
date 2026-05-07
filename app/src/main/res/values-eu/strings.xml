@@ -14,6 +14,11 @@
     <string name="dia_cero_v1_0">Dia Cero v1.0</string>
     <string name="desarrollado_para_la_gesti_n_de_rutinas_y_eventos">Errutinak eta gertaerak kudeatzeko garatua.</string>
     <string name="trabajo">Lana</string>
+    <string name="tareas">Zereginak</string>
+    <string name="social">Soziala</string>
+    <string name="fecha_importante">Data Garrantzitsua</string>
+    <string name="otros">Besterik</string>
+    <string name="todos">Guztiak</string>
     <string name="prioritario">⭐ Lehentasunezkoa</string>
     <string name="alarma_activada">⏰ Alarma aktibatuta</string>
     <string name="archivos_adjuntos">Erantsitako fitxategiak</string>
