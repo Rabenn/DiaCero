@@ -49,6 +49,15 @@ class HabitsAdapter(
             // Traducción de "Mejor racha"
             binding.tvBestStreak.text = context.getString(R.string.mejor_racha, habit.bestStreak)
             
+            // Mostrar fuego si hay racha actual
+            if (currentStreak > 0) {
+                binding.lottieFire.visibility = View.VISIBLE
+                binding.lottieFire.playAnimation()
+            } else {
+                binding.lottieFire.visibility = View.GONE
+                binding.lottieFire.cancelAnimation()
+            }
+            
             // Traducción de la frecuencia
             binding.tvFrequencyInfo.text = if (habit.frecuencia == 1) {
                 context.getString(R.string.diario)
