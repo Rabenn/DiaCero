@@ -64,7 +64,8 @@ class HabitosFragment : Fragment() {
 
     private fun setupList() {
         habitsAdapter = HabitsAdapter(
-            onMarkDone = { habit -> viewModel.markHabitDoneToday(habit) }
+            onMarkDone = { habit -> viewModel.markHabitDoneToday(habit) },
+            onReset = { habit -> showResetConfirmation(habit) }
         )
         binding.rvHabits.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -81,17 +82,31 @@ class HabitosFragment : Fragment() {
     private fun showAddHabitDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_habit, null)
         val etName = dialogView.findViewById<EditText>(R.id.etHabitName)
-        val etIcon = dialogView.findViewById<EditText>(R.id.etHabitIcon)
+        val etGoal = dialogView.findViewById<EditText>(R.id.etHabitGoal)
+        val etFrequency = dialogView.findViewById<EditText>(R.id.etHabitFrequency)
 
         AlertDialog.Builder(requireContext())
             .setTitle("Crear nuevo hábito")
             .setView(dialogView)
             .setPositiveButton("Crear") { _, _ ->
                 val name = etName.text.toString().trim()
-                val icon = etIcon.text.toString().trim().ifEmpty { "⭐" }
+                val goal = etGoal.text.toString().toIntOrNull() ?: 30
+                val frequency = etFrequency.text.toString().toIntOrNull() ?: 1
+                
                 if (name.isNotEmpty()) {
-                    viewModel.addHabit(name, icon)
+                    viewModel.addHabit(name, goal, frequency)
                 }
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun showResetConfirmation(habit: com.unaiIgorRuben.diacero.data.local.entities.Habit) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Reiniciar racha")
+            .setMessage("¿Estás seguro de que quieres reiniciar la racha de '${habit.nombre}'? Se borrará todo el progreso actual.")
+            .setPositiveButton("Reiniciar") { _, _ ->
+                viewModel.resetStreak(habit)
             }
             .setNegativeButton("Cancelar", null)
             .show()

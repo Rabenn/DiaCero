@@ -15,7 +15,7 @@ import com.unaiIgorRuben.diacero.util.TipoEventoConverter
 
 @Database(
     entities = [Evento::class, Habit::class],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 @TypeConverters(DateConverter::class, TipoEventoConverter::class, LongListConverter::class)

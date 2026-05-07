@@ -23,7 +23,8 @@ class HabitosViewModel(
 
         val today = Habit.normalizeToDay(System.currentTimeMillis())
         val updatedDays = (habit.diasCompletados + today).distinct().sorted()
-        val currentStreak = Habit.calculateCurrentStreak(updatedDays)
+        // Corregido: Pasamos la frecuencia del hábito para calcular la racha
+        val currentStreak = Habit.calculateCurrentStreak(updatedDays, habit.frecuencia)
         val updatedHabit = habit.copy(
             diasCompletados = updatedDays,
             bestStreak = maxOf(habit.bestStreak, currentStreak)
@@ -34,16 +35,29 @@ class HabitosViewModel(
         }
     }
 
-    fun addHabit(nombre: String, icono: String) {
+    fun addHabit(nombre: String, meta: Int, frecuencia: Int) {
         viewModelScope.launch {
-            repository.insert(Habit(nombre = nombre, icono = icono))
+            repository.insert(Habit(
+                nombre = nombre,
+                metaDias = meta,
+                frecuencia = frecuencia
+            ))
+        }
+    }
+
+    fun resetStreak(habit: Habit) {
+        viewModelScope.launch {
+            val resetHabit = habit.copy(
+                diasCompletados = emptyList(),
+                fechaInicio = java.util.Date()
+            )
+            repository.update(resetHabit)
         }
     }
 
     fun deleteHabit(habit: Habit) {
         viewModelScope.launch {
-            // Asumiendo que el repositorio tiene un método delete
-            // repository.delete(habit)
+            repository.delete(habit)
         }
     }
 

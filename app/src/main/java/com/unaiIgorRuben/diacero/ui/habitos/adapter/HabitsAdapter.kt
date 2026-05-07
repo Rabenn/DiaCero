@@ -17,12 +17,13 @@ import com.unaiIgorRuben.diacero.data.local.entities.Habit
 import com.unaiIgorRuben.diacero.databinding.ItemHabitBinding
 
 class HabitsAdapter(
-    private val onMarkDone: (Habit) -> Unit
+    private val onMarkDone: (Habit) -> Unit,
+    private val onReset: (Habit) -> Unit
 ) : ListAdapter<Habit, HabitsAdapter.HabitViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitViewHolder {
         val binding = ItemHabitBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return HabitViewHolder(binding, onMarkDone)
+        return HabitViewHolder(binding, onMarkDone, onReset)
     }
 
     override fun onBindViewHolder(holder: HabitViewHolder, position: Int) {
@@ -31,7 +32,8 @@ class HabitsAdapter(
 
     class HabitViewHolder(
         private val binding: ItemHabitBinding,
-        private val onMarkDone: (Habit) -> Unit
+        private val onMarkDone: (Habit) -> Unit,
+        private val onReset: (Habit) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(habit: Habit) {
@@ -39,28 +41,30 @@ class HabitsAdapter(
             binding.tvHabitIcon.text = habit.icono
 
             val currentStreak = habit.currentStreak
-            binding.tvStreakValue.text = currentStreak.toString()
-            binding.tvBestStreak.text = "Mejor racha: ${habit.bestStreak} dias"
-            binding.progressStreak.max = getMilestoneTarget(currentStreak)
-            binding.progressStreak.progress = currentStreak.coerceAtMost(binding.progressStreak.max)
+            binding.tvStreakValue.text = "$currentStreak/${habit.metaDias}"
+            binding.tvBestStreak.text = "Mejor racha: ${habit.bestStreak} días"
+            binding.tvFrequencyInfo.text = if (habit.frecuencia == 1) "Diario" else "Cada ${habit.frecuencia} días"
+            
+            binding.progressStreak.max = habit.metaDias
+            binding.progressStreak.progress = currentStreak.coerceAtMost(habit.metaDias)
 
             applyMilestoneVisual(habit)
-            setupDoneButton(habit)
+            setupButtons(habit)
             renderHeatmap(binding.gridHeatmap, habit.diasCompletados)
         }
 
-        private fun setupDoneButton(habit: Habit) {
+        private fun setupButtons(habit: Habit) {
             val completedToday = habit.isCompletedToday()
             if (completedToday) {
                 binding.btnDoneToday.apply {
-                    text = "✔ COMPLETADO HOY"
+                    text = "✔ COMPLETADO"
                     isEnabled = false
                     alpha = 0.75f
                     setBackgroundColor(ContextCompat.getColor(context, R.color.secondary))
                 }
             } else {
                 binding.btnDoneToday.apply {
-                    text = "¡Hecho por hoy!"
+                    text = "¡Hecho!"
                     isEnabled = true
                     alpha = 1f
                     setBackgroundColor(ContextCompat.getColor(context, R.color.primary))
@@ -70,22 +74,21 @@ class HabitsAdapter(
                     }
                 }
             }
+
+            binding.btnResetStreak.setOnClickListener {
+                onReset(habit)
+            }
         }
 
         private fun applyMilestoneVisual(habit: Habit) {
             val streak = habit.currentStreak
-            val milestone = when {
-                streak >= 30 -> "Logro 30 dias"
-                streak >= 15 -> "Logro 15 dias"
-                streak >= 7 -> "Logro 7 dias"
-                else -> null
-            }
+            val isGoalReached = streak >= habit.metaDias
 
-            if (milestone != null) {
+            if (isGoalReached) {
                 binding.tvMilestone.visibility = View.VISIBLE
-                binding.tvMilestone.text = milestone
-                binding.cardHabit.strokeWidth = 3
-                binding.cardHabit.strokeColor = Color.parseColor("#D4AF37")
+                binding.tvMilestone.text = "¡OBJETIVO CUMPLIDO!"
+                binding.cardHabit.strokeWidth = 4
+                binding.cardHabit.strokeColor = Color.parseColor("#D4AF37") // Dorado
             } else {
                 binding.tvMilestone.visibility = View.GONE
                 binding.cardHabit.strokeWidth = 1
@@ -105,9 +108,12 @@ class HabitsAdapter(
                 val day = today - ((totalCells - 1 - index) * dayMs)
                 val cell = TextView(context).apply {
                     val size = (12 * resources.displayMetrics.density).toInt()
-                    layoutParams = ViewGroup.MarginLayoutParams(size, size).apply {
-                        setMargins(4, 4, 4, 4)
-                    }
+                    val params = GridLayout.LayoutParams()
+                    params.width = size
+                    params.height = size
+                    params.setMargins(4, 4, 4, 4)
+                    layoutParams = params
+                    
                     background = ContextCompat.getDrawable(
                         context,
                         if (normalizedSet.contains(day)) R.drawable.bg_heatmap_done else R.drawable.bg_heatmap_empty
@@ -128,12 +134,6 @@ class HabitsAdapter(
                 }
             }
             animator.start()
-        }
-
-        private fun getMilestoneTarget(streak: Int): Int = when {
-            streak < 7 -> 7
-            streak < 30 -> 30
-            else -> 60
         }
     }
 

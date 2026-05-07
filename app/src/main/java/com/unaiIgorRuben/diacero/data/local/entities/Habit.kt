@@ -10,13 +10,15 @@ data class Habit(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val nombre: String,
-    val icono: String,
+    val icono: String = "⭐",
     val fechaInicio: Date = Date(),
     val diasCompletados: List<Long> = emptyList(),
-    val bestStreak: Int = 0
+    val bestStreak: Int = 0,
+    val metaDias: Int = 30,
+    val frecuencia: Int = 1
 ) {
     val currentStreak: Int
-        get() = calculateCurrentStreak(diasCompletados)
+        get() = calculateCurrentStreak(diasCompletados, frecuencia)
 
     fun isCompletedToday(now: Long = System.currentTimeMillis()): Boolean {
         val today = normalizeToDay(now)
@@ -35,22 +37,21 @@ data class Habit(
             return calendar.timeInMillis
         }
 
-        fun calculateCurrentStreak(completedDays: List<Long>, now: Long = System.currentTimeMillis()): Int {
+        fun calculateCurrentStreak(completedDays: List<Long>, frecuencia: Int, now: Long = System.currentTimeMillis()): Int {
             if (completedDays.isEmpty()) return 0
             val sortedDays = completedDays.map { normalizeToDay(it) }.distinct().sortedDescending()
             val today = normalizeToDay(now)
-            val oneDayMs = 24L * 60L * 60L * 1000L
+            val dayMs = 24L * 60L * 60L * 1000L
+            val maxGapMs = frecuencia * dayMs
 
-            val startsTodayOrYesterday = sortedDays.first() == today || sortedDays.first() == today - oneDayMs
-            if (!startsTodayOrYesterday) return 0
+            // Si el tiempo desde la última vez supera la frecuencia, la racha ha terminado
+            if (today - sortedDays.first() > maxGapMs) return 0
 
             var streak = 1
-            var expected = sortedDays.first() - oneDayMs
-            for (i in 1 until sortedDays.size) {
-                if (sortedDays[i] == expected) {
+            for (i in 0 until sortedDays.size - 1) {
+                if (sortedDays[i] - sortedDays[i+1] <= maxGapMs) {
                     streak++
-                    expected -= oneDayMs
-                } else if (sortedDays[i] < expected) {
+                } else {
                     break
                 }
             }
