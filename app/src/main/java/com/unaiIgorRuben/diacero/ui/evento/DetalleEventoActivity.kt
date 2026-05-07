@@ -65,7 +65,8 @@ class DetalleEventoActivity : BaseActivity() {
             permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true) {
             obtenerUbicacionActual()
         } else {
-            Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,
+                getString(R.string.permiso_de_ubicaci_n_denegado), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -73,7 +74,7 @@ class DetalleEventoActivity : BaseActivity() {
         uri?.let {
             contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
             fotoRutaSeleccionada = it.toString()
-            binding.tvRutaFoto.text = "Foto seleccionada"
+            binding.tvRutaFoto.text = getString(R.string.foto_seleccionada)
             binding.tvRutaFoto.visibility = View.VISIBLE
         }
     }
@@ -82,7 +83,7 @@ class DetalleEventoActivity : BaseActivity() {
         uri?.let {
             contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
             audioRutaSeleccionada = it.toString()
-            binding.tvRutaAudio.text = "Audio seleccionado"
+            binding.tvRutaAudio.text = getString(R.string.audio_seleccionado)
             binding.tvRutaAudio.visibility = View.VISIBLE
         }
     }
@@ -110,7 +111,7 @@ class DetalleEventoActivity : BaseActivity() {
     }
 
     private fun setupTipoSpinner() {
-        val tipos = TipoEvento.values().map { it.nombre }
+        val tipos = TipoEvento.values().map { getString(it.resourceId) }
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, tipos)
         binding.autoCompleteTipo.setAdapter(adapter)
         
@@ -145,10 +146,12 @@ class DetalleEventoActivity : BaseActivity() {
                     if (!addresses.isNullOrEmpty()) {
                         val address = addresses[0].getAddressLine(0)
                         binding.etUbicacion.setText(address)
-                        Toast.makeText(this, "Ubicación obtenida", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,
+                            getString(R.string.ubicaci_n_obtenida), Toast.LENGTH_SHORT).show()
                     }
                 } ?: run {
-                    Toast.makeText(this, "No se pudo obtener la ubicación. Activa el GPS.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,
+                        getString(R.string.no_se_pudo_obtener_la_ubicaci_n_activa_el_gps), Toast.LENGTH_SHORT).show()
                 }
             }
         } catch (e: SecurityException) {
@@ -158,7 +161,7 @@ class DetalleEventoActivity : BaseActivity() {
 
     private fun setupToolbar() {
         binding.toolbar.menu.clear()
-        binding.toolbar.menu.add("Inicio").apply {
+        binding.toolbar.menu.add(getString(R.string.inicio)).apply {
             setIcon(R.drawable.ic_home)
             setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS)
         }
@@ -177,7 +180,7 @@ class DetalleEventoActivity : BaseActivity() {
     }
 
     private fun prepararModoCreacion() {
-        binding.toolbar.title = "Nuevo Evento"
+        binding.toolbar.title = getString(R.string.nuevo_evento)
         binding.layoutVisualizacion.visibility = View.GONE
         binding.layoutEdicion.visibility = View.VISIBLE
         binding.btnEditar.visibility = View.GONE
@@ -186,7 +189,7 @@ class DetalleEventoActivity : BaseActivity() {
         estaEnModoEdicion = true
 
         tipoSeleccionado = TipoEvento.OTROS
-        binding.autoCompleteTipo.setText(tipoSeleccionado.nombre, false)
+        binding.autoCompleteTipo.setText(getString(tipoSeleccionado.resourceId), false)
 
         val sdfFecha = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         binding.etFecha.setText(sdfFecha.format(fechaSeleccionada))
@@ -245,7 +248,8 @@ class DetalleEventoActivity : BaseActivity() {
                 }
                 startActivity(intent)
             } catch (e: Exception) {
-                Toast.makeText(this, "No se pudo abrir la imagen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,
+                    getString(R.string.no_se_pudo_abrir_la_imagen), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -255,20 +259,21 @@ class DetalleEventoActivity : BaseActivity() {
         try {
             if (mediaPlayer?.isPlaying == true) {
                 mediaPlayer?.stop(); mediaPlayer?.release(); mediaPlayer = null
-                binding.btnReproducirAudio.text = "🎤 Reproducir nota de voz"
+                binding.btnReproducirAudio.text = getString(R.string.reproducir_nota_de_voz)
                 return
             }
             mediaPlayer = MediaPlayer().apply {
                 setDataSource(this@DetalleEventoActivity, Uri.parse(rutaAudio))
                 prepare(); start()
                 setOnCompletionListener {
-                    binding.btnReproducirAudio.text = "🎤 Reproducir nota de voz"
+                    binding.btnReproducirAudio.text = getString(R.string.reproducir_nota_de_voz)
                     release(); mediaPlayer = null
                 }
             }
-            binding.btnReproducirAudio.text = "⏹ Detener reproducción"
+            binding.btnReproducirAudio.text = getString(R.string.detener_reproducci_n)
         } catch (e: Exception) {
-            Toast.makeText(this, "Error al reproducir el audio", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,
+                getString(R.string.error_al_reproducir_el_audio), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -284,18 +289,18 @@ class DetalleEventoActivity : BaseActivity() {
             prepare(); start()
         }
         estaGrabando = true
-        binding.btnGrabarAudio.text = "⏹ Detener Grabación"
+        binding.btnGrabarAudio.text = getString(R.string.detener_grabaci_n)
         binding.tvEstadoGrabacion.visibility = View.VISIBLE
     }
 
     private fun detenerGrabacion() {
         try { mediaRecorder?.apply { stop(); release() } } catch (e: Exception) {}
         mediaRecorder = null; estaGrabando = false
-        binding.btnGrabarAudio.text = "🎤 Grabar nota de voz"
+        binding.btnGrabarAudio.text = getString(R.string.grabar_nota_de_voz)
         binding.tvEstadoGrabacion.visibility = View.GONE
         archivoGrabacion?.let {
             audioRutaSeleccionada = Uri.fromFile(it).toString()
-            binding.tvRutaAudio.text = "Grabación lista"
+            binding.tvRutaAudio.text = getString(R.string.grabaci_n_lista)
             binding.tvRutaAudio.visibility = View.VISIBLE
         }
     }
@@ -347,9 +352,9 @@ class DetalleEventoActivity : BaseActivity() {
         
         if (activar) {
             prepararCamposEdicion()
-            binding.toolbar.title = "Editar Evento"
+            binding.toolbar.title = getString(R.string.editar_evento)
         } else {
-            binding.toolbar.title = "Detalle del Evento"
+            binding.toolbar.title = getString(R.string.detalle_del_evento)
             if (estaGrabando) detenerGrabacion()
         }
     }
@@ -375,7 +380,7 @@ class DetalleEventoActivity : BaseActivity() {
             binding.tvRutaAudio.visibility = if (it.audioRuta != null) View.VISIBLE else View.GONE
             
             tipoSeleccionado = it.tipo
-            binding.autoCompleteTipo.setText(it.tipo.nombre, false)
+            binding.autoCompleteTipo.setText(getString(it.tipo.resourceId), false)
         }
     }
 
@@ -430,7 +435,7 @@ class DetalleEventoActivity : BaseActivity() {
     private fun programarAlarmaSistema(evento: Evento) {
         val cal = Calendar.getInstance().apply { time = evento.horaInicio }
         val intent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
-            putExtra(AlarmClock.EXTRA_MESSAGE, "DiaCero: ${evento.titulo}")
+            putExtra(AlarmClock.EXTRA_MESSAGE, getString(R.string.diacero_rutina, evento.titulo))
             putExtra(AlarmClock.EXTRA_HOUR, cal.get(Calendar.HOUR_OF_DAY))
             putExtra(AlarmClock.EXTRA_MINUTES, cal.get(Calendar.MINUTE))
         }
@@ -455,9 +460,13 @@ class DetalleEventoActivity : BaseActivity() {
         binding.tvTitulo.text = evento.titulo
         binding.tvDescripcion.text = evento.descripcion ?: ""
         binding.tvDescripcion.visibility = if (evento.descripcion.isNullOrEmpty()) View.GONE else View.VISIBLE
-        val sdfFecha = SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy", Locale.getDefault())
-        val sdfHora = SimpleDateFormat("HH:mm", Locale.getDefault())
-        binding.tvFecha.text = sdfFecha.format(evento.fecha)
+        
+        val locale = Locale.getDefault()
+        val pattern = android.text.format.DateFormat.getBestDateTimePattern(locale, "EEEE d MMMM yyyy")
+        val sdfFecha = SimpleDateFormat(pattern, locale)
+        val sdfHora = SimpleDateFormat("HH:mm", locale)
+        
+        binding.tvFecha.text = sdfFecha.format(evento.fecha).replaceFirstChar { it.uppercase() }
         binding.tvHora.text = "${sdfHora.format(evento.horaInicio)} - ${sdfHora.format(evento.horaFin)}"
         if (!evento.ubicacion.isNullOrEmpty()) {
             binding.tvUbicacion.text = evento.ubicacion; binding.layoutUbicacion.visibility = View.VISIBLE
@@ -467,8 +476,8 @@ class DetalleEventoActivity : BaseActivity() {
         binding.chipPrioritario.visibility = if (evento.esPrioritario) View.VISIBLE else View.GONE
         binding.chipAlarma.visibility = if (evento.tieneAlarma) View.VISIBLE else View.GONE
         
-        // Mostrar tipo y color
-        binding.chipTipo.text = evento.tipo.nombre
+        // Mostrar tipo traducido y color
+        binding.chipTipo.text = getString(evento.tipo.resourceId)
         binding.chipTipo.setChipBackgroundColorResource(android.R.color.transparent)
         binding.chipTipo.chipBackgroundColor = android.content.res.ColorStateList.valueOf(Color.parseColor(evento.tipo.color))
         binding.colorIndicator.setBackgroundColor(Color.parseColor(evento.tipo.color))

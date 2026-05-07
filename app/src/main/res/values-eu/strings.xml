@@ -57,4 +57,24 @@
     <string name="n_mero_de_semanas">Aste kopurua</string>
     <string name="configurar_alarma_en_el_sistema">Ezarri alarma sisteman</string>
     <string name="archivos_adjuntos_foto_y_audio_lists">Erantsitako fitxategiak: Argazki eta audio zerrendak</string>
+    <string name="eventos_pasados_en_negro_oscuro">Iraganeko ekitaldiak beltz ilunez</string>
+    <string name="personalizaci_n_de_colores">Koloreen pertsonalizazioa</string>
+    <string name="color_principal_modo_claro">Kolore nagusia (Modu argia)</string>
+    <string name="color_principal_modo_oscuro">Kolore nagusia (Modu iluna)</string>
+    <string name="reuni_n_con_tutor_del_tfg">TFGko tutorearekin bilera</string>
+    <string name="ir_a_inicio">Hasierara joan</string>
+    <string name="permiso_de_ubicaci_n_denegado">Kokapen-baimena ukatuta</string>
+    <string name="foto_seleccionada">Argazkia hautatuta</string>
+    <string name="audio_seleccionado">Audioa hautatuta</string>
+    <string name="ubicaci_n_obtenida">Kokapena lortuta</string>
+    <string name="no_se_pudo_obtener_la_ubicaci_n_activa_el_gps">Ezin izan da kokapena lortu. Aktibatu GPSa.</string>
+    <string name="nuevo_evento">Ekitaldi berria</string>
+    <string name="reproducir_nota_de_voz">🎤 Erreproduzitu ahots-oharra</string>
+    <string name="detener_reproducci_n">⏹ Gelditu erreprodukzioa</string>
+    <string name="error_al_reproducir_el_audio">Errorea audioa erreproduzitzean</string>
+    <string name="detener_grabaci_n">⏹ Gelditu grabazioa</string>
+    <string name="grabaci_n_lista">Grabazioa prest</string>
+    <string name="editar_evento">Editatu ekitaldia</string>
+    <string name="detalle_del_evento">Ekitaldiaren xehetasunak</string>
+    <string name="no_se_pudo_abrir_la_imagen">Ezin izan da irudia ireki</string>
 </resources>

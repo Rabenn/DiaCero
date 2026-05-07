@@ -128,7 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="16dp"
-        android:contentDescription="Ir a inicio"
+        android:contentDescription="@string/ir_a_inicio"
         android:src="@drawable/ic_home"
         app:fabSize="mini"
         app:tint="@android:color/white" />

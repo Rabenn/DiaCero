@@ -3,6 +3,7 @@ package com.unaiIgorRuben.diacero.util
 import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.unaiIgorRuben.diacero.R
 
 class EventoWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 
@@ -12,7 +13,7 @@ class EventoWorker(context: Context, params: WorkerParameters) : Worker(context,
 
         val notificationHelper = NotificationHelper(applicationContext)
         notificationHelper.mostrarNotificacionEvento(
-            "¡Tu evento ha comenzado!",
+            applicationContext.getString(R.string.tu_evento_ha_comenzado),
             titulo,
             eventoId
         )

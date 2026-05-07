@@ -1,15 +1,15 @@
 package com.unaiIgorRuben.diacero.data.local.entities
 
-enum class TipoEvento(val nombre: String, val color: String) {
-    TRABAJO("Trabajo", "#4CAF50"),           // Verde
-    TAREAS("Tareas", "#2196F3"),            // Azul
-    SOCIAL("Social", "#FF9800"),            // Naranja
-    FECHA_IMPORTANTE("Fecha Importante", "#F44336"), // Rojo
-    OTROS("Otros", "#9E9E9E");              // Gris
+import androidx.annotation.StringRes
+import com.unaiIgorRuben.diacero.R
 
-    companion object {
-        fun fromNombre(nombre: String): TipoEvento {
-            return values().find { it.nombre == nombre } ?: OTROS
-        }
-    }
+enum class TipoEvento(@StringRes val resourceId: Int, val color: String) {
+    TRABAJO(R.string.trabajo, "#4CAF50"),
+    TAREAS(R.string.tareas, "#2196F3"),
+    SOCIAL(R.string.social, "#FF9800"),
+    FECHA_IMPORTANTE(R.string.fecha_importante, "#F44336"),
+    OTROS(R.string.otros, "#9E9E9E");
+
+    // Mantenemos esta propiedad por compatibilidad si es necesario en base de datos
+    val nombre: String get() = name 
 }

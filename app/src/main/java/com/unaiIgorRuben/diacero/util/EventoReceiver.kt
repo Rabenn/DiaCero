@@ -3,6 +3,7 @@ package com.unaiIgorRuben.diacero.util
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.unaiIgorRuben.diacero.R
 
 class EventoReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -11,7 +12,7 @@ class EventoReceiver : BroadcastReceiver() {
 
         val notificationHelper = NotificationHelper(context)
         notificationHelper.mostrarNotificacionEvento(
-            "¡Tu evento ha comenzado!",
+            context.getString(R.string.tu_evento_ha_comenzado),
             titulo,
             eventoId
         )

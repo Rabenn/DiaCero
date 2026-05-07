@@ -7,12 +7,12 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -58,7 +58,7 @@ class CalendarioFragment : Fragment() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (!isGranted) {
-            // Notificar al usuario que las alarmas podrían no sonar visualmente si no hay permisos
+            // Notificar al usuario que las alarmas podrían no sonar
         }
     }
 
@@ -173,7 +173,7 @@ class CalendarioFragment : Fragment() {
         viewModel.buscarEventos(query, tipoSeleccionado).observe(viewLifecycleOwner) { eventos ->
             if (binding.searchViewEventos.query.isNotEmpty() || tipoSeleccionado != null) {
                 adapter.actualizarEventos(eventos)
-                binding.tvEventosDelDia.text = "Resultados de búsqueda (${eventos.size})"
+                binding.tvEventosDelDia.text = getString(R.string.resultados_busqueda, eventos.size)
             }
         }
     }
@@ -187,15 +187,15 @@ class CalendarioFragment : Fragment() {
 
     private fun mostrarDialogoTipoCreacion() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Que deseas crear")
-            .setMessage("Elige si quieres crear un evento unico o una rutina recurrente.")
-            .setNegativeButton("Rutina") { _, _ ->
+            .setTitle(getString(R.string.que_deseas_crear))
+            .setMessage(getString(R.string.elige_tipo_creacion))
+            .setNegativeButton(getString(R.string.rutina)) { _, _ ->
                 parentFragmentManager.commit {
                     replace(R.id.fragmentContainer, GeneradorRutinasFragment())
                     addToBackStack(null)
                 }
             }
-            .setPositiveButton("Evento") { _, _ ->
+            .setPositiveButton(getString(R.string.evento)) { _, _ ->
                 val intent = Intent(requireContext(), DetalleEventoActivity::class.java).apply {
                     putExtra("SELECTED_DATE_MILLIS", fechaSeleccionada.time)
                 }
@@ -205,7 +205,9 @@ class CalendarioFragment : Fragment() {
     }
 
     private fun actualizarFechaSeleccionada(date: Date) {
-        val formato = SimpleDateFormat("EEEE, d 'de' MMMM 'de' yyyy", Locale("es", "ES"))
+        val locale = Locale.getDefault()
+        val pattern = DateFormat.getBestDateTimePattern(locale, "EEEE d MMMM yyyy")
+        val formato = SimpleDateFormat(pattern, locale)
         binding.tvFechaSeleccionada.text = formato.format(date).replaceFirstChar { it.uppercase() }
     }
 
@@ -243,22 +245,15 @@ class CalendarioFragment : Fragment() {
             binding.calendarView.addDecorator(CalendarTextColorDecorator(Color.WHITE))
         }
         
-        // Agrupamos eventos por día
         val eventosPorDia = eventos.groupBy { calendarDayFromDate(it.fecha) }
         
         eventosPorDia.forEach { (dia, listaEventos) ->
-            // Cogemos los colores de los primeros 3 eventos basándonos en su tipo
             val colores = listaEventos.take(3).map { 
                 it.tipo.color.toColorInt() 
             }
-            
-            // Calculamos cuántos eventos sobran para mostrar el +N
             val extraCount = if (listaEventos.size > 3) listaEventos.size - 3 else 0
-            
-            // Comprobamos si hay algún evento prioritario ese día para resaltar el texto
             val esPrioritario = listaEventos.any { it.esPrioritario }
             
-            // Creamos un decorador específico para este día
             binding.calendarView.addDecorator(
                 EventDayDecorator(
                     day = dia,
@@ -339,12 +334,12 @@ class CalendarioFragment : Fragment() {
 
     private fun actualizarResumenEventosDelDia(eventos: List<Evento>) {
         if (eventos.isEmpty()) {
-            binding.tvEventosDelDia.text = "No hay eventos para este día."
+            binding.tvEventosDelDia.text = getString(R.string.no_hay_eventos_dia)
             return
         }
         val titulos = eventos.take(2).joinToString(" | ") { it.titulo }
-        val sufijo = if (eventos.size > 2) " +${eventos.size - 2} más" else ""
-        binding.tvEventosDelDia.text = "${eventos.size} evento(s): $titulos$sufijo"
+        val sufijo = if (eventos.size > 2) getString(R.string.mas_eventos, eventos.size - 2) else ""
+        binding.tvEventosDelDia.text = getString(R.string.resumen_eventos, eventos.size, titulos, sufijo)
     }
 
     override fun onDestroyView() {

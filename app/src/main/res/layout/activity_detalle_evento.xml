@@ -58,7 +58,7 @@
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="?attr/colorOnSurface"
-                    tools:text="Reunión con tutor del TFG" />
+                    tools:text="@string/reuni_n_con_tutor_del_tfg" />
 
                 <!-- TIPO DE EVENTO -->
                 <com.google.android.material.chip.Chip

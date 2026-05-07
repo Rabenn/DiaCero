@@ -57,4 +57,44 @@
     <string name="n_mero_de_semanas">Number of weeks</string>
     <string name="configurar_alarma_en_el_sistema">Set System Alarm</string>
     <string name="archivos_adjuntos_foto_y_audio_lists">Attachments: Photo and Audio lists</string>
+    <string name="eventos_pasados_en_negro_oscuro">Past events in dark black</string>
+    <string name="personalizaci_n_de_colores">Color Customization</string>
+    <string name="color_principal_modo_claro">Primary Color (Light Mode)</string>
+    <string name="color_principal_modo_oscuro">Primary Color (Dark Mode)</string>
+    <string name="reuni_n_con_tutor_del_tfg">Meeting with TFG tutor</string>
+    <string name="ir_a_inicio">Go to home</string>
+    <string name="permiso_de_ubicaci_n_denegado">Location permission denied</string>
+    <string name="foto_seleccionada">Photo selected</string>
+    <string name="audio_seleccionado">Audio selected</string>
+    <string name="ubicaci_n_obtenida">Location obtained</string>
+    <string name="no_se_pudo_obtener_la_ubicaci_n_activa_el_gps">Could not obtain location. Enable GPS.</string>
+    <string name="nuevo_evento">New Event</string>
+    <string name="reproducir_nota_de_voz">🎤 Play voice note</string>
+    <string name="detener_reproducci_n">⏹ Stop playback</string>
+    <string name="error_al_reproducir_el_audio">Error playing audio</string>
+    <string name="detener_grabaci_n">⏹ Stop recording</string>
+    <string name="grabaci_n_lista">Recording ready</string>
+    <string name="editar_evento">Edit Event</string>
+    <string name="detalle_del_evento">Event Details</string>
+    <string name="no_se_pudo_abrir_la_imagen">Could not open image</string>
+    <string name="completa_el_t_tulo_y_d_as">Complete the title and days</string>
+    <string name="se_crearon_eventos">✅ %1$d events were created</string>
+    <string name="diacero_rutina">DiaCero (Routine): %1$s</string>
+    <string name="no_se_pudo_abrir_la_app_de_alarmas">Could not open the alarm app</string>
+    <string name="tu_evento_ha_comenzado">Your event has started!</string>
+    <string name="no_hay_eventos_dia">No events for this day.</string>
+    <string name="resultados_busqueda">Search results (%1$d)</string>
+    <string name="resumen_eventos">%1$d event(s): %2$s%3$s</string>
+    <string name="mas_eventos"> +%1$d more</string>
+    <string name="que_deseas_crear">What do you want to create?</string>
+    <string name="elige_tipo_creacion">Choose whether you want to create a single event or a recurring routine.</string>
+    <string name="rutina">Routine</string>
+    <string name="evento">Event</string>
+
+    <!-- Strings for GeneradorRutinas -->
+    <string name="inicio">Home</string>
+    <string name="multimedia_estado">Media: %1$s %2$s</string>
+    <string name="foto_listo">Photo ✅</string>
+    <string name="audio_listo">Audio ✅</string>
+
 </resources>

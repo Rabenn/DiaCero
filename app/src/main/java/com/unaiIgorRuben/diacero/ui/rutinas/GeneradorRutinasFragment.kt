@@ -84,7 +84,7 @@ class GeneradorRutinasFragment : Fragment() {
             permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true) {
             obtenerUbicacionActual()
         } else {
-            Toast.makeText(requireContext(), "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.permiso_de_ubicaci_n_denegado), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -101,7 +101,7 @@ class GeneradorRutinasFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.toolbar.menu.clear()
-        binding.toolbar.menu.add("Inicio").apply {
+        binding.toolbar.menu.add(getString(R.string.inicio)).apply {
             setIcon(R.drawable.ic_home)
             setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS)
         }
@@ -187,10 +187,10 @@ class GeneradorRutinasFragment : Fragment() {
                     if (!addresses.isNullOrEmpty()) {
                         val address = addresses[0].getAddressLine(0)
                         binding.etUbicacion.setText(address)
-                        Toast.makeText(requireContext(), "Ubicación obtenida", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.ubicaci_n_obtenida), Toast.LENGTH_SHORT).show()
                     }
                 } ?: run {
-                    Toast.makeText(requireContext(), "No se pudo obtener la ubicación. Activa el GPS.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.no_se_pudo_obtener_la_ubicaci_n_activa_el_gps), Toast.LENGTH_SHORT).show()
                 }
             }
         } catch (e: SecurityException) {
@@ -222,13 +222,13 @@ class GeneradorRutinasFragment : Fragment() {
                 start()
             }
             estaGrabando = true
-            binding.btnGrabarAudio.text = "⏹ Detener Grabación"
+            binding.btnGrabarAudio.text = getString(R.string.detener_grabaci_n)
             binding.tvEstadoGrabacion.visibility = View.VISIBLE
         } else {
             mediaRecorder?.apply { stop(); release() }
             mediaRecorder = null
             estaGrabando = false
-            binding.btnGrabarAudio.text = "🎤 Grabar nota de voz"
+            binding.btnGrabarAudio.text = getString(R.string.grabar_nota_de_voz)
             binding.tvEstadoGrabacion.visibility = View.GONE
             audioRutaSeleccionada = Uri.fromFile(archivoGrabacion).toString()
             actualizarTextoMultimedia()
@@ -236,11 +236,11 @@ class GeneradorRutinasFragment : Fragment() {
     }
 
     private fun actualizarTextoMultimedia() {
-        val foto = if (fotoRutaSeleccionada != null) "Foto ✅" else ""
-        val audio = if (audioRutaSeleccionada != null) "Audio ✅" else ""
+        val foto = if (fotoRutaSeleccionada != null) getString(R.string.foto_listo) else ""
+        val audio = if (audioRutaSeleccionada != null) getString(R.string.audio_listo) else ""
         if (foto.isNotEmpty() || audio.isNotEmpty()) {
             binding.tvRutaMultimedia.visibility = View.VISIBLE
-            binding.tvRutaMultimedia.text = "Multimedia: $foto $audio"
+            binding.tvRutaMultimedia.text = getString(R.string.multimedia_estado, foto, audio)
         }
     }
 
@@ -265,7 +265,8 @@ class GeneradorRutinasFragment : Fragment() {
     private fun generarRutina() {
         val titulo = binding.etTitulo.text.toString()
         if (titulo.isBlank() || diasSeleccionados.isEmpty()) {
-            Toast.makeText(context, "Completa el título y días", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context,
+                getString(R.string.completa_el_t_tulo_y_d_as), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -287,7 +288,8 @@ class GeneradorRutinasFragment : Fragment() {
                 }
 
                 parentFragmentManager.setFragmentResult("rutina_creada", bundleOf("primer_evento_timestamp" to eventos.first().fecha.time))
-                Toast.makeText(context, "✅ Se crearon ${eventos.size} eventos", Toast.LENGTH_LONG).show()
+                Toast.makeText(context,
+                    getString(R.string.se_crearon_eventos, eventos.size), Toast.LENGTH_LONG).show()
                 parentFragmentManager.popBackStack()
             }
         }
@@ -295,7 +297,7 @@ class GeneradorRutinasFragment : Fragment() {
 
     private fun programarAlarmaSistemaParaRutina(titulo: String, hora: Int, minuto: Int, dias: Set<Int>) {
         val intent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
-            putExtra(AlarmClock.EXTRA_MESSAGE, "DiaCero (Rutina): $titulo")
+            putExtra(AlarmClock.EXTRA_MESSAGE, getString(R.string.diacero_rutina, titulo))
             putExtra(AlarmClock.EXTRA_HOUR, hora)
             putExtra(AlarmClock.EXTRA_MINUTES, minuto)
             
@@ -309,7 +311,8 @@ class GeneradorRutinasFragment : Fragment() {
         try {
             startActivity(intent)
         } catch (e: Exception) {
-            Toast.makeText(requireContext(), "No se pudo abrir la app de alarmas", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),
+                getString(R.string.no_se_pudo_abrir_la_app_de_alarmas), Toast.LENGTH_SHORT).show()
         }
     }
 
