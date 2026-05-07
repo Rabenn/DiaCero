@@ -5,8 +5,8 @@ import com.unaiIgorRuben.diacero.data.local.entities.TipoEvento
 
 class TipoEventoConverter {
     @TypeConverter
-    fun fromTipoEvento(tipo: TipoEvento): String {
-        return tipo.name
+    fun fromTipoEvento(tipo: TipoEvento?): String? {
+        return tipo?.name
     }
 
     @TypeConverter
