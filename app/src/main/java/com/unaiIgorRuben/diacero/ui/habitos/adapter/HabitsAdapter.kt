@@ -18,12 +18,13 @@ import com.unaiIgorRuben.diacero.databinding.ItemHabitBinding
 
 class HabitsAdapter(
     private val onMarkDone: (Habit) -> Unit,
-    private val onReset: (Habit) -> Unit
+    private val onReset: (Habit) -> Unit,
+    private val onDelete: (Habit) -> Unit
 ) : ListAdapter<Habit, HabitsAdapter.HabitViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitViewHolder {
         val binding = ItemHabitBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return HabitViewHolder(binding, onMarkDone, onReset)
+        return HabitViewHolder(binding, onMarkDone, onReset, onDelete)
     }
 
     override fun onBindViewHolder(holder: HabitViewHolder, position: Int) {
@@ -33,7 +34,8 @@ class HabitsAdapter(
     class HabitViewHolder(
         private val binding: ItemHabitBinding,
         private val onMarkDone: (Habit) -> Unit,
-        private val onReset: (Habit) -> Unit
+        private val onReset: (Habit) -> Unit,
+        private val onDelete: (Habit) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(habit: Habit) {
@@ -90,6 +92,10 @@ class HabitsAdapter(
 
             binding.btnResetStreak.setOnClickListener {
                 onReset(habit)
+            }
+
+            binding.btnDeleteHabit.setOnClickListener {
+                onDelete(habit)
             }
         }
 

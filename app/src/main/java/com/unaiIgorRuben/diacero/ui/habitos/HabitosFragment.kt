@@ -65,7 +65,8 @@ class HabitosFragment : Fragment() {
     private fun setupList() {
         habitsAdapter = HabitsAdapter(
             onMarkDone = { habit -> viewModel.markHabitDoneToday(habit) },
-            onReset = { habit -> showResetConfirmation(habit) }
+            onReset = { habit -> showResetConfirmation(habit) },
+            onDelete = { habit -> showDeleteConfirmation(habit) }
         )
         binding.rvHabits.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -111,6 +112,17 @@ class HabitosFragment : Fragment() {
                 ))
             .setPositiveButton(getString(R.string.reiniciar)) { _, _ ->
                 viewModel.resetStreak(habit)
+            }
+            .setNegativeButton(getString(R.string.cancelar), null)
+            .show()
+    }
+
+    private fun showDeleteConfirmation(habit: com.unaiIgorRuben.diacero.data.local.entities.Habit) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.eliminar_h_bito))
+            .setMessage(getString(R.string.confirmar_eliminar_h_bito, habit.nombre))
+            .setPositiveButton(getString(R.string.eliminar)) { _, _ ->
+                viewModel.deleteHabit(habit)
             }
             .setNegativeButton(getString(R.string.cancelar), null)
             .show()

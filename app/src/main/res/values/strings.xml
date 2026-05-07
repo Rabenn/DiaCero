@@ -113,6 +113,8 @@
     <string name="mapa_de_progreso">Mapa de progreso</string>
     <string name="completado_check">✔ COMPLETADO</string>
     <string name="hecho_btn">¡Hecho!</string>
+    <string name="eliminar_h_bito">Eliminar hábito</string>
+    <string name="confirmar_eliminar_h_bito">¿Estás seguro de que quieres eliminar el hábito \'%1$s\'? Esta acción no se puede deshacer.</string>
 
     <!-- Ajustes / Colores -->
     <string name="seleccionar_color">Seleccionar Color</string>
