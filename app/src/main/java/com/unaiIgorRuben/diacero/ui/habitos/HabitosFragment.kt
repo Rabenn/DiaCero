@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +40,7 @@ class HabitosFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         setupList()
+        setupAddButton()
         observeHabits()
     }
 
@@ -67,6 +70,31 @@ class HabitosFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = habitsAdapter
         }
+    }
+
+    private fun setupAddButton() {
+        binding.fabAddHabito.setOnClickListener {
+            showAddHabitDialog()
+        }
+    }
+
+    private fun showAddHabitDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_habit, null)
+        val etName = dialogView.findViewById<EditText>(R.id.etHabitName)
+        val etIcon = dialogView.findViewById<EditText>(R.id.etHabitIcon)
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Crear nuevo hábito")
+            .setView(dialogView)
+            .setPositiveButton("Crear") { _, _ ->
+                val name = etName.text.toString().trim()
+                val icon = etIcon.text.toString().trim().ifEmpty { "⭐" }
+                if (name.isNotEmpty()) {
+                    viewModel.addHabit(name, icon)
+                }
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     private fun observeHabits() {

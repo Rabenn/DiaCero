@@ -18,12 +18,6 @@ class HabitosViewModel(
     private val _lastCompletedHabitId = MutableLiveData<Int?>()
     val lastCompletedHabitId: LiveData<Int?> = _lastCompletedHabitId
 
-    init {
-        viewModelScope.launch {
-            if (repository.countHabits() == 0) seedHabits()
-        }
-    }
-
     fun markHabitDoneToday(habit: Habit) {
         if (habit.isCompletedToday()) return
 
@@ -40,13 +34,20 @@ class HabitosViewModel(
         }
     }
 
-    fun consumeLastCompletedSignal() {
-        _lastCompletedHabitId.value = null
+    fun addHabit(nombre: String, icono: String) {
+        viewModelScope.launch {
+            repository.insert(Habit(nombre = nombre, icono = icono))
+        }
     }
 
-    private suspend fun seedHabits() {
-        repository.insert(Habit(nombre = "No fumar", icono = "🚭"))
-        repository.insert(Habit(nombre = "No alcohol", icono = "🍺"))
-        repository.insert(Habit(nombre = "No azúcar", icono = "🍬"))
+    fun deleteHabit(habit: Habit) {
+        viewModelScope.launch {
+            // Asumiendo que el repositorio tiene un método delete
+            // repository.delete(habit)
+        }
+    }
+
+    fun consumeLastCompletedSignal() {
+        _lastCompletedHabitId.value = null
     }
 }

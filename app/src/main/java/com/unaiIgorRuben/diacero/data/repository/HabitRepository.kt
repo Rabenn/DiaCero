@@ -13,5 +13,7 @@ class HabitRepository(
 
     suspend fun update(habit: Habit) = habitDao.update(habit)
 
+    suspend fun delete(habit: Habit) = habitDao.delete(habit)
+
     suspend fun countHabits(): Int = habitDao.countHabits()
 }

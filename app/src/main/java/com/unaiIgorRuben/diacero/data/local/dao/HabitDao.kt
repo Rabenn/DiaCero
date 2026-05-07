@@ -1,11 +1,7 @@
 package com.unaiIgorRuben.diacero.data.local.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.unaiIgorRuben.diacero.data.local.entities.Habit
 
 @Dao
@@ -18,6 +14,9 @@ interface HabitDao {
 
     @Update
     suspend fun update(habit: Habit)
+
+    @Delete
+    suspend fun delete(habit: Habit)
 
     @Query("SELECT COUNT(*) FROM habits")
     suspend fun countHabits(): Int
