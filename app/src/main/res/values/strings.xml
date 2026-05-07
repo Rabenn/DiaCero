@@ -90,11 +90,46 @@
     <string name="elige_tipo_creacion">Elige si quieres crear un evento único o una rutina recurrente.</string>
     <string name="rutina">Rutina</string>
     <string name="evento">Evento</string>
-
-    <!-- Strings para GeneradorRutinas -->
     <string name="inicio">Inicio</string>
     <string name="multimedia_estado">Multimedia: %1$s %2$s</string>
     <string name="foto_listo">Foto ✅</string>
     <string name="audio_listo">Audio ✅</string>
+    <string name="crear_nuevo_h_bito">Crear nuevo hábito</string>
+    <string name="crear">Crear</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="reiniciar_racha">Reiniciar racha</string>
+    <string name="est_s_seguro_de_que_quieres_reiniciar_la_racha_de_se_borrar_todo_el_progreso_actual">¿Estás seguro de que quieres reiniciar la racha de \'%1$s\'? Se borrará todo el progreso actual.</string>
+    <string name="reiniciar">Reiniciar</string>
+    <string name="seguimiento_de_h_bitos">Seguimiento de hábitos</string>
+    <string name="a_adir_h_bito">Añadir hábito</string>
+    <string name="configurar_h_bito">Configurar Hábito</string>
+    <string name="nombre_del_h_bito">Nombre del hábito</string>
+    <string name="objetivo_ej_30_d_as">Objetivo (ej: 30 días)</string>
+    <string name="frecuencia_marcar_cada_x_d_as">Frecuencia (marcar cada X días)</string>
+    <string name="diario">Diario</string>
+    <string name="cada_x_dias">Cada %1$d días</string>
+    <string name="mejor_racha">Mejor racha: %1$d días</string>
+    <string name="objetivo_cumplido">¡OBJETIVO CUMPLIDO!</string>
+    <string name="mapa_de_progreso">Mapa de progreso</string>
+    <string name="completado_check">✔ COMPLETADO</string>
+    <string name="hecho_btn">¡Hecho!</string>
+
+    <!-- Ajustes / Colores -->
+    <string name="seleccionar_color">Seleccionar Color</string>
+    <string name="azul">Azul</string>
+    <string name="verde">Verde</string>
+    <string name="rojo">Rojo</string>
+    <string name="purpura">Púrpura</string>
+    <string name="amarillo">Amarillo</string>
+    <string name="naranja">Naranja</string>
+    <string name="verde_oscuro">Verde Oscuro</string>
+    <string name="azul_intenso">Azul Intenso</string>
+    <string name="seleccionar_idioma">Seleccionar Idioma</string>
+    <string name="seleccionar_tamano_letra">Seleccionar tamaño de letra</string>
+    <string name="pequeno">Pequeño</string>
+    <string name="grande">Grande</string>
+    <string name="confirmar_eliminar_eventos_desc">¿Estás seguro de que quieres borrar todos los eventos?</string>
+    <string name="eventos_eliminados">Eventos eliminados</string>
+    <string name="error_proceso">Error</string>
 
 </resources>

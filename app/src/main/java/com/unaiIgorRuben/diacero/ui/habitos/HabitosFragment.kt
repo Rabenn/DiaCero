@@ -86,9 +86,9 @@ class HabitosFragment : Fragment() {
         val etFrequency = dialogView.findViewById<EditText>(R.id.etHabitFrequency)
 
         AlertDialog.Builder(requireContext())
-            .setTitle("Crear nuevo hábito")
+            .setTitle(getString(R.string.crear_nuevo_h_bito))
             .setView(dialogView)
-            .setPositiveButton("Crear") { _, _ ->
+            .setPositiveButton(getString(R.string.crear)) { _, _ ->
                 val name = etName.text.toString().trim()
                 val goal = etGoal.text.toString().toIntOrNull() ?: 30
                 val frequency = etFrequency.text.toString().toIntOrNull() ?: 1
@@ -97,18 +97,22 @@ class HabitosFragment : Fragment() {
                     viewModel.addHabit(name, goal, frequency)
                 }
             }
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton(getString(R.string.cancelar), null)
             .show()
     }
 
     private fun showResetConfirmation(habit: com.unaiIgorRuben.diacero.data.local.entities.Habit) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Reiniciar racha")
-            .setMessage("¿Estás seguro de que quieres reiniciar la racha de '${habit.nombre}'? Se borrará todo el progreso actual.")
-            .setPositiveButton("Reiniciar") { _, _ ->
+            .setTitle(getString(R.string.reiniciar_racha))
+            .setMessage(
+                getString(
+                    R.string.est_s_seguro_de_que_quieres_reiniciar_la_racha_de_se_borrar_todo_el_progreso_actual,
+                    habit.nombre
+                ))
+            .setPositiveButton(getString(R.string.reiniciar)) { _, _ ->
                 viewModel.resetStreak(habit)
             }
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton(getString(R.string.cancelar), null)
             .show()
     }
 

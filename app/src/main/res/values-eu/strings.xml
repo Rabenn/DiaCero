@@ -77,4 +77,61 @@
     <string name="editar_evento">Editatu ekitaldia</string>
     <string name="detalle_del_evento">Ekitaldiaren xehetasunak</string>
     <string name="no_se_pudo_abrir_la_imagen">Ezin izan da irudia ireki</string>
+    <string name="crear_nuevo_h_bito">Ohitura berria sortu</string>
+    <string name="crear">Sortu</string>
+    <string name="cancelar">Utzi</string>
+    <string name="reiniciar_racha">Bolada berrabiarazi</string>
+    <string name="est_s_seguro_de_que_quieres_reiniciar_la_racha_de_se_borrar_todo_el_progreso_actual">Ziur zaude \'%1$s\'(r)en bolada berrabiarazi nahi duzula? Uneko aurrerapen guztia ezabatuko da.</string>
+    <string name="reiniciar">Berrabiarazi</string>
+    <string name="seguimiento_de_h_bitos">Ohituren jarraipena</string>
+    <string name="a_adir_h_bito">Gehitu ohitura</string>
+    <string name="configurar_h_bito">Konfiguratu ohitura</string>
+    <string name="nombre_del_h_bito">Ohituraren izena</string>
+    <string name="objetivo_ej_30_d_as">Helburua (adib.: 30 egun)</string>
+    <string name="frecuencia_marcar_cada_x_d_as">Maiztasuna (markatu X egunetik behin)</string>
+
+    <string name="no_hay_eventos_dia">Ez dago gertaerarik egun honetarako.</string>
+    <string name="resultados_busqueda">Bilaketa-emaitzak (%1$d)</string>
+    <string name="resumen_eventos">%1$d gertaera: %2$s%3$s</string>
+    <string name="mas_eventos"> +%1$d gehiago</string>
+    <string name="que_deseas_crear">Zer sortu nahi duzu?</string>
+    <string name="elige_tipo_creacion">Aukeratu gertaera bakarra edo errutina errepikakor bat sortu nahi duzun.</string>
+    <string name="rutina">Errutina</string>
+    <string name="evento">Gertaera</string>
+    <string name="inicio">Hasiera</string>
+    <string name="multimedia_estado">Multimedia: %1$s %2$s</string>
+    <string name="foto_listo">Argazkia ✅</string>
+    <string name="audio_listo">Audioa ✅</string>
+    <string name="completa_el_t_tulo_y_d_as">Osatu izenburua eta egunak</string>
+    <string name="se_crearon_eventos">✅ %1$d gertaera sortu dira</string>
+    <string name="diacero_rutina">DiaCero (Errutina): %1$s</string>
+    <string name="no_se_pudo_abrir_la_app_de_alarmas">Ezin izan da alarmen aplikazioa ireki</string>
+    <string name="tu_evento_ha_comenzado">Zure gertaera hasi da!</string>
+
+    <string name="diario">Egunero</string>
+    <string name="cada_x_dias">%1$d egunetik behin</string>
+    <string name="mejor_racha">Boladarik onena: %1$d egun</string>
+    <string name="objetivo_cumplido">HELBURUA BETETA!</string>
+    <string name="mapa_de_progreso">Aurrerapen mapa</string>
+    <string name="completado_check">✔ BETETA</string>
+    <string name="hecho_btn">Egina!</string>
+
+    <!-- Ajustes / Colores -->
+    <string name="seleccionar_color">Hautatu kolorea</string>
+    <string name="azul">Urdina</string>
+    <string name="verde">Berdea</string>
+    <string name="rojo">Gorria</string>
+    <string name="purpura">Purpura</string>
+    <string name="amarillo">Horia</string>
+    <string name="naranja">Laranja</string>
+    <string name="verde_oscuro">Berde iluna</string>
+    <string name="azul_intenso">Urdin sakona</string>
+    <string name="seleccionar_idioma">Hautatu hizkuntza</string>
+    <string name="seleccionar_tamano_letra">Hautatu letra-tamaina</string>
+    <string name="pequeno">Txikia</string>
+    <string name="grande">Handia</string>
+    <string name="confirmar_eliminar_eventos_desc">Ziur zaude gertaera guztiak ezabatu nahi dituzula?</string>
+    <string name="eventos_eliminados">Gertaerak ezabatuta</string>
+    <string name="error_proceso">Errorea</string>
+
 </resources>

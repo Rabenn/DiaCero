@@ -12,7 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorSurface"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:title="Seguimiento de hábitos"
+        app:title="@string/seguimiento_de_h_bitos"
         app:titleTextColor="?attr/colorOnSurface"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:contentDescription="Añadir hábito"
+        android:contentDescription="@string/a_adir_h_bito"
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

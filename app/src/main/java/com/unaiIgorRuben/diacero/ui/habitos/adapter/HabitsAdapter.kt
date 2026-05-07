@@ -37,13 +37,22 @@ class HabitsAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(habit: Habit) {
+            val context = binding.root.context
             binding.tvHabitName.text = habit.nombre
             binding.tvHabitIcon.text = habit.icono
 
             val currentStreak = habit.currentStreak
             binding.tvStreakValue.text = "$currentStreak/${habit.metaDias}"
-            binding.tvBestStreak.text = "Mejor racha: ${habit.bestStreak} días"
-            binding.tvFrequencyInfo.text = if (habit.frecuencia == 1) "Diario" else "Cada ${habit.frecuencia} días"
+            
+            // Traducción de "Mejor racha"
+            binding.tvBestStreak.text = context.getString(R.string.mejor_racha, habit.bestStreak)
+            
+            // Traducción de la frecuencia
+            binding.tvFrequencyInfo.text = if (habit.frecuencia == 1) {
+                context.getString(R.string.diario)
+            } else {
+                context.getString(R.string.cada_x_dias, habit.frecuencia)
+            }
             
             binding.progressStreak.max = habit.metaDias
             binding.progressStreak.progress = currentStreak.coerceAtMost(habit.metaDias)
@@ -54,17 +63,21 @@ class HabitsAdapter(
         }
 
         private fun setupButtons(habit: Habit) {
+            val context = binding.root.context
             val completedToday = habit.isCompletedToday()
+            
             if (completedToday) {
                 binding.btnDoneToday.apply {
-                    text = "✔ COMPLETADO"
+                    // Traducción de "COMPLETADO"
+                    text = context.getString(R.string.completado_check)
                     isEnabled = false
                     alpha = 0.75f
                     setBackgroundColor(ContextCompat.getColor(context, R.color.secondary))
                 }
             } else {
                 binding.btnDoneToday.apply {
-                    text = "¡Hecho!"
+                    // Traducción de "¡Hecho!"
+                    text = context.getString(R.string.hecho_btn)
                     isEnabled = true
                     alpha = 1f
                     setBackgroundColor(ContextCompat.getColor(context, R.color.primary))
@@ -81,18 +94,19 @@ class HabitsAdapter(
         }
 
         private fun applyMilestoneVisual(habit: Habit) {
+            val context = binding.root.context
             val streak = habit.currentStreak
             val isGoalReached = streak >= habit.metaDias
 
             if (isGoalReached) {
                 binding.tvMilestone.visibility = View.VISIBLE
-                binding.tvMilestone.text = "¡OBJETIVO CUMPLIDO!"
+                binding.tvMilestone.text = context.getString(R.string.objetivo_cumplido)
                 binding.cardHabit.strokeWidth = 4
                 binding.cardHabit.strokeColor = Color.parseColor("#D4AF37") // Dorado
             } else {
                 binding.tvMilestone.visibility = View.GONE
                 binding.cardHabit.strokeWidth = 1
-                binding.cardHabit.strokeColor = ContextCompat.getColor(binding.root.context, R.color.divider)
+                binding.cardHabit.strokeColor = ContextCompat.getColor(context, R.color.divider)
             }
         }
 

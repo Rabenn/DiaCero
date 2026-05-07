@@ -96,5 +96,44 @@
     <string name="multimedia_estado">Media: %1$s %2$s</string>
     <string name="foto_listo">Photo ✅</string>
     <string name="audio_listo">Audio ✅</string>
+    <string name="crear_nuevo_h_bito">Create new habit</string>
+    <string name="crear">Create</string>
+    <string name="cancelar">Cancel</string>
+    <string name="reiniciar_racha">Reset streak</string>
+    <string name="est_s_seguro_de_que_quieres_reiniciar_la_racha_de_se_borrar_todo_el_progreso_actual">Are you sure you want to reset the streak for \'%1$s\'? All current progress will be deleted.</string>
+    <string name="reiniciar">Reset</string>
+    <string name="seguimiento_de_h_bitos">Habit tracking</string>
+    <string name="a_adir_h_bito">Add habit</string>
+    <string name="configurar_h_bito">Configure habit</string>
+    <string name="nombre_del_h_bito">Habit name</string>
+    <string name="objetivo_ej_30_d_as">Goal (e.g., 30 days)</string>
+    <string name="frecuencia_marcar_cada_x_d_as">Frequency (mark every X days)</string>
+
+    <!-- Habit item strings -->
+    <string name="diario">Daily</string>
+    <string name="cada_x_dias">Every %1$d days</string>
+    <string name="mejor_racha">Best streak: %1$d days</string>
+    <string name="objetivo_cumplido">GOAL ACHIEVED!</string>
+    <string name="mapa_de_progreso">Progress map</string>
+    <string name="completado_check">✔ COMPLETED</string>
+    <string name="hecho_btn">Done!</string>
+
+    <!-- Settings / Colors -->
+    <string name="seleccionar_color">Select Color</string>
+    <string name="azul">Blue</string>
+    <string name="verde">Green</string>
+    <string name="rojo">Red</string>
+    <string name="purpura">Purple</string>
+    <string name="amarillo">Yellow</string>
+    <string name="naranja">Orange</string>
+    <string name="verde_oscuro">Dark Green</string>
+    <string name="azul_intenso">Deep Blue</string>
+    <string name="seleccionar_idioma">Select Language</string>
+    <string name="seleccionar_tamano_letra">Select font size</string>
+    <string name="pequeno">Small</string>
+    <string name="grande">Large</string>
+    <string name="confirmar_eliminar_eventos_desc">Are you sure you want to delete all events?</string>
+    <string name="eventos_eliminados">Events deleted</string>
+    <string name="error_proceso">Error</string>
 
 </resources>

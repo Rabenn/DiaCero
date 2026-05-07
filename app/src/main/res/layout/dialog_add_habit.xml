@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Configurar Hábito"
+        android:text="@string/configurar_h_bito"
         android:textSize="20sp"
         android:textStyle="bold"
         android:paddingBottom="16dp" />
@@ -16,7 +16,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del hábito">
+        android:hint="@string/nombre_del_h_bito">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etHabitName"
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="Objetivo (ej: 30 días)">
+        android:hint="@string/objetivo_ej_30_d_as">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etHabitGoal"
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="Frecuencia (marcar cada X días)">
+        android:hint="@string/frecuencia_marcar_cada_x_d_as">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etHabitFrequency"

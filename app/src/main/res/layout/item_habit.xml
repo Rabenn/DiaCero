@@ -116,7 +116,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:minHeight="56dp"
-                android:text="Reiniciar"
+                android:text="@string/reiniciar"
                 android:textColor="?attr/colorError"
                 app:cornerRadius="14dp"
                 app:icon="@drawable/ic_refresh"
@@ -127,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:text="Mapa de progreso"
+            android:text="@string/mapa_de_progreso"
             android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="13sp" />
 

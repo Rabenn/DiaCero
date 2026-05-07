@@ -2,7 +2,6 @@ package com.unaiIgorRuben.diacero.ui.ajustes
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
@@ -11,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.unaiIgorRuben.diacero.data.local.database.AppDatabase
 import com.unaiIgorRuben.diacero.data.repository.EventoRepository
 import com.unaiIgorRuben.diacero.databinding.ActivityAjustesBinding
+import com.unaiIgorRuben.diacero.R
 import com.unaiIgorRuben.diacero.ui.BaseActivity
 import com.unaiIgorRuben.diacero.util.LocaleHelper
 import kotlinx.coroutines.launch
@@ -80,8 +80,13 @@ class AjustesActivity : BaseActivity() {
         
         actualizarTextoIdioma()
         
-        val tamano = prefs.getString(KEY_FONT_SIZE, "Normal")
-        binding.tvTamanoLetraActual.text = tamano
+        val tamanoKey = prefs.getString(KEY_FONT_SIZE, "Normal") ?: "Normal"
+        val tamanoDisplay = when (tamanoKey) {
+            "Pequeño" -> getString(R.string.pequeno)
+            "Grande" -> getString(R.string.grande)
+            else -> getString(R.string.normal)
+        }
+        binding.tvTamanoLetraActual.text = tamanoDisplay
         
         val notificacionesEnabled = prefs.getBoolean(KEY_NOTIFICACIONES, true)
         binding.switchNotificaciones.isChecked = notificacionesEnabled
@@ -114,22 +119,31 @@ class AjustesActivity : BaseActivity() {
         val checkedItem = codigos.indexOf(actual)
 
         AlertDialog.Builder(this)
-            .setTitle("Seleccionar Idioma")
+            .setTitle(getString(R.string.seleccionar_idioma))
             .setSingleChoiceItems(idiomas, checkedItem) { dialog, which ->
                 LocaleHelper.saveLanguage(this, codigos[which])
                 dialog.dismiss()
                 recreate() 
             }
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton(getString(R.string.cancelar), null)
             .show()
     }
 
     private fun mostrarSelectorColor(esClaro: Boolean) {
         val colores = arrayOf("#0F6CBD", "#00A884", "#D32F2F", "#7B1FA2", "#FBC02D", "#E64A19", "#388E3C", "#1976D2")
-        val nombres = arrayOf("Azul", "Verde", "Rojo", "Púrpura", "Amarillo", "Naranja", "Verde Oscuro", "Azul Intenso")
+        val nombres = arrayOf(
+            getString(R.string.azul),
+            getString(R.string.verde),
+            getString(R.string.rojo),
+            getString(R.string.purpura),
+            getString(R.string.amarillo),
+            getString(R.string.naranja),
+            getString(R.string.verde_oscuro),
+            getString(R.string.azul_intenso)
+        )
 
         AlertDialog.Builder(this)
-            .setTitle("Seleccionar Color")
+            .setTitle(getString(R.string.seleccionar_color))
             .setItems(nombres) { _, which ->
                 val colorHex = colores[which]
                 val colorInt = Color.parseColor(colorHex)
@@ -146,19 +160,20 @@ class AjustesActivity : BaseActivity() {
     }
 
     private fun mostrarDialogoTamanoLetra() {
-        val opciones = arrayOf("Pequeño", "Normal", "Grande")
+        val opcionesDisplay = arrayOf(getString(R.string.pequeno), getString(R.string.normal), getString(R.string.grande))
+        val opcionesInternal = arrayOf("Pequeño", "Normal", "Grande")
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val actual = prefs.getString(KEY_FONT_SIZE, "Normal")
-        val checkedItem = opciones.indexOf(actual)
+        val checkedItem = opcionesInternal.indexOf(actual)
 
         AlertDialog.Builder(this)
-            .setTitle("Seleccionar tamaño de letra")
-            .setSingleChoiceItems(opciones, checkedItem) { dialog, which ->
-                guardarTamanoLetra(opciones[which])
+            .setTitle(getString(R.string.seleccionar_tamano_letra))
+            .setSingleChoiceItems(opcionesDisplay, checkedItem) { dialog, which ->
+                guardarTamanoLetra(opcionesInternal[which])
                 dialog.dismiss()
                 recreate()
             }
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton(getString(R.string.cancelar), null)
             .show()
     }
 
@@ -179,10 +194,10 @@ class AjustesActivity : BaseActivity() {
 
     private fun mostrarConfirmacionEliminar() {
         AlertDialog.Builder(this)
-            .setTitle("Eliminar todos los eventos")
-            .setMessage("¿Estás seguro de que quieres borrar todos los eventos?")
-            .setPositiveButton("Eliminar") { _, _ -> eliminarTodosLos_eventos() }
-            .setNegativeButton("Cancelar", null)
+            .setTitle(getString(R.string.borrar_todos_los_eventos))
+            .setMessage(getString(R.string.confirmar_eliminar_eventos_desc))
+            .setPositiveButton(getString(R.string.eliminar)) { _, _ -> eliminarTodosLos_eventos() }
+            .setNegativeButton(getString(R.string.cancelar), null)
             .show()
     }
 
@@ -190,9 +205,9 @@ class AjustesActivity : BaseActivity() {
         lifecycleScope.launch {
             try {
                 repository.eliminarTodosLosEventos()
-                Toast.makeText(this@AjustesActivity, "Eventos eliminados", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@AjustesActivity, getString(R.string.eventos_eliminados), Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
-                Toast.makeText(this@AjustesActivity, "Error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@AjustesActivity, getString(R.string.error_proceso), Toast.LENGTH_SHORT).show()
             }
         }
     }
