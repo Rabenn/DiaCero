@@ -161,14 +161,13 @@ class DetalleEventoActivity : BaseActivity() {
 
     private fun setupToolbar() {
         binding.toolbar.menu.clear()
-        binding.toolbar.title = ""
         binding.toolbar.setNavigationOnClickListener { 
             if (estaEnModoEdicion && !esModoCreacion) alternarModoEdicion(false) else onBackPressedDispatcher.onBackPressed()
         }
     }
 
     private fun prepararModoCreacion() {
-        binding.toolbar.title = ""
+        binding.toolbar.title = getString(R.string.generar_evento)
         binding.layoutVisualizacion.visibility = View.GONE
         binding.layoutEdicion.visibility = View.VISIBLE
         binding.btnEditar.visibility = View.GONE
@@ -340,9 +339,9 @@ class DetalleEventoActivity : BaseActivity() {
         
         if (activar) {
             prepararCamposEdicion()
-            binding.toolbar.title = ""
+            binding.toolbar.title = getString(R.string.editar_evento)
         } else {
-            binding.toolbar.title = ""
+            eventoActual?.let { mostrarDetalles(it) }
             if (estaGrabando) detenerGrabacion()
         }
     }
@@ -445,6 +444,7 @@ class DetalleEventoActivity : BaseActivity() {
     }
 
     private fun mostrarDetalles(evento: Evento) {
+        binding.toolbar.title = getString(R.string.detalle_del_evento)
         binding.tvTitulo.text = evento.titulo
         binding.tvDescripcion.text = evento.descripcion ?: ""
         binding.tvDescripcion.visibility = if (evento.descripcion.isNullOrEmpty()) View.GONE else View.VISIBLE

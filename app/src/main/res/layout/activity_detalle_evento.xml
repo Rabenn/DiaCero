@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
-            app:title=""
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/DuoCalendarNumbers"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:navigationIconTint="?attr/colorOnSurface" />
 
@@ -297,6 +298,7 @@
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
                         android:hint="@string/descripci_n">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etDescripcion"
@@ -324,23 +326,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
                         <CheckBox android:id="@+id/cbPrioritario" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/prioritario" />
-                        <CheckBox android:id="@+id/cbAlarma" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="@string/configurar_alarma" />
+                        <CheckBox android:id="@+id/cbAlarma" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/configurar_alarma" />
                     </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_duo_card"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:layout_marginTop="16dp">
-
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/multimedia" android:fontFamily="@font/brand_font" android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:layout_marginTop="12dp">
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btnAdjuntarFoto"
@@ -348,72 +340,108 @@
                             android:layout_height="50dp"
                             android:layout_weight="1"
                             android:layout_marginEnd="8dp"
-                            android:background="@drawable/bg_button_duo_white"
-                            android:text="@string/foto" />
+                            android:background="@drawable/bg_button_duo_blue"
+                            android:text="@string/foto"
+                            android:textAllCaps="false"
+                            android:textStyle="bold"
+                            android:textColor="#4B4B4B" />
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btnAdjuntarAudio"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            android:background="@drawable/bg_button_duo_white"
-                            android:text="@string/audio" />
+                            android:background="@drawable/bg_button_duo_blue"
+                            android:text="@string/audio"
+                            android:textAllCaps="false"
+                            android:textStyle="bold"
+                            android:textColor="#4B4B4B" />
                     </LinearLayout>
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btnGrabarAudio"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="8dp"
                         android:background="@drawable/bg_button_duo_yellow"
                         android:text="@string/grabar_nota_de_voz"
                         android:textAllCaps="false"
+                        android:textStyle="bold"
                         android:textColor="#4B4B4B" />
 
-                    <TextView android:id="@+id/tvEstadoGrabacion" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#F44336" android:gravity="center" android:visibility="gone" android:layout_marginTop="8dp" />
-                    <TextView android:id="@+id/tvRutaFoto" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="11sp" android:visibility="gone" />
-                    <TextView android:id="@+id/tvRutaAudio" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="11sp" android:visibility="gone" />
+                    <TextView
+                        android:id="@+id/tvEstadoGrabacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/grabando"
+                        android:textColor="#F44336"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:layout_marginTop="8dp" />
+
+                    <TextView
+                        android:id="@+id/tvRutaFoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:layout_marginTop="4dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tvRutaAudio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:layout_marginTop="2dp"
+                        android:visibility="gone" />
+
                 </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="32dp">
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="40dp"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnEditar"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:background="@drawable/bg_button_duo_blue"
+                    android:layout_height="64dp"
+                    android:background="@drawable/bg_button_duo_purple"
                     android:text="@string/editar"
                     android:textAllCaps="false"
-                    android:fontFamily="@font/brand_font"
-                    android:textStyle="bold"
-                    android:textColor="#4B4B4B" />
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnGuardar"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="64dp"
                     android:background="@drawable/bg_button_duo_purple"
                     android:text="@string/guardar"
                     android:textAllCaps="false"
-                    android:fontFamily="@font/brand_font"
-                    android:textStyle="bold"
                     android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
                     android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnEliminar"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="64dp"
                     android:layout_marginTop="12dp"
                     android:background="@android:color/transparent"
                     android:text="@string/eliminar"
-                    android:fontFamily="@font/brand_font"
-                    android:textColor="@color/brand_red"
+                    android:textAllCaps="false"
+                    android:textColor="#F44336"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
+
             </LinearLayout>
 
         </LinearLayout>

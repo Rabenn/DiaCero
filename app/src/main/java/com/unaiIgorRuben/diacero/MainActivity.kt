@@ -11,6 +11,7 @@ import com.unaiIgorRuben.diacero.ui.BaseActivity
 import com.unaiIgorRuben.diacero.ui.ajustes.AjustesActivity
 import com.unaiIgorRuben.diacero.ui.calendario.CalendarioFragment
 import com.unaiIgorRuben.diacero.ui.habitos.HabitosFragment
+import com.unaiIgorRuben.diacero.ui.rutinas.GeneradorRutinasFragment
 import com.unaiIgorRuben.diacero.util.FontResizer
 
 class MainActivity : BaseActivity() {
@@ -31,6 +32,7 @@ class MainActivity : BaseActivity() {
         }
 
         checkIntentExtras(intent)
+        actualizarVisibilidadSegunBackStack()
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -129,15 +131,25 @@ class MainActivity : BaseActivity() {
 
         binding.menuContainer.visibility = View.VISIBLE
         binding.fragmentContainer.visibility = View.GONE
+        binding.fabSettings.visibility = View.VISIBLE
     }
 
     private fun actualizarVisibilidadSegunBackStack() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             binding.menuContainer.visibility = View.GONE
             binding.fragmentContainer.visibility = View.VISIBLE
+            
+            // Verificamos qué fragmento está visible actualmente
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+            if (currentFragment is GeneradorRutinasFragment) {
+                binding.fabSettings.visibility = View.GONE
+            } else {
+                binding.fabSettings.visibility = View.VISIBLE
+            }
         } else {
             binding.menuContainer.visibility = View.VISIBLE
             binding.fragmentContainer.visibility = View.GONE
+            binding.fabSettings.visibility = View.VISIBLE
         }
     }
 

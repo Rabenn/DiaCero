@@ -49,6 +49,7 @@
     <string name="eventos_del_dia">Today\'s events</string>
     <string name="a_adir_evento">Add event</string>
     <string name="generar_rutina">Generate Routine</string>
+    <string name="generar_evento">Generate Event</string>
     <string name="t_tulo_de_la_rutina">Routine title</string>
     <string name="d_as_de_la_semana">Days of the week</string>
     <string name="descripci_n_opcional">Description (optional)</string>
@@ -90,8 +91,6 @@
     <string name="elige_tipo_creacion">Choose whether you want to create a single event or a recurring routine.</string>
     <string name="rutina">Routine</string>
     <string name="evento">Event</string>
-
-    <!-- Strings for GeneradorRutinas -->
     <string name="inicio">Home</string>
     <string name="multimedia_estado">Media: %1$s %2$s</string>
     <string name="foto_listo">Photo ✅</string>
@@ -108,8 +107,6 @@
     <string name="nombre_del_h_bito">Habit name</string>
     <string name="objetivo_ej_30_d_as">Goal (e.g., 30 days)</string>
     <string name="frecuencia_marcar_cada_x_d_as">Frequency (mark every X days)</string>
-
-    <!-- Habit item strings -->
     <string name="diario">Daily</string>
     <string name="cada_x_dias">Every %1$d days</string>
     <string name="mejor_racha">Best streak: %1$d days</string>
@@ -117,6 +114,8 @@
     <string name="mapa_de_progreso">Progress map</string>
     <string name="completado_check">✔ COMPLETED</string>
     <string name="hecho_btn">Done!</string>
+    <string name="eliminar_h_bito">Delete habit</string>
+    <string name="confirmar_eliminar_h_bito">Are you sure you want to delete the habit \'%1$s\'? This action cannot be undone.</string>
 
     <!-- Settings / Colors -->
     <string name="seleccionar_color">Select Color</string>
@@ -138,5 +137,5 @@
     <string name="titulo_colores">Colors</string>
     <string name="titulo_peligro">DANGER</string>
     <string name="detalles_del_evento">Event details</string>
-    ```
+
 </resources>
