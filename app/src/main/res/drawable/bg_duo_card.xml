@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- El "borde" o profundidad inferior de 2px -->
+    <!-- El "borde" o profundidad inferior -->
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="16dp" />
-            <solid android:color="#E5E5E5" />
+            <!-- Usa el color de variante de superficie del tema (gris oscuro en noche) -->
+            <solid android:color="?attr/colorSurfaceVariant" />
         </shape>
     </item>
-    <!-- El fondo blanco principal, desplazado 2px hacia arriba para crear el efecto -->
-    <item android:bottom="2dp">
+
+    <!-- El fondo principal -->
+    <item android:bottom="3dp">
         <shape android:shape="rectangle">
             <corners android:radius="16dp" />
-            <solid android:color="#FFFFFF" />
-            <stroke android:width="2dp" android:color="#E5E5E5" />
+            <!-- Usa colorSurface para que sea blanco en día y gris casi negro en noche -->
+            <solid android:color="?attr/colorSurface" />
+            <stroke android:width="2dp" android:color="?attr/colorOutlineVariant" />
         </shape>
     </item>
 </layer-list>

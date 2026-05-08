@@ -113,25 +113,37 @@ class CalendarioFragment : Fragment() {
     /**
      * Configura el aspecto visual del calendario siguiendo la línea de Duolingo
      */
+    /**
+     * Configura el aspecto visual del calendario siguiendo la línea de Duolingo
+     */
     private fun setupCalendarVisuals() {
         binding.calendarView.apply {
-            // 1. Tipografía: Usar el estilo definido con brand_font y números grandes
+            // 1. Tipografía Duolingo
             setDateTextAppearance(R.style.DuoCalendarNumbers)
             setWeekDayTextAppearance(R.style.DuoCalendarNumbers)
-            setHeaderTextAppearance(R.style.DuoCalendarNumbers)
 
-            // 2. Colores de marca
-            selectionColor = ContextCompat.getColor(requireContext(), R.color.brand_purple)
+            // USO DE MÉTODOS (set...) para evitar errores de compilación
+            setTopbarVisible(false)
 
-            // 3. Espaciado y visibilidad (más aire para que parezca un Dashboard)
+            // 2. Otros ajustes
+            // Usamos setSelectionColor en lugar de la propiedad directa
+            setSelectionColor(ContextCompat.getColor(requireContext(), R.color.brand_purple))
+
             setTileHeightDp(52)
             showOtherDates = MaterialCalendarView.SHOW_ALL
+        }
 
-            // 4. Flechas personalizadas (opcional, si tienes los iconos)
-            setLeftArrow(R.drawable.ic_arrow_left)
-            setRightArrow(R.drawable.ic_arrow_right)
+        // 3. Botones manuales
+        // Si estos siguen en ROJO, ve al Paso 2
+        binding.btnCalendarPrev.setOnClickListener {
+            binding.calendarView.goToPrevious()
+        }
+
+        binding.btnCalendarNext.setOnClickListener {
+            binding.calendarView.goToNext()
         }
     }
+
 
     private fun setupSearchView() {
         binding.searchViewEventos.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
