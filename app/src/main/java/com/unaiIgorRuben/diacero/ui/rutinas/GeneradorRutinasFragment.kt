@@ -101,14 +101,6 @@ class GeneradorRutinasFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.toolbar.menu.clear()
-        binding.toolbar.menu.add(getString(R.string.inicio)).apply {
-            setIcon(R.drawable.ic_home)
-            setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS)
-        }
-        binding.toolbar.setOnMenuItemClickListener {
-            (activity as? MainActivity)?.volverAlMenuPrincipal()
-            true
-        }
         binding.toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }

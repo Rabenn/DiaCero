@@ -57,9 +57,6 @@ class HabitosFragment : Fragment() {
             (activity as? MainActivity)?.volverAlMenuPrincipal()
             true
         }
-        binding.fabIrCasaHabitos.setOnClickListener {
-            (activity as? MainActivity)?.volverAlMenuPrincipal()
-        }
     }
 
     private fun setupList() {

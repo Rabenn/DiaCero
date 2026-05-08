@@ -161,26 +161,14 @@ class DetalleEventoActivity : BaseActivity() {
 
     private fun setupToolbar() {
         binding.toolbar.menu.clear()
-        binding.toolbar.menu.add(getString(R.string.inicio)).apply {
-            setIcon(R.drawable.ic_home)
-            setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS)
-        }
-        binding.toolbar.setOnMenuItemClickListener {
-            val intent = Intent(this, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-                putExtra("GO_HOME", true)
-            }
-            startActivity(intent)
-            finish()
-            true
-        }
+        binding.toolbar.title = ""
         binding.toolbar.setNavigationOnClickListener { 
             if (estaEnModoEdicion && !esModoCreacion) alternarModoEdicion(false) else onBackPressedDispatcher.onBackPressed()
         }
     }
 
     private fun prepararModoCreacion() {
-        binding.toolbar.title = getString(R.string.nuevo_evento)
+        binding.toolbar.title = ""
         binding.layoutVisualizacion.visibility = View.GONE
         binding.layoutEdicion.visibility = View.VISIBLE
         binding.btnEditar.visibility = View.GONE
@@ -352,9 +340,9 @@ class DetalleEventoActivity : BaseActivity() {
         
         if (activar) {
             prepararCamposEdicion()
-            binding.toolbar.title = getString(R.string.editar_evento)
+            binding.toolbar.title = ""
         } else {
-            binding.toolbar.title = getString(R.string.detalle_del_evento)
+            binding.toolbar.title = ""
             if (estaGrabando) detenerGrabacion()
         }
     }
@@ -481,7 +469,7 @@ class DetalleEventoActivity : BaseActivity() {
         binding.chipTipo.setChipBackgroundColorResource(android.R.color.transparent)
         binding.chipTipo.chipBackgroundColor = android.content.res.ColorStateList.valueOf(Color.parseColor(evento.tipo.color))
         binding.colorIndicator.setBackgroundColor(Color.parseColor(evento.tipo.color))
-        binding.toolbar.setBackgroundColor(Color.parseColor(evento.tipo.color))
+        // ELIMINADO: binding.toolbar.setBackgroundColor(Color.parseColor(evento.tipo.color))
 
         if (evento.fotoRuta != null) {
             binding.ivFotoPreview.visibility = View.VISIBLE

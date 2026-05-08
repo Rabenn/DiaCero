@@ -32,19 +32,6 @@
         app:layout_constraintTop_toBottomOf="@id/toolbarHabitos" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabIrCasaHabitos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="16dp"
-        android:contentDescription="Ir a inicio"
-        android:src="@drawable/ic_home"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:tint="@android:color/white" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddHabito"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
