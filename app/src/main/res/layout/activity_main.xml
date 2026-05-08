@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface">
+    android:background="?attr/android:windowBackground">
 
     <LinearLayout
         android:id="@+id/menuContainer"
@@ -12,59 +13,86 @@
         android:orientation="vertical"
         android:padding="32dp">
 
-        <!-- Contenedor central para los botones principales -->
-        <LinearLayout
+        <!-- Espacio superior para elevar el logo (0.3 hace que esté más arriba) -->
+        <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.3" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center">
 
+            <!-- LOGO: Fuente de marca y tamaño potente -->
             <TextView
                 android:id="@+id/tvBienvenida"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/dia_cero"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="42sp"
+                android:fontFamily="@font/brand_font"
+                android:textColor="@color/brand_purple"
+                android:textSize="52sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="56dp" />
+                android:layout_marginBottom="64dp" />
 
-            <com.google.android.material.button.MaterialButton
+            <!-- BOTÓN CALENDARIO: Estilo 3D Morado -->
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnCalendario"
-                style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="68dp"
+                android:background="@drawable/bg_button_duo_purple"
+                android:fontFamily="@font/brand_font"
                 android:text="@string/ver_calendario"
+                android:textAllCaps="false"
+                android:textColor="#4B4B4B"
                 android:textSize="18sp"
-                app:cornerRadius="20dp"
-                app:icon="@android:drawable/ic_menu_my_calendar"
-                app:iconSize="24dp"
-                app:iconPadding="12dp" />
+                android:textStyle="bold"
+                android:paddingHorizontal="24dp"
+                android:drawableStart="@android:drawable/ic_menu_my_calendar"
+                android:drawablePadding="12dp" />
 
-            <com.google.android.material.button.MaterialButton
+            <!-- BOTÓN HÁBITOS: Estilo 3D Amarillo -->
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnHabitos"
-                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginTop="16dp"
+                android:layout_height="68dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_button_duo_yellow"
+                android:fontFamily="@font/brand_font"
                 android:text="@string/mis_h_bitos"
+                android:textAllCaps="false"
+                android:textColor="#4B4B4B"
                 android:textSize="18sp"
-                app:cornerRadius="20dp"
-                app:icon="@android:drawable/ic_menu_agenda"
-                app:iconSize="24dp"
-                app:iconPadding="12dp" />
+                android:textStyle="bold"
+                android:paddingHorizontal="24dp"
+                android:drawableStart="@android:drawable/ic_menu_agenda"
+                android:drawablePadding="12dp" />
+
+            <!-- BOTÓN AJUSTES: Bajado con 80dp de margen y ancho reducido -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAjustes"
+                android:layout_width="180dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="80dp"
+                android:background="@drawable/bg_button_duo_blue"
+                android:fontFamily="@font/brand_font"
+                android:text="@string/ajustes"
+                android:textAllCaps="false"
+                android:textColor="#4B4B4B"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingHorizontal="16dp"
+                android:drawableStart="@android:drawable/ic_menu_preferences"
+                android:drawablePadding="8dp" />
         </LinearLayout>
 
-        <!-- Botón de ajustes en la parte inferior del menú -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnAjustes"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/ajustes"
-            app:icon="@android:drawable/ic_menu_preferences" />
+        <!-- Espacio inferior (1.2) para empujar todo el bloque hacia la parte superior -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2" />
 
     </LinearLayout>
 
@@ -74,16 +102,20 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
+    <!-- Botón Luna -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:contentDescription="Cambiar tema"
+        android:layout_margin="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:backgroundTint="@color/surface_variant"
+        app:elevation="2dp"
+        app:pressedTranslationZ="0dp"
         app:fabSize="mini"
-        app:elevation="4dp"
-        app:tint="@android:color/white" />
+        android:src="@drawable/ic_moon"
+        app:tint="@color/brand_purple"
+        app:borderWidth="2dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

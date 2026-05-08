@@ -142,20 +142,23 @@ class CalendarioFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 val query = newText.orEmpty()
-                if (query.isNotEmpty() || tipoSeleccionado != null) {
-                    realizarBusqueda(query)
-                } else {
-                    limpiarBusqueda()
+
+                // Si hay texto, buscamos en TODOS los eventos (no solo los del día)
+                if (query.length >= 2) {
+                    viewModel.buscarEventos(query, tipoSeleccionado).observe(viewLifecycleOwner) { eventos ->
+                        adapter.actualizarEventos(eventos)
+                        binding.tvEventosDelDia.text = "Resultados para: $query"
+                    }
+                } else if (query.isEmpty()) {
+                    // Si borramos el buscador, volvemos a mostrar los eventos del día seleccionado
+                    observeEventos(fechaSeleccionada)
+                    binding.tvEventosDelDia.text = getString(R.string.eventos_del_dia)
                 }
                 return true
             }
         })
-
-        binding.searchViewEventos.setOnCloseListener {
-            limpiarBusqueda()
-            false
-        }
     }
+
 
     private fun setupSpinnerFiltro() {
         val opciones = listOf(

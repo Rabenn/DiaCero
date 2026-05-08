@@ -2,7 +2,7 @@ package com.unaiIgorRuben.diacero.ui.calendario.adapter
 
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
+import android.view.View   // <--- Asegúrate de que este sea el único para visibilidad
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -41,15 +41,21 @@ class CalendarioAdapter(
 
     inner class EventoViewHolder(private val binding: ItemEventoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(evento: Evento) {
+            // Título con fuente de marca (ya configurada en el XML)
             binding.tvTitulo.text = evento.titulo
 
+            // Formato de hora: 10:00 - 11:30
             val sdfHora = SimpleDateFormat("HH:mm", Locale.getDefault())
             val horaInicioStr = sdfHora.format(evento.horaInicio)
             val horaFinStr = sdfHora.format(evento.horaFin)
-            binding.tvHora.text = "$horaInicioStr - $horaFinStr"
+            binding.tvHora.text = "⏰ $horaInicioStr - $horaFinStr"
+
+            // --- NUEVO: MOSTRAR FECHA A LA DERECHA ---
+            val sdfFecha = SimpleDateFormat("d MMM", Locale.getDefault())
+            binding.tvFechaEventoItem.text = sdfFecha.format(evento.fecha)
 
             if (evento.ubicacion?.isNotEmpty() == true) {
-                binding.tvUbicacion.text = evento.ubicacion
+                binding.tvUbicacion.text = "📍 ${evento.ubicacion}"
                 binding.tvUbicacion.visibility = View.VISIBLE
             } else {
                 binding.tvUbicacion.visibility = View.GONE
@@ -69,15 +75,14 @@ class CalendarioAdapter(
                 evento.color
             }
 
-            if (colorFinal.isNotEmpty()) {
+            if (!colorFinal.isNullOrEmpty()) {
                 binding.colorIndicator.setBackgroundColor(android.graphics.Color.parseColor(colorFinal))
-            } else {
-                binding.colorIndicator.setBackgroundColor(android.graphics.Color.TRANSPARENT)
             }
 
+            // Icono de prioridad (Estrella)
             binding.iconPriority.visibility = if (evento.esPrioritario) View.VISIBLE else View.GONE
 
-            // Preview de la imagen a la derecha
+            // Preview de la imagen a la derecha (ivPreview está dentro de layoutDerecha en el nuevo XML)
             if (evento.fotoRuta != null) {
                 binding.ivPreview.visibility = View.VISIBLE
                 Glide.with(binding.root.context)
@@ -87,6 +92,7 @@ class CalendarioAdapter(
                 binding.ivPreview.visibility = View.GONE
             }
 
+            // Iconos de multimedia (Cámara/Micro)
             val tieneMultimedia = evento.fotoRuta != null || evento.audioRuta != null
             if (tieneMultimedia) {
                 binding.layoutMultimedia.visibility = View.VISIBLE

@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
-    android:paddingTop="48dp">
+    android:background="?attr/android:windowBackground">
 
+    <!-- TOOLBAR ESTILO DUOLINGO -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarAjustes"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorSurface"
+        android:background="?attr/android:windowBackground"
+        app:titleCentered="true"
         app:title="@string/ajustes"
+        app:titleTextAppearance="@style/DuoCalendarNumbers"
         app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="@color/duo_text_main"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarAjustes">
 
@@ -25,256 +31,173 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="20dp">
 
+            <!-- SECCIÓN: PREFERENCIAS -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/preferencias"
-                android:textColor="?attr/colorPrimary"
+                android:fontFamily="@font/brand_font"
+                android:textColor="@color/duo_text_secondary"
+                android:textSize="14sp"
                 android:textStyle="bold"
+                android:letterSpacing="0.1"
+                android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp" />
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="?attr/colorOutlineVariant">
+                android:background="@drawable/bg_duo_card"
+                android:orientation="vertical"
+                android:padding="4dp">
 
-                <LinearLayout
+                <!-- Notificaciones -->
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchNotificaciones"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:padding="16dp"
+                    android:text="@string/notificaciones_de_eventos"
+                    android:fontFamily="@font/brand_font"
+                    android:textSize="16sp"
+                    android:textColor="@color/duo_text_main" />
 
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/switchNotificaciones"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="@string/notificaciones_de_eventos"
-                        android:checked="true" />
+                <View android:layout_width="match_parent" android:layout_height="2dp" android:background="@color/duo_border" android:layout_marginHorizontal="16dp" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?attr/colorOutlineVariant"
-                        android:layout_marginHorizontal="16dp" />
-
-                    <LinearLayout
-                        android:id="@+id/btnIdioma"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="?attr/selectableItemBackground"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/idioma_de_la_aplicaci_n"
-                            android:textSize="16sp" />
-                        <TextView
-                            android:id="@+id/tvIdiomaActual"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/espa_ol_predeterminado"
-                            android:textSize="14sp"
-                            android:alpha="0.7" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?attr/colorOutlineVariant"
-                        android:layout_marginHorizontal="16dp" />
-
-                    <LinearLayout
-                        android:id="@+id/btnTamanoLetra"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="?attr/selectableItemBackground"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tama_o_de_letra"
-                            android:textSize="16sp" />
-                        <TextView
-                            android:id="@+id/tvTamanoLetraActual"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/normal"
-                            android:textSize="14sp"
-                            android:alpha="0.7" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?attr/colorOutlineVariant"
-                        android:layout_marginHorizontal="16dp" />
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/switchEventosPasados"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="@string/eventos_pasados_en_negro_oscuro"
-                        android:checked="false" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/personalizaci_n_de_colores"
-                android:textColor="?attr/colorPrimary"
-                android:textStyle="bold"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="8dp" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="?attr/colorOutlineVariant">
-
+                <!-- Idioma -->
                 <LinearLayout
+                    android:id="@+id/btnIdioma"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/btnColorClaro"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="?attr/selectableItemBackground"
-                        android:padding="16dp"
-                        android:gravity="center_vertical">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/color_principal_modo_claro"
-                            android:textSize="16sp" />
-                        <View
-                            android:id="@+id/viewColorClaro"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:background="@color/primary" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?attr/colorOutlineVariant"
-                        android:layout_marginHorizontal="16dp" />
-
-                    <LinearLayout
-                        android:id="@+id/btnColorOscuro"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="?attr/selectableItemBackground"
-                        android:padding="16dp"
-                        android:gravity="center_vertical">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/color_principal_modo_oscuro"
-                            android:textSize="16sp" />
-                        <View
-                            android:id="@+id/viewColorOscuro"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:background="@color/dark_primary" />
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/datos_y_almacenamiento"
-                android:textColor="?attr/colorPrimary"
-                android:textStyle="bold"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="8dp" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="?attr/colorOutlineVariant">
-
-                <LinearLayout
-                    android:id="@+id/btnLimpiarDatos"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
-                    android:background="?attr/selectableItemBackground"
+                    android:orientation="vertical"
                     android:padding="16dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/borrar_todos_los_eventos"
-                        android:textColor="?attr/colorError"
-                        android:textSize="16sp" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/idioma_de_la_aplicaci_n" android:fontFamily="@font/brand_font" android:textSize="16sp" android:textColor="@color/duo_text_main" />
+                    <TextView android:id="@+id/tvIdiomaActual" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/brand_font" android:textSize="13sp" android:textColor="@color/duo_text_secondary" tools:text="Español" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
 
+                <View android:layout_width="match_parent" android:layout_height="2dp" android:background="@color/duo_border" android:layout_marginHorizontal="16dp" />
+
+                <!-- TAMAÑO DE LETRA (Añadido para corregir el error) -->
+                <LinearLayout
+                    android:id="@+id/btnTamanoLetra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/tama_o_de_letra" android:fontFamily="@font/brand_font" android:textSize="16sp" android:textColor="@color/duo_text_main" />
+                    <TextView android:id="@+id/tvTamanoLetraActual" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/brand_font" android:textSize="13sp" android:textColor="@color/duo_text_secondary" tools:text="Normal" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="2dp" android:background="@color/duo_border" android:layout_marginHorizontal="16dp" />
+
+                <!-- Eventos Pasados -->
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchEventosPasados"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="@string/eventos_pasados_en_negro_oscuro"
+                    android:fontFamily="@font/brand_font"
+                    android:textSize="16sp"
+                    android:textColor="@color/duo_text_main" />
+            </LinearLayout>
+
+            <!-- SECCIÓN: COLORES -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/acerca_de"
-                android:textColor="?attr/colorPrimary"
+                android:text="COLORES"
+                android:fontFamily="@font/brand_font"
+                android:textColor="@color/duo_text_secondary"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginTop="24dp"
+                android:letterSpacing="0.1"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp" />
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="?attr/colorOutlineVariant">
+                android:background="@drawable/bg_duo_card"
+                android:orientation="vertical"
+                android:padding="4dp">
 
                 <LinearLayout
+                    android:id="@+id/btnColorClaro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dia_cero_v1_0"
-                        android:textSize="16sp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/desarrollado_para_la_gesti_n_de_rutinas_y_eventos"
-                        android:textSize="14sp"
-                        android:alpha="0.7" />
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/color_principal_modo_claro" android:fontFamily="@font/brand_font" android:textSize="16sp" android:textColor="@color/duo_text_main" />
+                    <View android:id="@+id/viewColorClaro" android:layout_width="28dp" android:layout_height="28dp" android:background="@drawable/bg_circle_soft_blue" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+
+                <View android:layout_width="match_parent" android:layout_height="2dp" android:background="@color/duo_border" android:layout_marginHorizontal="16dp" />
+
+                <LinearLayout
+                    android:id="@+id/btnColorOscuro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/color_principal_modo_oscuro" android:fontFamily="@font/brand_font" android:textSize="16sp" android:textColor="@color/duo_text_main" />
+                    <View android:id="@+id/viewColorOscuro" android:layout_width="28dp" android:layout_height="28dp" android:background="@drawable/bg_circle_soft_purple" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- SECCIÓN: PELIGRO -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PELIGRO"
+                android:fontFamily="@font/brand_font"
+                android:textColor="@color/brand_red"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:id="@+id/btnLimpiarDatos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_duo_card"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="16dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/borrar_todos_los_eventos"
+                    android:fontFamily="@font/brand_font"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/brand_red"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- SECCIÓN: INFO -->
+            <TextView
+                android:id="@+id/tvVersion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:fontFamily="@font/brand_font"
+                android:text="Dia Cero v1.0\nDesarrollado con ❤️"
+                android:textColor="@color/duo_text_secondary"
+                android:textSize="12sp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

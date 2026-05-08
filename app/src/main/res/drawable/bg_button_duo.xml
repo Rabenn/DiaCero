@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- La "Sombra" o Base Inferior (Color más oscuro) -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="16dp" />
+            <solid android:color="#D4C4FB" /> <!-- Un morado más oscuro para la base -->
+        </shape>
+    </item>
+
+    <!-- La parte superior del botón (Color principal) -->
+    <!-- El 'bottom="4dp"' es lo que deja ver la base inferior -->
+    <item android:bottom="4dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="16dp" />
+            <solid android:color="#E8DDFF" /> <!-- El morado claro de tu captura -->
+            <stroke android:width="2dp" android:color="#D4C4FB" />
+        </shape>
+    </item>
+</layer-list>
