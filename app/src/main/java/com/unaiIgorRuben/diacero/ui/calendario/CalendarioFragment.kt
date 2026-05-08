@@ -23,6 +23,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.unaiIgorRuben.diacero.MainActivity
 import com.unaiIgorRuben.diacero.R
 import com.unaiIgorRuben.diacero.data.local.database.AppDatabase
@@ -48,8 +49,8 @@ class CalendarioFragment : Fragment() {
     private var eventosDelDiaActual: List<Evento> = emptyList()
     private var tipoSeleccionado: TipoEvento? = null
 
-    private val viewModel: CalendarioViewModel by viewModels { 
-        val database = AppDatabase.getDatabase(requireContext()) 
+    private val viewModel: CalendarioViewModel by viewModels {
+        val database = AppDatabase.getDatabase(requireContext())
         val repository = EventoRepository(database.eventoDao())
         CalendarioViewModelFactory(requireActivity().application, repository)
     }
@@ -74,6 +75,7 @@ class CalendarioFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupCalendarVisuals() // Configuración estilo Duolingo
         setupRecyclerView()
         setupSearchView()
         setupSpinnerFiltro()
@@ -106,6 +108,29 @@ class CalendarioFragment : Fragment() {
         actualizarFechaSeleccionada(fechaSeleccionada)
         observarEventosParaMarcadores()
         observeEventos(fechaSeleccionada)
+    }
+
+    /**
+     * Configura el aspecto visual del calendario siguiendo la línea de Duolingo
+     */
+    private fun setupCalendarVisuals() {
+        binding.calendarView.apply {
+            // 1. Tipografía: Usar el estilo definido con brand_font y números grandes
+            setDateTextAppearance(R.style.DuoCalendarNumbers)
+            setWeekDayTextAppearance(R.style.DuoCalendarNumbers)
+            setHeaderTextAppearance(R.style.DuoCalendarNumbers)
+
+            // 2. Colores de marca
+            selectionColor = ContextCompat.getColor(requireContext(), R.color.brand_purple)
+
+            // 3. Espaciado y visibilidad (más aire para que parezca un Dashboard)
+            setTileHeightDp(52)
+            showOtherDates = MaterialCalendarView.SHOW_ALL
+
+            // 4. Flechas personalizadas (opcional, si tienes los iconos)
+            setLeftArrow(R.drawable.ic_arrow_left)
+            setRightArrow(R.drawable.ic_arrow_right)
+        }
     }
 
     private fun setupSearchView() {
@@ -156,7 +181,7 @@ class CalendarioFragment : Fragment() {
                     5 -> TipoEvento.OTROS
                     else -> null
                 }
-                
+
                 val query = binding.searchViewEventos.query.toString()
                 if (query.isNotEmpty() || tipoSeleccionado != null) {
                     realizarBusqueda(query)
@@ -238,22 +263,25 @@ class CalendarioFragment : Fragment() {
     private fun aplicarDecoradoresEventos(eventos: List<Evento>) {
         binding.calendarView.removeDecorators()
 
-        val isDarkMode =
-            resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK ==
+        // Decorador de texto para modo oscuro/claro
+        val isDarkMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK ==
                 android.content.res.Configuration.UI_MODE_NIGHT_YES
+
         if (isDarkMode) {
             binding.calendarView.addDecorator(CalendarTextColorDecorator(Color.WHITE))
+        } else {
+            binding.calendarView.addDecorator(CalendarTextColorDecorator(Color.parseColor("#4B4B4B")))
         }
-        
+
         val eventosPorDia = eventos.groupBy { calendarDayFromDate(it.fecha) }
-        
+
         eventosPorDia.forEach { (dia, listaEventos) ->
-            val colores = listaEventos.take(3).map { 
-                it.tipo.color.toColorInt() 
+            val colores = listaEventos.take(3).map {
+                it.tipo.color.toColorInt()
             }
             val extraCount = if (listaEventos.size > 3) listaEventos.size - 3 else 0
             val esPrioritario = listaEventos.any { it.esPrioritario }
-            
+
             binding.calendarView.addDecorator(
                 EventDayDecorator(
                     day = dia,

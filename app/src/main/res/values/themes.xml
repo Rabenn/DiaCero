@@ -1,33 +1,32 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.DiaCero" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Colores principales -->
+
+    <!--1. TEMA BASE (El que usa el Manifest y el resto de temas) -->
+    <style name="Theme.DiaCero" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Colores por defecto -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/secondary</item>
-        <item name="colorOnSecondary">@color/white</item>
 
-        <!-- Fondo y Superficies -->
-        <item name="android:windowBackground">@color/background</item>
-        <item name="colorSurface">@color/surface</item>
-        <item name="colorSurfaceVariant">@color/surface_variant</item>
-        <item name="colorOnSurface">@color/text_primary</item>
-        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+        <!-- FUENTE DUOLINGO (Se aplicará a todos los temas que heredan de aquí) -->
+        <item name="android:fontFamily">@font/brand_font</item>
+        <item name="fontFamily">@font/brand_font</item>
+
+        <!-- Configuración de superficies limpia -->
+        <item name="android:windowBackground">@color/white</item>
+        <item name="colorSurface">@color/white</item>
     </style>
 
-    <style name="Theme.DiaCero" parent="Base.Theme.DiaCero" />
-
-    <!-- Temas de Colores -->
+    <!-- 2. TEMAS DE COLORES (Para que BaseActivity no dé error) -->
+    <!-- Al poner parent="Theme.DiaCero", todos heredan la fuente brand_font -->
     <style name="Theme.DiaCero.Blue" parent="Theme.DiaCero" />
-    
+
     <style name="Theme.DiaCero.Green" parent="Theme.DiaCero">
         <item name="colorPrimary">#00A884</item>
     </style>
-    
+
     <style name="Theme.DiaCero.Red" parent="Theme.DiaCero">
         <item name="colorPrimary">#D32F2F</item>
     </style>
-    
+
     <style name="Theme.DiaCero.Purple" parent="Theme.DiaCero">
         <item name="colorPrimary">#7B1FA2</item>
     </style>
@@ -46,6 +45,15 @@
 
     <style name="Theme.DiaCero.IntenseBlue" parent="Theme.DiaCero">
         <item name="colorPrimary">#1976D2</item>
+    </style>
+
+
+    <!-- 3. ESTILO DUOLINGO PARA EL CALENDARIO -->
+    <style name="DuoCalendarNumbers" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#4B4B4B</item>
+        <item name="android:fontFamily">@font/brand_font</item>
     </style>
 
 </resources>

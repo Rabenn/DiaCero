@@ -4,24 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/android:windowBackground"
     tools:context=".ui.calendario.CalendarioFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingHorizontal="12dp"
+        android:paddingHorizontal="16dp"
         android:paddingTop="48dp">
 
-        <!-- Buscador de Eventos con margen para el botón de ajustes -->
-        <com.google.android.material.card.MaterialCardView
+        <!-- 1. Buscador estilo Duolingo -->
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="2dp"
-            app:strokeColor="@color/divider"
-            app:strokeWidth="1dp">
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_duo_card"
+            android:padding="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,67 +47,61 @@
                     android:overlapAnchor="false"
                     android:spinnerMode="dropdown" />
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+        </FrameLayout>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardCalendario"
+        <!-- 2. Card del Calendario con bordes sólidos de 2px -->
+        <LinearLayout
+            android:id="@+id/cardCalendarioContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="2dp"
-            app:strokeColor="@color/divider"
-            app:strokeWidth="1dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/calendario"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvFechaSeleccionada"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textColor="?attr/colorOnSurfaceVariant"
-                    android:textSize="14sp"
-                    tools:text="Viernes, 27 de marzo de 2026" />
-
-                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                    android:id="@+id/calendarView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardTituloEventos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceVariant">
+            android:background="@drawable/bg_duo_card"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
-                android:id="@+id/tvEventosDelDia"
+                android:id="@+id/tvTituloCalendario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/brand_font"
+                android:text="@string/calendario"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvFechaSeleccionada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/brand_font"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp"
+                android:alpha="0.7"
+                tools:text="Viernes, 27 de marzo de 2026" />
+
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="14dp"
-                android:text="@string/eventos_del_dia"
-                android:textColor="?attr/colorOnSurface"
-                android:textStyle="bold" />
-        </com.google.android.material.card.MaterialCardView>
+                android:layout_marginTop="12dp"
+                app:mcv_showOtherDates="all"
+                app:mcv_selectionColor="@color/brand_purple" />
+        </LinearLayout>
 
+        <!-- 3. Título de Eventos (Sección plana) -->
+        <TextView
+            android:id="@+id/tvEventosDelDia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/brand_font"
+            android:paddingHorizontal="4dp"
+            android:text="@string/eventos_del_dia"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- 4. Lista de eventos -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvEventos"
             android:layout_width="match_parent"
@@ -122,14 +115,17 @@
 
     </LinearLayout>
 
+    <!-- Botones Flotantes estilo Duolingo (Elevation reducida para parecer planos) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabIrCasa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         android:contentDescription="@string/ir_a_inicio"
         android:src="@drawable/ic_home"
+        app:backgroundTint="@color/brand_blue"
+        app:elevation="2dp"
         app:fabSize="mini"
         app:tint="@android:color/white" />
 
@@ -141,6 +137,8 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/a_adir_evento"
         android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/brand_purple"
+        app:elevation="4dp"
         app:tint="@android:color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

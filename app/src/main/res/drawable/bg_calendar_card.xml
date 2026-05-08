@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- El "borde" o sombra sólida inferior (profundidad de 2px-4px) -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="16dp" />
+            <solid android:color="#E5E5E5" /> <!-- Color del borde gris -->
+        </shape>
+    </item>
+    <!-- El fondo blanco principal, desplazado 2dp hacia arriba -->
+    <item android:bottom="3dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="16dp" />
+            <solid android:color="#FFFFFF" />
+            <stroke android:width="2dp" android:color="#E5E5E5" />
+        </shape>
+    </item>
+</layer-list>

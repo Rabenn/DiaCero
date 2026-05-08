@@ -23,4 +23,18 @@
     <color name="dark_secondary">#4ED9BC</color>
     <color name="dark_text_primary">#E2F1FF</color>
     <color name="dark_text_secondary">#A9C0D0</color>
+    <!-- Paleta DiaCero (Basada en tu logo) -->
+    <color name="brand_purple">#8E44AD</color>
+    <color name="brand_purple_dark">#71368A</color> <!-- Para el borde del botón/card -->
+
+    <color name="brand_blue">#3498DB</color>
+    <color name="brand_blue_dark">#2980B9</color>
+
+    <color name="brand_red">#E74C3C</color> <!-- Tu color de acento/peligro -->
+    <color name="brand_red_dark">#C0392B</color>
+
+    <!-- Neutros estilo Duolingo -->
+    <color name="duo_border">#E5E5E5</color>
+    <color name="duo_text_main">#4B4B4B</color>
+    <color name="duo_text_secondary">#777777</color>
 </resources>
