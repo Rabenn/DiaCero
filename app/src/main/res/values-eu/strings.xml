@@ -133,5 +133,8 @@
     <string name="confirmar_eliminar_eventos_desc">Ziur zaude gertaera guztiak ezabatu nahi dituzula?</string>
     <string name="eventos_eliminados">Gertaerak ezabatuta</string>
     <string name="error_proceso">Errorea</string>
+    <string name="titulo_colores">Koloreak</string>
+    <string name="titulo_peligro">KONTUZ</string>
+    <string name="detalles_del_evento">Gertaeraren xehetasunak</string>
 
 </resources>

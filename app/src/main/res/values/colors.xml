@@ -37,4 +37,5 @@
     <color name="duo_border">#E5E5E5</color>
     <color name="duo_text_main">#4B4B4B</color>
     <color name="duo_text_secondary">#777777</color>
+    <color name="brand_yellow">#FFC107</color>
 </resources>

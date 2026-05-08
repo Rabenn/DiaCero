@@ -135,5 +135,8 @@
     <string name="confirmar_eliminar_eventos_desc">Are you sure you want to delete all events?</string>
     <string name="eventos_eliminados">Events deleted</string>
     <string name="error_proceso">Error</string>
-
+    <string name="titulo_colores">Colors</string>
+    <string name="titulo_peligro">DANGER</string>
+    <string name="detalles_del_evento">Event details</string>
+    ```
 </resources>

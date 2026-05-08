@@ -133,5 +133,8 @@
     <string name="confirmar_eliminar_eventos_desc">¿Estás seguro de que quieres borrar todos los eventos?</string>
     <string name="eventos_eliminados">Eventos eliminados</string>
     <string name="error_proceso">Error</string>
+    <string name="titulo_colores">Colores</string>
+    <string name="titulo_peligro">PELIGRO</string>
+    <string name="detalles_del_evento">Detalles del Evento</string>
 
 </resources>

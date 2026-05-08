@@ -1,65 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="48dp"
-    tools:context=".ui.rutinas.GeneradorRutinasFragment">
+    android:background="?attr/android:windowBackground">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="?attr/android:windowBackground"
         app:title="@string/generar_rutina"
-        app:navigationIcon="@drawable/ic_arrow_back" />
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/DuoCalendarNumbers"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="?attr/colorOnSurface" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/t_tulo_de_la_rutina">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTitulo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/d_as_de_la_semana" />
-
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="4">
-                <CheckBox android:id="@+id/checkLunes" android:text="L" />
-                <CheckBox android:id="@+id/checkMartes" android:text="M" />
-                <CheckBox android:id="@+id/checkMiercoles" android:text="X" />
-                <CheckBox android:id="@+id/checkJueves" android:text="J" />
-                <CheckBox android:id="@+id/checkViernes" android:text="V" />
-                <CheckBox android:id="@+id/checkSabado" android:text="S" />
-                <CheckBox android:id="@+id/checkDomingo" android:text="D" />
-            </GridLayout>
+            android:padding="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
+                android:background="@drawable/bg_duo_card"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="20dp">
+
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/t_tulo_de_la_rutina"
+                    app:boxStrokeColor="@color/brand_purple"
+                    app:hintTextColor="@color/brand_purple">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etTitulo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/brand_font" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/descripci_n_opcional">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDescripcion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/brand_font" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/brand_font"
+                    android:text="@string/d_as_de_la_semana"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textStyle="bold" />
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="7"
+                    android:layout_marginTop="8dp">
+                    <CheckBox android:id="@+id/checkLunes" android:text="L" android:buttonTint="@color/brand_purple" />
+                    <CheckBox android:id="@+id/checkMartes" android:text="M" android:buttonTint="@color/brand_purple" />
+                    <CheckBox android:id="@+id/checkMiercoles" android:text="X" android:buttonTint="@color/brand_purple" />
+                    <CheckBox android:id="@+id/checkJueves" android:text="J" android:buttonTint="@color/brand_purple" />
+                    <CheckBox android:id="@+id/checkViernes" android:text="V" android:buttonTint="@color/brand_purple" />
+                    <CheckBox android:id="@+id/checkSabado" android:text="S" android:buttonTint="@color/brand_purple" />
+                    <CheckBox android:id="@+id/checkDomingo" android:text="D" android:buttonTint="@color/brand_purple" />
+                </GridLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_duo_card"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:layout_marginBottom="20dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -72,7 +109,9 @@
                         android:focusable="false"
                         android:clickable="true" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -86,117 +125,150 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="@string/descripci_n_opcional">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etDescripcion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:background="@drawable/bg_duo_card"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="20dp">
 
-            <!-- CAMPO UBICACIÓN CON BOTÓN GPS -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/inputLayoutUbicacion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:hint="@string/ubicaci_n_opcional"
-                app:endIconMode="custom"
-                app:endIconDrawable="@android:drawable/ic_menu_mylocation"
-                app:endIconContentDescription="@string/obtener_ubicaci_n_actual">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etUbicacion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:hint="@string/n_mero_de_semanas">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etSemanas"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayoutUbicacion"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:text="4" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:hint="@string/ubicaci_n_opcional"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@android:drawable/ic_menu_mylocation"
+                    app:endIconTint="@color/brand_purple">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etUbicacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/brand_font" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <CheckBox
-                android:id="@+id/cbAlarma"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/configurar_alarma_en_el_sistema" />
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/n_mero_de_semanas">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etSemanas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:text="4"
+                        android:fontFamily="@font/brand_font" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/multimedia"
-                android:textStyle="bold"
-                android:layout_marginTop="24dp" />
+                <CheckBox
+                    android:id="@+id/cbAlarma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:buttonTint="@color/brand_purple"
+                    android:fontFamily="@font/brand_font"
+                    android:text="@string/configurar_alarma_en_el_sistema"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
-                <Button
-                    android:id="@+id/btnAdjuntarFoto"
-                    android:layout_width="0dp"
+                android:background="@drawable/bg_duo_card"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/foto"
-                    android:layout_marginEnd="8dp"
-                    style="@style/Widget.Material3.Button.OutlinedButton" />
-                <Button
-                    android:id="@+id/btnAdjuntarAudio"
-                    android:layout_width="0dp"
+                    android:text="@string/multimedia"
+                    android:fontFamily="@font/brand_font"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/audio"
-                    style="@style/Widget.Material3.Button.OutlinedButton" />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnAdjuntarFoto"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/bg_button_duo_blue"
+                        android:text="@string/foto"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        android:textColor="#4B4B4B" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnAdjuntarAudio"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_button_duo_blue"
+                        android:text="@string/audio"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        android:textColor="#4B4B4B" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnGrabarAudio"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_button_duo_yellow"
+                    android:text="@string/grabar_nota_de_voz"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:textColor="#4B4B4B" />
+
+                <TextView
+                    android:id="@+id/tvEstadoGrabacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/grabando"
+                    android:textColor="#F44336"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/brand_font" />
+
+                <TextView
+                    android:id="@+id/tvRutaMultimedia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone"
+                    android:fontFamily="@font/brand_font"
+                    tools:text="Archivos adjuntos: Foto y Audio" />
+
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btnGrabarAudio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/grabar_nota_de_voz"
-                android:layout_marginTop="8dp"
-                style="@style/Widget.Material3.Button.TonalButton" />
-
-            <TextView
-                android:id="@+id/tvEstadoGrabacion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/grabando"
-                android:textColor="#F44336"
-                android:gravity="center"
-                android:visibility="gone"
-                android:layout_marginTop="4dp" />
-
-            <TextView
-                android:id="@+id/tvRutaMultimedia"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="#757575"
-                android:layout_marginTop="8dp"
-                android:visibility="gone"
-                tools:text="@string/archivos_adjuntos_foto_y_audio_lists" />
-
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnGenerar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@string/generar_rutina" />
+                android:layout_height="64dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/bg_button_duo_purple"
+                android:text="@string/generar_rutina"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -16,7 +16,7 @@
         app:title="@string/ajustes"
         app:titleTextAppearance="@style/DuoCalendarNumbers"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:navigationIconTint="@color/duo_text_main"
+        app:navigationIconTint="?attr/colorOnSurface"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/preferencias"
                 android:fontFamily="@font/brand_font"
-                android:textColor="@color/duo_text_secondary"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.1"
@@ -62,7 +62,7 @@
                     android:text="@string/notificaciones_de_eventos"
                     android:fontFamily="@font/brand_font"
                     android:textSize="16sp"
-                    android:textColor="@color/duo_text_main" />
+                    android:textColor="?attr/colorOnSurface" />
 
                 <View android:layout_width="match_parent" android:layout_height="2dp" android:background="@color/duo_border" android:layout_marginHorizontal="16dp" />
 
@@ -76,13 +76,26 @@
                     android:focusable="true"
                     android:orientation="vertical"
                     android:padding="16dp">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/idioma_de_la_aplicaci_n" android:fontFamily="@font/brand_font" android:textSize="16sp" android:textColor="@color/duo_text_main" />
-                    <TextView android:id="@+id/tvIdiomaActual" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/brand_font" android:textSize="13sp" android:textColor="@color/duo_text_secondary" tools:text="Español" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/idioma_de_la_aplicaci_n"
+                        android:fontFamily="@font/brand_font"
+                        android:textSize="16sp"
+                        android:textColor="?attr/colorOnSurface" />
+                    <TextView
+                        android:id="@+id/tvIdiomaActual"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/brand_font"
+                        android:textSize="13sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        tools:text="Español" />
                 </LinearLayout>
 
                 <View android:layout_width="match_parent" android:layout_height="2dp" android:background="@color/duo_border" android:layout_marginHorizontal="16dp" />
 
-                <!-- TAMAÑO DE LETRA (Añadido para corregir el error) -->
+                <!-- TAMAÑO DE LETRA -->
                 <LinearLayout
                     android:id="@+id/btnTamanoLetra"
                     android:layout_width="match_parent"
@@ -92,8 +105,21 @@
                     android:focusable="true"
                     android:orientation="vertical"
                     android:padding="16dp">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/tama_o_de_letra" android:fontFamily="@font/brand_font" android:textSize="16sp" android:textColor="@color/duo_text_main" />
-                    <TextView android:id="@+id/tvTamanoLetraActual" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/brand_font" android:textSize="13sp" android:textColor="@color/duo_text_secondary" tools:text="Normal" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tama_o_de_letra"
+                        android:fontFamily="@font/brand_font"
+                        android:textSize="16sp"
+                        android:textColor="?attr/colorOnSurface" />
+                    <TextView
+                        android:id="@+id/tvTamanoLetraActual"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/brand_font"
+                        android:textSize="13sp"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        tools:text="Normal" />
                 </LinearLayout>
 
                 <View android:layout_width="match_parent" android:layout_height="2dp" android:background="@color/duo_border" android:layout_marginHorizontal="16dp" />
@@ -107,16 +133,16 @@
                     android:text="@string/eventos_pasados_en_negro_oscuro"
                     android:fontFamily="@font/brand_font"
                     android:textSize="16sp"
-                    android:textColor="@color/duo_text_main" />
+                    android:textColor="?attr/colorOnSurface" />
             </LinearLayout>
 
             <!-- SECCIÓN: COLORES -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="COLORES"
+                android:text="@string/titulo_colores"
                 android:fontFamily="@font/brand_font"
-                android:textColor="@color/duo_text_secondary"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.1"
@@ -137,7 +163,14 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:gravity="center_vertical">
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/color_principal_modo_claro" android:fontFamily="@font/brand_font" android:textSize="16sp" android:textColor="@color/duo_text_main" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/color_principal_modo_claro"
+                        android:fontFamily="@font/brand_font"
+                        android:textSize="16sp"
+                        android:textColor="?attr/colorOnSurface" />
                     <View android:id="@+id/viewColorClaro" android:layout_width="28dp" android:layout_height="28dp" android:background="@drawable/bg_circle_soft_blue" />
                 </LinearLayout>
 
@@ -149,7 +182,14 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:gravity="center_vertical">
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/color_principal_modo_oscuro" android:fontFamily="@font/brand_font" android:textSize="16sp" android:textColor="@color/duo_text_main" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/color_principal_modo_oscuro"
+                        android:fontFamily="@font/brand_font"
+                        android:textSize="16sp"
+                        android:textColor="?attr/colorOnSurface" />
                     <View android:id="@+id/viewColorOscuro" android:layout_width="28dp" android:layout_height="28dp" android:background="@drawable/bg_circle_soft_purple" />
                 </LinearLayout>
             </LinearLayout>
@@ -158,7 +198,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PELIGRO"
+                android:text="@string/titulo_peligro"
                 android:fontFamily="@font/brand_font"
                 android:textColor="@color/brand_red"
                 android:textSize="14sp"
@@ -195,8 +235,8 @@
                 android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:fontFamily="@font/brand_font"
-                android:text="Dia Cero v1.0\nDesarrollado con ❤️"
-                android:textColor="@color/duo_text_secondary"
+                android:text="Dia Cero v1.0\nDesarrollado con AndroidStudio y Kotlin"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="12sp" />
 
         </LinearLayout>
