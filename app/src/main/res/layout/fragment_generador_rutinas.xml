@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/android:windowBackground"
+        android:layout_marginTop="32dp"
         app:title="@string/generar_rutina"
         app:titleCentered="true"
         app:titleTextAppearance="@style/DuoCalendarNumbers"
@@ -20,13 +21,15 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_marginTop="96dp"> <!-- Ajustado para Toolbar con margen -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingHorizontal="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="64dp"> <!-- Padding inferior aumentado -->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -261,7 +264,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="48dp"
                 android:background="@drawable/bg_button_duo_purple"
                 android:text="@string/generar_rutina"
                 android:textAllCaps="false"

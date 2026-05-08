@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingHorizontal="16dp"
-        android:paddingTop="48dp">
+        android:paddingTop="64dp"> <!-- Aumentado de 48dp para modo inmersivo -->
 
         <!-- 1. Buscador estilo Duolingo -->
         <FrameLayout
@@ -162,7 +162,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="32dp"
         android:contentDescription="@string/ir_a_inicio"
         android:src="@drawable/ic_home"
         app:backgroundTint="@color/brand_blue"
@@ -177,7 +177,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="32dp"
         android:contentDescription="@string/a_adir_evento"
         android:src="@android:drawable/ic_input_add"
         app:backgroundTint="@color/brand_purple"

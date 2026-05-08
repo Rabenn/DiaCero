@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
+        android:paddingTop="32dp"
         app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -34,7 +35,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingHorizontal="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="64dp">
 
             <LinearLayout
                 android:id="@+id/layoutVisualizacion"

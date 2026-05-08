@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/android:windowBackground"
+        android:layout_marginTop="32dp"
         app:titleCentered="true"
         app:title="@string/ajustes"
         app:titleTextAppearance="@style/DuoCalendarNumbers"
@@ -23,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingBottom="32dp"
+        android:paddingBottom="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarAjustes">
 
