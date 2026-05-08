@@ -9,7 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.unaiIgorRuben.diacero.MainActivity
 import com.unaiIgorRuben.diacero.R
 import com.unaiIgorRuben.diacero.data.local.database.AppDatabase
 import com.unaiIgorRuben.diacero.data.repository.HabitRepository
@@ -46,16 +45,8 @@ class HabitosFragment : Fragment() {
 
     private fun setupToolbar() {
         binding.toolbarHabitos.menu.clear()
-        binding.toolbarHabitos.menu.add("Inicio").apply {
-            setIcon(R.drawable.ic_home)
-            setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS)
-        }
         binding.toolbarHabitos.setNavigationOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
-        binding.toolbarHabitos.setOnMenuItemClickListener {
-            (activity as? MainActivity)?.volverAlMenuPrincipal()
-            true
         }
     }
 
@@ -82,21 +73,30 @@ class HabitosFragment : Fragment() {
         val etName = dialogView.findViewById<EditText>(R.id.etHabitName)
         val etGoal = dialogView.findViewById<EditText>(R.id.etHabitGoal)
         val etFrequency = dialogView.findViewById<EditText>(R.id.etHabitFrequency)
+        val btnCancel = dialogView.findViewById<View>(R.id.btnCancel)
+        val btnCreate = dialogView.findViewById<View>(R.id.btnCreate)
 
-        AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.crear_nuevo_h_bito))
+        val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
-            .setPositiveButton(getString(R.string.crear)) { _, _ ->
-                val name = etName.text.toString().trim()
-                val goal = etGoal.text.toString().toIntOrNull() ?: 30
-                val frequency = etFrequency.text.toString().toIntOrNull() ?: 1
-                
-                if (name.isNotEmpty()) {
-                    viewModel.addHabit(name, goal, frequency)
-                }
+            .create()
+
+        // Hacer el fondo de la ventana transparente para que se vea nuestro diseño con bordes redondeados y colores personalizados
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        btnCancel.setOnClickListener { dialog.dismiss() }
+
+        btnCreate.setOnClickListener {
+            val name = etName.text.toString().trim()
+            val goal = etGoal.text.toString().toIntOrNull() ?: 30
+            val frequency = etFrequency.text.toString().toIntOrNull() ?: 1
+            
+            if (name.isNotEmpty()) {
+                viewModel.addHabit(name, goal, frequency)
+                dialog.dismiss()
             }
-            .setNegativeButton(getString(R.string.cancelar), null)
-            .show()
+        }
+
+        dialog.show()
     }
 
     private fun showResetConfirmation(habit: com.unaiIgorRuben.diacero.data.local.entities.Habit) {

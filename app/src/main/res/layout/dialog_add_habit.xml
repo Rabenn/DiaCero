@@ -1,108 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp"
     android:background="?attr/android:windowBackground">
 
+    <!-- Cabecera: Fondo oscuro -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/configurar_h_bito"
+        android:padding="16dp"
+        android:text="@string/crear_nuevo_h_bito"
         android:fontFamily="@font/brand_font"
-        android:textSize="22sp"
-        android:textColor="@color/duo_text_main"
-        android:textStyle="bold"
-        android:gravity="center_horizontal"
-        android:paddingBottom="24dp" />
+        android:textSize="16sp"
+        android:textColor="?attr/colorOnSurfaceVariant" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/nombre_del_h_bito"
-        android:fontFamily="@font/brand_font"
-        android:textStyle="bold"
-        android:textColor="@color/duo_text_secondary"
-        android:textSize="14sp"
-        android:layout_marginBottom="8dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorOutlineVariant" />
 
-    <FrameLayout
+    <!-- Cuerpo: Fondo superficie (gris/azul medio) -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_duo_card"
-        android:padding="4dp"
-        android:layout_marginBottom="16dp">
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="?attr/colorSurface">
 
-        <EditText
-            android:id="@+id/etHabitName"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:background="@android:color/transparent"
-            android:paddingHorizontal="16dp"
+            android:layout_height="wrap_content"
+            android:text="@string/configurar_h_bito"
             android:fontFamily="@font/brand_font"
-            android:hint="Ej: Leer 15 min"
-            android:inputType="textCapSentences"
-            android:textColor="@color/duo_text_main" />
-    </FrameLayout>
+            android:textSize="22sp"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:paddingBottom="24dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/objetivo_ej_30_d_as"
-        android:fontFamily="@font/brand_font"
-        android:textStyle="bold"
-        android:textColor="@color/duo_text_secondary"
-        android:textSize="14sp"
-        android:layout_marginBottom="8dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nombre_del_h_bito"
+            android:fontFamily="@font/brand_font"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"/>
 
-    <FrameLayout
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_duo_card"
+            android:padding="4dp"
+            android:layout_marginBottom="16dp">
+            <EditText
+                android:id="@+id/etHabitName"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@android:color/transparent"
+                android:paddingHorizontal="16dp"
+                android:fontFamily="@font/brand_font"
+                android:hint="Ej: Leer 15 min"
+                android:inputType="textCapSentences"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/objetivo_ej_30_d_as"
+            android:fontFamily="@font/brand_font"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_duo_card"
+            android:padding="4dp"
+            android:layout_marginBottom="16dp">
+            <EditText
+                android:id="@+id/etHabitGoal"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@android:color/transparent"
+                android:paddingHorizontal="16dp"
+                android:fontFamily="@font/brand_font"
+                android:inputType="number"
+                android:text="30"
+                android:textColor="?attr/colorOnSurface" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/frecuencia_marcar_cada_x_d_as"
+            android:fontFamily="@font/brand_font"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_duo_card"
+            android:padding="4dp"
+            android:layout_marginBottom="8dp">
+            <EditText
+                android:id="@+id/etHabitFrequency"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@android:color/transparent"
+                android:paddingHorizontal="16dp"
+                android:fontFamily="@font/brand_font"
+                android:inputType="number"
+                android:text="1"
+                android:textColor="?attr/colorOnSurface" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorOutlineVariant" />
+
+    <!-- Pie: Fondo oscuro con botones -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_duo_card"
-        android:padding="4dp"
-        android:layout_marginBottom="16dp">
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:padding="12dp">
 
-        <EditText
-            android:id="@+id/etHabitGoal"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:paddingHorizontal="16dp"
+            android:text="@string/cancelar"
+            android:textColor="@color/brand_blue"
             android:fontFamily="@font/brand_font"
-            android:inputType="number"
-            android:text="30"
-            android:textColor="@color/duo_text_main" />
-    </FrameLayout>
+            android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/frecuencia_marcar_cada_x_d_as"
-        android:fontFamily="@font/brand_font"
-        android:textStyle="bold"
-        android:textColor="@color/duo_text_secondary"
-        android:textSize="14sp"
-        android:layout_marginBottom="8dp"/>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_duo_card"
-        android:padding="4dp"
-        android:layout_marginBottom="24dp">
-
-        <EditText
-            android:id="@+id/etHabitFrequency"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCreate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:paddingHorizontal="16dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/crear"
+            android:textColor="@color/brand_blue"
             android:fontFamily="@font/brand_font"
-            android:inputType="number"
-            android:text="1"
-            android:textColor="@color/duo_text_main" />
-    </FrameLayout>
-
+            android:textStyle="bold" />
+    </LinearLayout>
 </LinearLayout>

@@ -8,9 +8,9 @@
     android:layout_marginHorizontal="12dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="4dp"
-    app:strokeColor="@color/duo_border"
+    app:strokeColor="?attr/colorOutlineVariant"
     app:strokeWidth="3dp"
-    android:backgroundTint="#FFFFFF">
+    app:cardBackgroundColor="?attr/colorSurface">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/brand_font"
-                android:textColor="@color/duo_text_main"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -51,7 +51,7 @@
                 android:id="@+id/tvFrequencyInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/duo_text_secondary"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="13sp" />
 
             <TextView
@@ -82,7 +82,7 @@
                 android:layout_height="match_parent"
                 app:indicatorSize="54dp"
                 app:indicatorColor="@color/brand_blue"
-                app:trackColor="#F2F2F2"
+                app:trackColor="?attr/colorSurfaceVariant"
                 app:trackThickness="8dp" />
 
             <TextView
@@ -109,7 +109,6 @@
                 android:layout_height="56dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_button_duo_blue"
-                android:backgroundTint="@color/secondary"
                 android:textAllCaps="true"
                 android:textColor="#FFFFFF"
                 android:fontFamily="@font/brand_font"
@@ -135,10 +134,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:text="Progress map"
+            android:text="@string/mapa_de_progreso"
             android:fontFamily="@font/brand_font"
             android:textStyle="bold"
-            android:textColor="@color/duo_text_secondary"
+            android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutButtons" />
@@ -181,7 +180,7 @@
                 android:id="@+id/tvBestStreak"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/duo_text_secondary"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:fontFamily="@font/brand_font"
                 android:textSize="14sp" />
 
