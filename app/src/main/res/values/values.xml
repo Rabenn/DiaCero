@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">DiaCero</string>
     <!-- PEGUE AQUÍ SU API KEY DE GOOGLE MAPS -->
-    <string name="google_maps_key">AIzaSyCJgKVcmO1wg1Ewv5bptSOlrrtuxAdrwPw</string>
+    <string name="google_maps_key">YOUR_GOOGLE_MAPS_API_KEY_HERE</string>
 </resources>
